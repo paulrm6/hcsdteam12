@@ -1,19 +1,8 @@
-/*
- * Appt.java
- *
- * Created on November 24, 2001, 2:50 PM
- */
-
 package com2002.assignment.calendar.data;
 
 import org.w3c.dom.*;
 
-/**
- * Stores the data of an appointment
- * @author  Paul Miles
- * @version 1.0
- */
-public class Appt {
+public class Appointment {
     
     /** Used to represent time isn't set */
     private static final int NO_TIME = -1;
@@ -94,7 +83,7 @@ public class Appt {
      * Default constructor
      * Constructs an invalid appointment
      */
-    public Appt() {
+    public Appointment() {
         setTitle(null);
         setDescription(null);
         setLocation(null);
@@ -126,7 +115,7 @@ public class Appt {
      * @param emailAddress An e-mail address associated with the appointment
      * @param webAddress A web address associated with the appointment
      */
-    public Appt(int startHour, int startMinute, 
+    public Appointment(int startHour, int startMinute, 
                 int startDay, int startMonth, int startYear,
                 int duration, String title, String description, String location,
                 int alarmTime, String emailAddress, String webAddress) {
@@ -172,7 +161,7 @@ public class Appt {
      * @param emailAddress An e-mail address associated with the appointment
      * @param webAddress A web address associated with the appointment
      */
-    public Appt(int startDay, int startMonth, int startYear,
+    public Appointment(int startDay, int startMonth, int startYear,
                 String title, String description, String location,
                 String emailAddress, String webAddress) {
                     
