@@ -128,7 +128,6 @@ public class Appointment {
         setDuration(duration);
         setAlarmTime(alarmTime);
         setEmailAddress(emailAddress);
-        setWebAddress(webAddress);
         
         //Set default recurring information
         int[] recurringDays = new int[0];
@@ -364,16 +363,6 @@ public class Appointment {
     /** Gets alarmTime */
     public int getAlarmTime() {
         return alarmTime;
-    }
-    
-     /** Gets emailAddress */
-    public String getEmailAddress() {
-        return emailAddress;
-    }
-    
-    /** Gets webAddress */
-    public String getWebAddress() {
-        return webAddress;
     }
 
     /** Gets recurDays */
