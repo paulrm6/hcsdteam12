@@ -2,18 +2,18 @@ package com2002.assignment.calendar.data;
 
 import org.w3c.dom.*;
 
-public class Appointment {
+public class Appt {
     
     /** Used to represent time isn't set */
     private static final int NO_TIME = -1;
-    
+
     /** Used to represent that there is no reminder */
     public static final int NO_REMINDER = -1;
     
     /** Used for setting appointments to recur weekly */
     public static final int RECUR_BY_WEEKLY = 1;
     
-    /** Used for setting appointments to recur monthly */
+    /** Used for setting appointments to recur montly */
     public static final int RECUR_BY_MONTHLY = 2;
     
     /** Used for setting appointments to recur yearly */
@@ -27,7 +27,7 @@ public class Appointment {
     
     /** Used for knowing whether or not an appointment is valid or not */
     private boolean valid;
-   
+    
     /** The title or caption of the appointment */
     private String title;
     
@@ -35,8 +35,9 @@ public class Appointment {
     private String description;
     
     /** The location of the appointment */
-    private String location;    
-    /** The starting minute of the appointment */
+    private String location;
+    
+	/** The starting minute of the appointment */
     private int startMinute;
     
     /** The starting hour of the appointment */
@@ -82,7 +83,7 @@ public class Appointment {
      * Default constructor
      * Constructs an invalid appointment
      */
-    public Appointment() {
+    public Appt() {
         setTitle(null);
         setDescription(null);
         setLocation(null);
@@ -113,19 +114,21 @@ public class Appointment {
      * @param emailAddress An e-mail address associated with the appointment
      * @param webAddress A web address associated with the appointment
      */
-    public Appointment(int startHour, int startMinute, int startDay, int startMonth, int startYear, int duration, String title, 
-    		String description, String location, int alarmTime, String emailAddress, String webAddress) {
+    public Appt(int startHour, int startMinute, 
+                int startDay, int startMonth, int startYear,
+                int duration, String title, String description, String location,
+                int alarmTime, String emailAddress, String webAddress) {
 
         //Sets all instance variables except recurring information
-    	setTitle(title);
-        setDescription(description);
-        setLocation(location);
-    	setStartMinute(startMinute);
-    	setStartHour(startHour);
+        setStartHour(startHour);
+        setStartMinute(startMinute);
         setStartDay(startDay);
         setStartMonth(startMonth);
         setStartYear(startYear);
         setDuration(duration);
+        setTitle(title);
+        setDescription(description);
+        setLocation(location);
         setAlarmTime(alarmTime);
         setEmailAddress(emailAddress);
         setWebAddress(webAddress);
@@ -157,8 +160,9 @@ public class Appointment {
      * @param emailAddress An e-mail address associated with the appointment
      * @param webAddress A web address associated with the appointment
      */
-    public Appointment(int startDay, int startMonth, int startYear, String title, String description, String location, String emailAddress, 
-    		String webAddress) {
+    public Appt(int startDay, int startMonth, int startYear,
+                String title, String description, String location,
+                String emailAddress, String webAddress) {
                     
          //Just call the other constructor
          this(NO_TIME, NO_TIME, startDay, startMonth, startYear, NO_TIME, title, 
@@ -168,7 +172,8 @@ public class Appointment {
     /**
      * Sets the recurring information with the correct information
      */
-    public void setRecurrence(int[] recurDays, int recurBy, int recurIncrement, int recurNumber) {
+    public void setRecurrence(int[] recurDays, int recurBy, int recurIncrement, 
+                int recurNumber) {
         setRecurDays(recurDays);
         setRecurBy(recurBy);
         setRecurIncrement(recurIncrement);
@@ -187,7 +192,7 @@ public class Appointment {
     }
     
     /**
-     * Checks to see if an appointment recurs or not
+     * Checks to see if an appointment recurrs or not
      * @return True if the appointment does occur more than once
      */
     public boolean isRecurring() {
@@ -216,14 +221,14 @@ public class Appointment {
         this.xmlElement = xmlElement;
     }
     
-    /** Sets startMinute */
-    private void setStartMinute(int startMinute) {
-        this.startMinute = startMinute;
-    }
-    
     /** Sets startHour */
     private void setStartHour(int startHour) {
         this.startHour = startHour;
+    }
+    
+    /** Sets startHour */
+    private void setStartMinute(int startMinute) {
+        this.startMinute = startMinute;
     }
     
     /** Sets startDay */
