@@ -1,12 +1,7 @@
-/**
-*	CalendarUtil.java
-**/
-
 package com2002.assignment.calendar.data;
 
 /**
-*	A class containing utility methods that a calendar might
-*	need to function
+*	A class containing utility methods that a calendar might require to run properly
 **/
 public class CalendarUtil {
 	
@@ -18,10 +13,6 @@ public class CalendarUtil {
 
 	/** 
 	*	Get number of days in specified year and month
-	*	
-	*	@param year the year in integer form
-	*	@param month the month in integer form (0 is January, etc...)
-	*	@return the number of days in the specified month and year
 	**/
 	public static int NumDaysInMonth(int year, int month) {
 		
@@ -37,10 +28,6 @@ public class CalendarUtil {
 
 	/**
 	*	Find number of rows needed to display the month
-	*	
-	*	@param year the year in integer form
-	*	@param month the month in integer form (0 is January, etc...)
-	*	@return the number of rows needed to display specified month and year
 	**/
 	public static int NumRowsNeeded(int year, int month)
 	{
@@ -81,10 +68,6 @@ public class CalendarUtil {
 
 	/**
 		Find first day of the month
-		
-		@param year the year in integer form
-		@param month the month in integer form (0 is January, etc...)
-		@return number of the day of the week (1 is Monday, etc...)
 	**/
 	public static int CalcFirstOfMonth(int year, int month) {
 		
@@ -95,7 +78,7 @@ public class CalendarUtil {
 			return (-1);
 		}
 	
-	//if the month is not 1 thru 12
+		//if the month is not 1 thru 12
 		if ((month < 0) || (month > 11)) {
 			return (-1);
 		}
@@ -109,7 +92,7 @@ public class CalendarUtil {
 			firstDay += DaysInMonth[i];
 		}
 	
-	//go to next day if it's a leap year and month is after February
+		//go to next day if it's a leap year and month is after February
 		if ((month > FEBRUARY) && IsLeapYear(year)) {
 			firstDay++;
 		}
@@ -119,9 +102,6 @@ public class CalendarUtil {
 
 	/**
 	*	Determines if the specified year is a Leap Year
-	*	
-	*	@param year the year
-	*	@return true if the year is a Leap Year, false otherwise
 	**/
 	public static boolean IsLeapYear(int year) {
 	//if the year is a multiple of 100, the year is a leap year if its also a multiple of 400
@@ -147,10 +127,6 @@ public class CalendarUtil {
 	
 	/**
 	*	Determines the day of the week January 1st of the given year occurs on
-	*	
-	*	@param year the year
-	*	@return number of the day of the week (1 is Monday, etc...)
-	*	
 	**/
 	public static int CalcJanuaryFirst(int year) {
 		
@@ -161,19 +137,13 @@ public class CalendarUtil {
 			return (-1);
 		}
 	
-		//1-1-1582 was a friday, so 5 days + a day for every year since 1582.
-		//add an extra day leap years because January 1st moved two days those years  
 		numLeapYears = CalcLeapYears(year);
 		numYearsSince1582 = year - 1582;
 		return ( ( 5 + numYearsSince1582 + numLeapYears ) % 7 ); 
 	}
-
 	
 	/**
-	*	Determines number of leap years since 1582 (not including current year)
-	*	
-	*	@param year the year
-	*	@return number of leap years since 1582 (not including current year
+	*	Determines number of leap years
 	**/
 	public static int CalcLeapYears(int year) {
 		int numLeapYears, multipleHundred ,multipleFourHundred;   
