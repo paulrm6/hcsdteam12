@@ -38,16 +38,16 @@ public class Day {
 	 * Adds a new appointment to the Day object. The appointments are sorted by their start times. To allow recurring appointments to be 
 	 * added, it does not inspect to see if the appointment is actually scheduled to take place on that day itself.
 	 */
-	public void addAppointment(Appointment appt) {
+	public void addAppointment(Appointment consult) {
 		if (valid) {
 			for (int i = 0; i < getAppointment().size(); i++) {
-				if (((Appointment)getAppointment().get(i)).getStartHour() > appt.getStartHour()) {
-					getAppointment().add(i, appt);
+				if (((Appointment)getAppointment().get(i)).getStartHour() > consult.getStartHour()) {
+					getAppointment().add(i, consult);
 					return;
 				}
 			}
 		    //Add the appointment if it has not been added yet
-			getAppointment().add(appt);
+			getAppointment().add(consult);
 		}
 	}
 	
@@ -88,11 +88,6 @@ public class Day {
 	    this.year = year;
 	}
 	
-	/** Obtain appointments */
-	public LinkedList getAppointment() {
-	    return appts;
-	}
-	
 	/** Gets the day of the appointment */
 	public int getDay() {
 	    return day;
@@ -106,6 +101,11 @@ public class Day {
 	/** Gets year of the appointment */
 	public int getYear() {
 	    return year;
+	}
+	
+	/** Obtain appointments */
+	public LinkedList getAppointment() {
+	    return appts;
 	}
 	
 	/** Prints out a string representation of the date in a day/month/year format*/
