@@ -25,8 +25,6 @@ public class Registration extends JFrame {
         setTitle("Registration form");
         setLayout(new GridBagLayout());
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100,100,300,350);
-        setVisible(true);
 
         // Creation of labels
         titleLabel = new JLabel("Title:");
@@ -77,6 +75,10 @@ public class Registration extends JFrame {
         add(city,1,8,1,1);
         add(postcode,1,9,1,1);
         add(submit,1,10,1,1); // button
+
+        // Setting size and visibility
+        setBounds(100,100,300,350);
+        setVisible(true);
 
     }
 
