@@ -1,11 +1,12 @@
-package com2002.assignment.calendar.gui.extra;
+package hcsdteam12.calendar.gui.extra;
 
 /** 
  * A class that shows the details of for a specific set of appointments 
  * **/
 
-import com2002.assignment.calendar.data.*;
-import com2002.assignment.calendar.gui.*; 
+
+import hcsdteam12.calendar.data.*;
+import hcsdteam12.calendar.gui.*;
 
 import java.util.*;
 import java.awt.*;
@@ -70,7 +71,7 @@ public class AppointmentInfoWindow extends JPanel implements MouseListener {
 	public void mouseClicked(MouseEvent object) {
 		if (object.getClickCount() == 2) {
 			Appointment pressed = ((AppointmentTitle)appointmentWindow.getSelectedValue()).getAppointment();
-			new AppointmentForm(frame, "Alter Appointment", true, pressed).show();
+//			new AppointmentForm(frame, "Change Appointment Details", true, pressed).show();
 		}
 	}
 

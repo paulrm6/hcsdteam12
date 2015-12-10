@@ -1,6 +1,7 @@
-package com2002.assignment.calendar.gui.extra;
+package hcsdteam12.calendar.gui.extra;
+/** This JLabel is created only to show the title of a selected appointment **/
+import hcsdteam12.calendar.data.*;
 
-import com2002.assignment.calendar.data.*;
 import javax.swing.*;
 import java.awt.*;
 
@@ -8,8 +9,7 @@ public class AppointmentTitle extends JLabel {
 	private static final long serialVersionUID = 1L;
 	private Appointment consult;
 
-	public AppointmentTitle(Appointment consult)
-	{
+	public AppointmentTitle(Appointment consult) {
 		super(consult.toString());
 		this.consult = consult;
 		setHorizontalAlignment(SwingConstants.LEFT);
@@ -20,8 +20,7 @@ public class AppointmentTitle extends JLabel {
 		return consult;
 	}
 	
-	public String toString()
-	{
+	public String toString() {
 		return this.getText();
 	}
 }
