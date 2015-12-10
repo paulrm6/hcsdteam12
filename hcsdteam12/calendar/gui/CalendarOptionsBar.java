@@ -1,4 +1,11 @@
-package com2002.assignment.calendar.gui;
+package hcsdteam12.calendar.gui;
+
+/**
+ * This class houses JToolBar of option tabs that enables the actionListeners to listen
+ * for mouse input.
+ * 
+ * @author Seng Kin (Terence), Kong
+ **/
 
 import java.util.*;
 import java.awt.event.*;	

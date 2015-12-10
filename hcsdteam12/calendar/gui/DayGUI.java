@@ -1,6 +1,11 @@
-package com2002.assignment.calendar.gui;
-/** Implemented to display the window that allow appointments to be added or cancelled. */
-import com2002.assignment.calendar.data.*;
+/** 
+ * Implemented to display the window that allow appointments to be added or cancelled.
+ * 
+ * @author Seng Kin(Terence), Kong
+ **/
+
+package hcsdteam12.calendar.gui;
+import hcsdteam12.calendar.data.*;
 
 import java.awt.*;
 import javax.swing.*;
