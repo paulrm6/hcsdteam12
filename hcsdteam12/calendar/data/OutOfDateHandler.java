@@ -1,6 +1,7 @@
 package hcsdteam12.calendar.data;
 /**
- * Serves 
+ * Serves as handler that manages warnings and errors when 
+ * retrieving invalid dates.
  * 
  * @author Seng Kin(Terence), Kong
  * */
