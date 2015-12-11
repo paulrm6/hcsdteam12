@@ -142,7 +142,7 @@ public class CalendarFrame extends javax.swing.JFrame implements ActionListener,
 		//When a day is selected, it highlights the box in which the day sits in.
 		if (action instanceof JTable ) {
 			Day illuminated = display.getSelectedDay();
-			window.setSelected(illuminated);   	 
+			window.addPicked(illuminated);   	 
 		}
 	}
 
@@ -166,7 +166,7 @@ public class CalendarFrame extends javax.swing.JFrame implements ActionListener,
 		enclose.add(window,BorderLayout.SOUTH);
 		
 		//Pinpoints where the calendar should appear on the monitor.
-		setLocation(50, 50);
+		setLocation(350, 150);
 		pack();
 	}
 
@@ -240,9 +240,9 @@ public class CalendarFrame extends javax.swing.JFrame implements ActionListener,
 		}
 		
 		//Ignore occurrence when an invalid date is generated
-		catch(DateOutOfRangeException e) {
+		catch(OutOfDateHandler pass) {
 			System.out.print("Date exception: "); 
-			System.err.print(e);
+			System.err.print(pass);
 		}
 	}
 }
