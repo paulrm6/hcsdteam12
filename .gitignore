@@ -1,3 +1,6 @@
 .idea
 LICENSE
 README.md
+*.class
+
+*.class
