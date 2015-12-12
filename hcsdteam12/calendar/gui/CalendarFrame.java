@@ -3,8 +3,8 @@
  * within the calendar window. The GUI components include CalendarOptionsBar, AppointmentInfoWindow and CalendarPresentation.
  * It also uses DetailsManager to supervise the flow of logic and control throughout the calendar.
  *
-*	@author Seng Kin (Terence), Kong
-**/
+ * @author Seng Kin (Terence), Kong 
+ **/
 
 package hcsdteam12.calendar.gui;
 
@@ -24,9 +24,7 @@ public class CalendarFrame extends javax.swing.JFrame implements ActionListener,
 	protected CalendarOptionsBar calendarOptionsBar;
 	public boolean TIME;
 	protected Calendar present;
-	protected int presentMonth;
-	protected int presentYear;
-	protected int presentDay;
+	protected int presentDay, presentMonth, presentYear;
 	private int stopYear = 0;
 	private int startYear = 0;
 	protected DetailsManager organiser;
@@ -66,20 +64,16 @@ public class CalendarFrame extends javax.swing.JFrame implements ActionListener,
 			presentMonth = present.get(Calendar.MONTH);
 			presentYear = present.get(Calendar.YEAR);
 
-			//Display current month and year
-			reviseCalendar(presentMonth, presentYear);
+			reviseCalendar(presentMonth, presentYear); //Display current month and year
 			
 			//Return the list of appointment for a given day.
 			GregorianCalendar today = new GregorianCalendar(presentYear,presentMonth,presentDay);
 			GregorianCalendar tomorrow = (GregorianCalendar)today.clone();
 			tomorrow.add(Calendar.DAY_OF_MONTH,1);
-			java.util.List L = organiser.getApptRange(today,tomorrow);
+			java.util.List L = organiser.obtainAppointmentBetweenDates(today,tomorrow);
 			
-			//Launches the appointment panel
-			window = new AppointmentInfoWindow((Day)L.get(0),this);
-			
-			//Initialise all the frame's components
-			startComponents();
+			window = new AppointmentInfoWindow((Day)L.get(0),this); //Launches the appointment panel
+			startComponents(); //Initialize all the frame's components
 		}
 		catch(IOException exclude) {
 			System.err.println("IO Exception: " + exclude);
@@ -91,13 +85,13 @@ public class CalendarFrame extends javax.swing.JFrame implements ActionListener,
 	}
 
 	//Utilized for any input activity that runs in the calendar
-	public void actionPerformed(java.awt.event.ActionEvent evt) {	
-		Object o = evt.getSource();
-//		if( o == CalendarOptionsBar.newApptButton ) {
-//			new AppointmentForm(this,"Add New Appointment",true).show();
-//		}
+	public void actionPerformed(java.awt.event.ActionEvent action) {	
+		Object toggle = action.getSource();
+		if(toggle == CalendarOptionsBar.makeAppointmentButton) {
+			new AppointmentForm(this,"Add New Appointment",true).show();
+		}
 
-		if( o == CalendarOptionsBar.nextMonthButton ) {
+		if(toggle == CalendarOptionsBar.nextMonthButton) {
 			if(presentMonth == 11) {
 				presentMonth = 0;
 				presentYear++;
@@ -109,7 +103,7 @@ public class CalendarFrame extends javax.swing.JFrame implements ActionListener,
 			}
 		}
 
-		if( o == CalendarOptionsBar.previousMonthButton ) {
+		if(toggle == CalendarOptionsBar.previousMonthButton) {
 			if(presentMonth == 0) {
 					presentMonth = 11;
 					presentYear--;
@@ -119,16 +113,15 @@ public class CalendarFrame extends javax.swing.JFrame implements ActionListener,
 			}
 		}
 
-		if( o == CalendarOptionsBar.nextYearButton ) {
+		if(toggle == CalendarOptionsBar.nextYearButton) {
 			presentYear++;
 		}
 
-		if( o == CalendarOptionsBar.previousYearButton ) {
+		if(toggle == CalendarOptionsBar.previousYearButton) {
 			presentYear--;
 		}
 		
-		//Retrieve a new set of calendar data after requesting for a specific month and year
-		reviseCalendar(presentMonth,presentYear);
+		reviseCalendar(presentMonth,presentYear); //Retrieve a new set of calendar data after requesting for a specific month and year
 
 		//Repaint in order for the CalendarPresentation to present the new calendar details.
 		repaint();
@@ -139,10 +132,9 @@ public class CalendarFrame extends javax.swing.JFrame implements ActionListener,
 	public void mouseClicked(MouseEvent object) {
 		Object action = object.getSource();
 		
-		//When a day is selected, it highlights the box in which the day sits in.
 		if (action instanceof JTable ) {
-			Day illuminated = display.getSelectedDay();
-			window.addPicked(illuminated);   	 
+			Day illuminated = display.bringAppointmentsOnDay();
+			window.addPicked(illuminated); //When a day is selected, it highlights the box in which the day sits in.   	 
 		}
 	}
 
@@ -165,8 +157,7 @@ public class CalendarFrame extends javax.swing.JFrame implements ActionListener,
 		enclose.add(display, BorderLayout.CENTER);
 		enclose.add(window,BorderLayout.SOUTH);
 		
-		//Pinpoints where the calendar should appear on the monitor.
-		setLocation(350, 150);
+		setLocation(350, 150); //Pinpoints where the calendar should appear on the monitor.
 		pack();
 	}
 
@@ -181,15 +172,16 @@ public class CalendarFrame extends javax.swing.JFrame implements ActionListener,
 
 	//Retrieves a set of calendar data from the organiser for a specific date.
 	public void reviseCalendar(int month, int year) {
-		int firstDayOfMonth = CalendarUtil.DayOneOfMonth(year, month); //Identifies the day where the 1st of a month sits on
+		int firstDayOfMonth = Utilities.DayOneOfMonth(year, month); //Identifies the day where the 1st of a month sits on
 		int indexDayOne = 1; //The first day in the calendar is indexed to 1
 		int lastDayOfWeek = firstDayOfMonth; //Set the last day of the week to become the first day of the month
+		
 		//From firstDayOfMonth, calculate the number of extra days needed prior to that day to complete a week.
 		int extraDaysPrior = firstDayOfMonth - Calendar.SUNDAY;
 		int extraDaysAfter = Calendar.SATURDAY - lastDayOfWeek; //Similar to the one above, but opposite
 		
 		//starting at 0, loop a number of times = to the days in the month
-		for(int i = 0; i < CalendarUtil.RowsInMonth(year,month); i++) {
+		for(int i = 0; i < Utilities.RowsInMonth(year,month); i++) {
 	
 			//if the last day is on a saturday, "wrap around" to sunday
 			if(lastDayOfWeek == Calendar.SATURDAY)
@@ -209,7 +201,7 @@ public class CalendarFrame extends javax.swing.JFrame implements ActionListener,
 			else
 				before = -1;
 			
-			indexDayOne = CalendarUtil.RowsInMonth(year, month+before) - extraDaysPrior;
+			indexDayOne = Utilities.RowsInMonth(year, month+before) - extraDaysPrior;
 		}
 		
 		//Similar to the if statement previously but if it does not fall on a Saturday.
@@ -231,8 +223,7 @@ public class CalendarFrame extends javax.swing.JFrame implements ActionListener,
 				startYear = 1;
 			
 			//Display the days before the 1st day of a month and the days after the last day of a month.
-			display.setCurrentDays(organiser.getApptRange
-					(new GregorianCalendar(year-startYear, month+before, indexDayOne),
+			display.establishPresentDay(organiser.obtainAppointmentBetweenDates(new GregorianCalendar(year-startYear, month+before, indexDayOne),
 					new GregorianCalendar(year+stopYear, month+after, extraDaysAfter+1)));
 			
 			//Reset the variables to zero

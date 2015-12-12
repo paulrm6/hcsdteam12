@@ -3,7 +3,7 @@ package hcsdteam12.calendar.data;
 /**
 * For testing purposes, XML is implemented to obtain access to appointment data or to edit appointment data stored in an XML document. 
 *
-* @author  Seng Kin(Terence), Kong
+* @author Seng Kin(Terence), Kong
 **/
 
 import org.xml.sax.*;

@@ -3,7 +3,10 @@
  */
 
 import javax.swing.*;
+<<<<<<< Updated upstream
 import javax.swing.text.MaskFormatter;
+=======
+>>>>>>> Stashed changes
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,7 +18,8 @@ import java.util.logging.Logger;
 
 public class Registration extends JFrame {
 
-    // Creation of all variables needed for the form
+	private static final long serialVersionUID = 1L;
+	// Creation of all variables needed for the form
     private JLabel titleLabel, forenameLabel, surnameLabel, dobLabel, phoneLabel,
                     houseLabel, streetLabel, districtLabel, cityLabel, postcodeLabel,
                     forenameError, surnameError, dobError, phoneError,

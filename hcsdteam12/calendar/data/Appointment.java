@@ -4,7 +4,7 @@ package hcsdteam12.calendar.data;
  * Appointment.java is used to retrieve and store data/information obtained from AppointmentForm.java
  * 
  * @author Seng Kin(Terence), Kong
- * **/
+ **/
 		
 import org.w3c.dom.*;
 
@@ -18,29 +18,14 @@ public class Appointment {
     public static final int NO_REOCCURENCE = 0;
     private boolean legitimate; 
 
-    //The start time of the an appointment, in minute, hour, day, month and year
-    private int startDay, startHour, startMinute, startMonth, startYear;
-    
-    //The duration of the appointment
-    private int duration;
-    
-    //The title, description and location
-    private String name, plan, unique;
-
-    //Minutes before the appointment starts to set an alarm
-    private int alert;
-    
-    //E-mail and web page address associated with the appointment
-    private String partner, description;
-    
-    /** Element location of the appointment in XML tree */
-    private Element xmlElement;
+    private int startHour, startMinute, startDay, startMonth, startYear, duration, alert;
+    private String name, plan, unique, partner, description;
+    private Element xmlItem;
     
     //Private instances that handles reoccurencesDay(s) of the week that the appointment recurs on
     private int[] reoccurWhichDay; //On what day
     private int reoccurOn; //At what intervals? Weeks? Months?
-    private int reoccurRate; //Specifies the frequency of the appointment reoccurences.
-    private int numberOfReoccurences; //How many reoccurences?
+    private int reoccurRate, numberOfReoccurences; //Specifies the frequency of the appointment reoccurences and how many
     
     //Generates an invalid Appointment object
     public Appointment() {
@@ -55,8 +40,7 @@ public class Appointment {
 
     //Creates a new Appointment object that has a start time on the specific date. The reoccurence settings is not set by default.
     //To create a reoccurence, call upon setReccurence() method.
-    public Appointment(int startHour, int startMinute, int startDay, int startMonth, int startYear, int duration, String name, 
-    		String plan, String unique, int alert, String partner, String description) {
+    public Appointment(int startHour, int startMinute, int startDay, int startMonth, int startYear, int duration, String name, String plan, String unique, int alert, String partner, String description) {
 
         //Sets all instance variables except recurring information
         establishStartHour(startHour);
@@ -103,37 +87,15 @@ public class Appointment {
         return (retrieveStartHour() != TIME_NOT_SET);
     }
 
-    public boolean isAppointmentLegitimate() {
-        return legitimate;
-    }
+    public boolean isAppointmentLegitimate() { return legitimate; }    
+    public void establishXML(Element xmlRecord) { this.xmlItem = xmlRecord; }
     
-    public void establishXML(Element xmlDocument) {
-        this.xmlElement = xmlDocument;
-    }
-    
-    private void establishStartHour(int startHour) {
-        this.startHour = startHour;
-    }
-    
-    private void establishStartMinute(int startMinute) {
-        this.startMinute = startMinute;
-    }
-    
-    private void establishStartDay(int startDay) {
-        this.startDay = startDay;
-    }
-    
-    private void establishStartMonth(int startMonth) {
-        this.startMonth = startMonth;
-    }
-    
-    private void establishStartYear(int startYear) {
-        this.startYear = startYear;
-    }
-    
-    private void establishDuration(int duration) {
-        this.duration = duration;
-    }
+    private void establishStartHour(int startHour) { this.startHour = startHour; }
+    private void establishStartMinute(int startMinute) { this.startMinute = startMinute; }
+    private void establishStartDay(int startDay) { this.startDay = startDay; }
+    private void establishStartMonth(int startMonth) { this.startMonth = startMonth; }
+    private void establishStartYear(int startYear) { this.startYear = startYear;}
+    private void establishDuration(int duration) {this.duration = duration;}
     
     private void establishPatientName(String name) {
         if (name == null) 
@@ -160,7 +122,6 @@ public class Appointment {
         this.alert = alert;
     }
     
-    //Sets email address
     private void retrievePartner(String partner) {
         if (partner == null)
             this.partner = "";
@@ -168,7 +129,6 @@ public class Appointment {
             this.partner = partner;
     }
     
-    //Sets webAddress
     private void retrieveDescription(String description) {
         if (description == null)
             this.description = "";
@@ -185,17 +145,9 @@ public class Appointment {
         }
     }
     
-    private void establishreoccurOn(int reoccurOn) {
-        this.reoccurOn = reoccurOn;
-    }
-    
-    private void establishReoccurRate(int reoccurRate) {
-        this.reoccurRate = reoccurRate;
-    }
-    
-    private void establishNumberOfReoccurences(int numberOfReoccurences) {
-        this.numberOfReoccurences = numberOfReoccurences;
-    }
+    private void establishreoccurOn(int reoccurOn) { this.reoccurOn = reoccurOn; }
+    private void establishReoccurRate(int reoccurRate) { this.reoccurRate = reoccurRate; }
+    private void establishNumberOfReoccurences(int numberOfReoccurences) { this.numberOfReoccurences = numberOfReoccurences; }
 
     public int retrieveStartHour() { return startHour; }
     public int retrieveStartMinute() { return startMinute;}
@@ -208,15 +160,14 @@ public class Appointment {
     public String retrieveHealthcarePlan() { return plan; }
     public String retrievePatientID() { return unique; }
     public int retrieveAlertTime() { return alert; }
-
     public String retrievePartner() { return partner; }
     public String retrieveDescription() { return description; }
 
     public int[] getReoccurWhichDay() { return reoccurWhichDay; }
-    public int retrieveReoccurOn() { return reoccurOn; }
+    public int getRetrieveReoccurOn() { return reoccurOn; }
     public int getReoccurRate() {return reoccurRate; }
     public int getNumberOfReoccurences() { return numberOfReoccurences; }
-    public Element fetchXMLDocument() {return xmlElement;}
+    public Element fetchXMLDocument() {return xmlItem;}
     
     //Outputs a simple string message to represent appointment details.
     public String toString() {

@@ -4,7 +4,7 @@ package hcsdteam12.calendar.gui;
  * This class houses JToolBar of option tabs that enables the actionListeners to listen
  * for mouse input.
  * 
- * @author Seng Kin (Terence), Kong
+ * @author Seng Kin(Terence), Kong
  **/
 
 import java.util.*;
@@ -13,12 +13,8 @@ import javax.swing.*;
 
 public class CalendarOptionsBar extends JToolBar {
 	private static final long serialVersionUID = 1L;
-	public static JButton makeAppointmentButton;
-	public static JButton cancelAppointmentButton;
-	public static JButton previousMonthButton;
-	public static JButton nextMonthButton;
-	public static JButton previousYearButton;
-	public static JButton nextYearButton;
+	public static JButton makeAppointmentButton, cancelAppointmentButton;
+	public static JButton nextMonthButton, previousMonthButton, previousYearButton, nextYearButton;
 	private Vector toggles;
 
 	// Launches every JButton objects and inserts them into the calendar' options bar 

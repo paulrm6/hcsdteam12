@@ -1,5 +1,8 @@
 package hcsdteam12.calendar.gui.extra;
-/** This JLabel is created only to show the title of a selected appointment **/
+/** This JLabel is created only xto show the title of a selected appointment 
+ * 
+ * @author Seng Kin(Terence), Kong
+ **/
 import hcsdteam12.calendar.data.*;
 
 import javax.swing.*;

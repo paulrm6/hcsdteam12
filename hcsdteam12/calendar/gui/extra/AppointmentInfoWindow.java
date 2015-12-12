@@ -2,8 +2,9 @@ package hcsdteam12.calendar.gui.extra;
 
 /** 
  * A class that shows the details of for a specific set of appointments 
+ * 
+ * @author Seng Kin(Terence), Kong
  * **/
-
 
 import hcsdteam12.calendar.data.*;
 import hcsdteam12.calendar.gui.*;
@@ -20,6 +21,7 @@ public class AppointmentInfoWindow extends JPanel implements MouseListener {
 	private CalendarFrame frame;
 	private LinkedList consult;
 	private DefaultListModel duplicate;
+	
 	public void mousePressed(MouseEvent e) {} 
 	public void mouseReleased(MouseEvent e) {}
 	public void mouseEntered(MouseEvent e) {}
@@ -37,7 +39,7 @@ public class AppointmentInfoWindow extends JPanel implements MouseListener {
 	private void launchAppointmentElements(Day day) {
 		setLayout(new BorderLayout());
 		duplicate = new DefaultListModel();
-		consult = day.getAppointment();
+		consult = day.retrieveAppointment();
 		
 		ListIterator iterlist = consult.listIterator();
 		
@@ -58,7 +60,7 @@ public class AppointmentInfoWindow extends JPanel implements MouseListener {
 	//Rerun all the components in the appointment window.
 	private void relaunchElements(Day day) {
 		duplicate.clear();
-		consult = day.getAppointment();
+		consult = day.retrieveAppointment();
 		ListIterator traverser = consult.listIterator();
 		
 		while(traverser.hasNext()) {
@@ -71,7 +73,7 @@ public class AppointmentInfoWindow extends JPanel implements MouseListener {
 	public void mouseClicked(MouseEvent object) {
 		if (object.getClickCount() == 2) {
 			Appointment pressed = ((AppointmentTitle)appointmentWindow.getSelectedValue()).getAppointment();
-//			new AppointmentForm(frame, "Change Appointment Details", true, pressed).show();
+			new AppointmentForm(frame, "Change Appointment Details", true, pressed).show();
 		}
 	}
 

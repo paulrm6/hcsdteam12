@@ -4,22 +4,15 @@ package hcsdteam12.calendar.data;
  * Day.java is a class that houses all the details of every apppointment for a given day.
  * 
  * @author Seng Kin (Terence), Kong
- */
+ **/
 
 import java.util.*;
 
 //Stores all appointments for a given day in the calendar.
 public class Day {
-	//To maintain ordering of appointments
-	LinkedList consultations;
-	
-	//Determine the validity of the Day object to hold appointment data.
+	LinkedList consultations; //To maintain ordering of appointments
 	boolean valid;
-	
-	//Stores the calendar day, month and year
-	int day;
-	int month;
-	int year;
+	int day, month, year;
 	
 	//Generates an invalid Day object.
 	public Day() {
@@ -32,10 +25,10 @@ public class Day {
 		int month = cal.get(Calendar.MONTH);
 		int year = cal.get(Calendar.YEAR);
 	
-		setCalendarDay(day);
-		setCalendarMonth(month);
-		setCalendarYear(year);
-		setAppointments(new LinkedList());
+		establishCalendarDay(day);
+		establishCalendarMonth(month);
+		establishCalendarYear(year);
+		establishAppointments(new LinkedList());
 		valid = true;
 	}
 	
@@ -43,13 +36,13 @@ public class Day {
 	//added, it does not inspect to see if the appointment is actually scheduled to take place on that day itself.
 	public void addAppointment(Appointment consult) {
 		if (valid) {
-			for (int i = 0; i < getAppointment().size(); i++) {
-				if (((Appointment)getAppointment().get(i)).retrieveStartHour() > consult.retrieveStartHour()) {
-					getAppointment().add(i, consult);
+			for (int i = 0; i < retrieveAppointment().size(); i++) {
+				if (((Appointment)retrieveAppointment().get(i)).retrieveStartHour() > consult.retrieveStartHour()) {
+					retrieveAppointment().add(i, consult);
 					return;
 				}
 			}
-			getAppointment().add(consult);
+			retrieveAppointment().add(consult);
 		}
 	}
 	
@@ -61,55 +54,25 @@ public class Day {
 	//Only then, appointments with specific starting times are sorted. 
 	public Iterator iterator() {
 	    if (isDayLegit()) {
-	        return getAppointment().iterator();
+	        return retrieveAppointment().iterator();
 	    }
 	    else {
 	        return null;
 	    }
 	}
 	
-	//Sets appointments
-	private void setAppointments(LinkedList consultations) {
-	    this.consultations = consultations;
-	}
+	private void establishAppointments(LinkedList consultations) { this.consultations = consultations; }
+	private void establishCalendarDay(int day) { this.day = day; }
+	private void establishCalendarMonth(int month) { this.month = month; }
+	private void establishCalendarYear(int year) { this.year = year; }
 	
-	//Sets day
-	private void setCalendarDay(int day) {
-	    this.day = day;
-	}
-	
-	//Sets month
-	private void setCalendarMonth(int month) {
-	    this.month = month;
-	}
-	
-	//Sets year
-	private void setCalendarYear(int year) {
-	    this.year = year;
-	}
-	
-	//Gets appointments
-	public LinkedList getAppointment() {
-	    return consultations;
-	}
-	
-	//Gets day
-	public int getDay() {
-	    return day;
-	}
-	
-	//Gets month
-	public int getMonth() {
-	    return month;
-	}
-	
-	//Get year
-	public int getYear() {
-	    return year;
-	}
+	public LinkedList retrieveAppointment() { return consultations; }
+	public int retrieveDay() { return day; }
+	public int retrieveMonth() { return month; }
+	public int retrieveYear() { return year; }
 	
 	//Prints out a string representation of the date in a day/month/year format
 	public String toString() {
-	    return getDay() + "/" + (getMonth()+1) + "/" + getYear();
+	    return retrieveDay() + "/" + (retrieveMonth()+1) + "/" + retrieveYear();
 	}
 }

@@ -1,9 +1,9 @@
 package hcsdteam12.calendar;
 
 /**
-*	Main class for the calendar program. Run this file in the compiler to generate the calendar program. 
+* Main class for the calendar program. Run this file in the compiler to generate the calendar program. 
 *
-*	@author Seng Kin(Terence), Kong
+* @author Seng Kin(Terence), Kong
 **/
 
 import hcsdteam12.calendar.gui.CalendarFrame;
