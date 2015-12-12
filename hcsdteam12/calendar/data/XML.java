@@ -1,12 +1,12 @@
 package hcsdteam12.calendar.data;
 
-import org.xml.sax.*;
-
 /**
 * For testing purposes, XML is implemented to obtain access to appointment data or to edit appointment data stored in an XML document. 
 *
 * @author  Seng Kin(Terence), Kong
 **/
+
+import org.xml.sax.*;
 
 public class XML implements ErrorHandler {
 	private String findException(SAXParseException handler) {

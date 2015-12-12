@@ -44,7 +44,7 @@ public class Day {
 	public void addAppointment(Appointment consult) {
 		if (valid) {
 			for (int i = 0; i < getAppointment().size(); i++) {
-				if (((Appointment)getAppointment().get(i)).getStartHour() > consult.getStartHour()) {
+				if (((Appointment)getAppointment().get(i)).retrieveStartHour() > consult.retrieveStartHour()) {
 					getAppointment().add(i, consult);
 					return;
 				}
