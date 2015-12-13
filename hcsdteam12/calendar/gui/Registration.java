@@ -2,6 +2,7 @@ package hcsdteam12.calendar.gui;
 
 /**
  * Created by Joseph on 08/12/2015.
+ * Modified by Paul on 13/12/2015
  */
 
 import javax.swing.*;
@@ -131,68 +132,50 @@ public class Registration extends JFrame {
         submit.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e) {
                 if (forename.getText().toString().matches("[a-zA-z]+")) {
-                    forenameError.setForeground(Color.GREEN);
-                    forenameError.setText("✓");
+                    valSuccess(forenameError);
                 } else {
-                    forenameError.setForeground(Color.RED);
-                    forenameError.setText("X");
+                    valError(forenameError);
                 }
                 if (surname.getText().toString().matches("[a-zA-z]+")) {
-                    surnameError.setForeground(Color.GREEN);
-                    surnameError.setText("✓");
+                    valSuccess(surnameError);
                 } else {
-                    surnameError.setForeground(Color.RED);
-                    surnameError.setText("X");
+                    valError(surnameError);
                 }
                 if (dob.getText().toString().matches("([0-9]{4})/([0-9]{2})/([0-9]{2})")) {
-                    dobError.setForeground(Color.GREEN);
-                    dobError.setText("✓");
+                    valSuccess(dobError);
                 } else {
-                    dobError.setForeground(Color.RED);
-                    dobError.setText("X");
+                    valError(dobError);
                 }
                 if (phone.getText().toString().matches("[0-9]+") && phone.getText().length() == 11) {
-                    phoneError.setForeground(Color.GREEN);
-                    phoneError.setText("✓");
+                    valSuccess(phoneError);
                 } else {
-                    phoneError.setForeground(Color.RED);
-                    phoneError.setText("X");
+                    valError(phoneError);
                 }
                 if (house.getText().toString().matches("[0-9a-zA-z]+")) {
-                    houseError.setForeground(Color.GREEN);
-                    houseError.setText("✓");
+                    valSuccess(houseError);
                 } else {
-                    houseError.setForeground(Color.RED);
-                    houseError.setText("X");
+                    valError(houseError);
                 }
                 if (street.getText().toString().matches("[a-zA-Z]+")) {
-                    streetError.setForeground(Color.GREEN);
-                    streetError.setText("✓");
+                    valSuccess(streetError);
                 } else {
-                    streetError.setForeground(Color.RED);
-                    streetError.setText("X");
+                    valError(streetError);
                 }
                 if (district.getText().toString().matches("[a-zA-Z]+")) {
-                    districtError.setForeground(Color.GREEN);
-                    districtError.setText("✓");
+                    valSuccess(districtError);
                 } else {
-                    districtError.setForeground(Color.RED);
-                    districtError.setText("X");
+                    valError(districtError);
                 }
                 if (city.getText().toString().matches("[a-zA-Z]+")) {
-                    cityError.setForeground(Color.GREEN);
-                    cityError.setText("✓");
+                    valSuccess(cityError);
                 } else {
-                    cityError.setForeground(Color.RED);
-                    cityError.setText("X");
+                    valError(cityError);
                 }
                 if (postcode.getText().toString().matches("[a-zA-Z0-9]+") &&
                         postcode.getText().length() >= 5 && postcode.getText().length() <= 7) {
-                    postcodeError.setForeground(Color.GREEN);
-                    postcodeError.setText("✓");
+                    valSuccess(postcodeError);
                 } else {
-                    postcodeError.setForeground(Color.RED);
-                    postcodeError.setText("X");
+                    valError(postcodeError);
                 }
             }
         });
@@ -201,6 +184,16 @@ public class Registration extends JFrame {
         setBounds(100,100,400,350);
         setVisible(true);
 
+    }
+
+    private void valError(JLabel label) {
+        label.setForeground(Color.RED);
+        label.setText("X");
+    }
+
+    private void valSuccess(JLabel label) {
+        label.setForeground(Color.GREEN);
+        label.setText("✓");
     }
 
     // function for adding to the layout
