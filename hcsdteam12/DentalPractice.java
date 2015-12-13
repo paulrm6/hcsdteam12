@@ -1,12 +1,31 @@
 package hcsdteam12;
 
 import hcsdteam12.calendar.*;
-import sun.applet.Main;
+import javax.swing.*;
+import java.awt.event.*;
 
 /**
- * Authors: Adam and Paul
+ * Authors: Paul
  */
-public class DentalPractice {
+public class DentalPractice extends JPanel implements ActionListener{
+
+    JButton buttonSecretary,buttonPartner;
+    JFrame logInFrame;
+
+    public DentalPractice(JFrame frame) {
+        logInFrame = frame;
+        buttonSecretary = new JButton("Secretary");
+        buttonSecretary.setActionCommand("secretary");
+
+        buttonPartner = new JButton("Partner");
+        buttonPartner.setActionCommand("partner");
+
+        buttonSecretary.addActionListener(this);
+        buttonPartner.addActionListener(this);
+
+        add(buttonSecretary);
+        add(buttonPartner);
+    }
 
     public static void main (String args[]) {
         /**
@@ -29,7 +48,30 @@ public class DentalPractice {
          * View appointments for week
          * Record having seen patient, put in treatments given and cost
          */
-        MainCalendar.display();
+        //MainCalendar.display();
+        createGUI();
+    }
 
+    private static void createGUI() {
+        //Create and set up the window.
+        JFrame frame = new JFrame("Dental Practice System");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        //Create and set up the content pane.
+        DentalPractice newContentPane = new DentalPractice(frame);
+        newContentPane.setOpaque(true); //content panes must be opaque
+        frame.setContentPane(newContentPane);
+
+        //Display the window.
+        frame.pack();
+        frame.setVisible(true);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if ("secretary".equals(e.getActionCommand())) {
+            MainCalendar.display();
+            logInFrame.setVisible(false);
+        }
     }
 }
