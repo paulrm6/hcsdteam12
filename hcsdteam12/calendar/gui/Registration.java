@@ -27,7 +27,7 @@ public class Registration extends JFrame {
     private JTextField forename, surname, phone,
                         house, street, district, city, postcode;
     private JFormattedTextField dob;
-    private JButton submit;
+    private JButton submit, close;
 
     private final DateFormat date = new SimpleDateFormat("dd/mm/yyyy");
 
@@ -73,6 +73,7 @@ public class Registration extends JFrame {
         city = new JTextField(10);
         postcode = new JTextField(5);
         submit = new JButton("Register"); // button
+        close = new JButton("Close"); // button
         // Setting the date of birth function to take a particular format
         dob = new JFormattedTextField(date);
         dob.setColumns(5);
@@ -116,6 +117,15 @@ public class Registration extends JFrame {
         add(city,1,8,1,1);
         add(postcode,1,9,1,1);
         add(submit,1,10,1,1); // button
+        add(close,0,10,1,1); // button
+
+        close.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setVisible(false);
+                dispose();
+            }
+        });
 
         // Validation
         submit.addActionListener(new ActionListener(){
