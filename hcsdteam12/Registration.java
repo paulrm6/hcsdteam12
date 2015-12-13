@@ -1,4 +1,4 @@
-/**
+package hcsdteam12; /**
  * Created by Joseph on 08/12/2015.
  */
 
@@ -7,6 +7,10 @@ import javax.swing.text.MaskFormatter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -27,7 +31,7 @@ public class Registration extends JFrame {
     private JFormattedTextField dob;
     private JButton submit;
 
-    private final DateFormat date = new SimpleDateFormat("dd/mm/yyyy");
+    private final DateFormat date = new SimpleDateFormat("yyyy-mm-dd");
 
     public Registration() {
 
@@ -35,7 +39,7 @@ public class Registration extends JFrame {
         String[] titles = new String[] {"Mr","Mrs","Miss","Ms","Dr"};
 
         //set properties of the frame
-        setTitle("Registration form");
+        setTitle("hcsdteam12.Registration form");
         setLayout(new GridBagLayout());
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -43,7 +47,7 @@ public class Registration extends JFrame {
         titleLabel = new JLabel("Title:");
         forenameLabel = new JLabel("Forename:");
         surnameLabel = new JLabel("Surname:");
-        dobLabel = new JLabel("Date of birth (dd/mm/yyyy):");
+        dobLabel = new JLabel("Date of birth (dd-mm-yyyy):");
         phoneLabel = new JLabel("Phone number:");
         houseLabel = new JLabel("House number:");
         streetLabel = new JLabel("Street:");
@@ -75,7 +79,7 @@ public class Registration extends JFrame {
         dob = new JFormattedTextField(date);
         dob.setColumns(5);
         try {
-            MaskFormatter dateMask = new MaskFormatter("##/##/####");
+            MaskFormatter dateMask = new MaskFormatter("####-##-##");
             dateMask.install(dob);
         } catch (ParseException ex){
             Logger.getLogger(Registration.class.getName()).log(Level.SEVERE, null, ex);
@@ -118,12 +122,14 @@ public class Registration extends JFrame {
         // Validation
         submit.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e) {
+                boolean validEntry = true;
                 if (forename.getText().toString().matches("[a-zA-z]+")) {
                     forenameError.setForeground(Color.GREEN);
                     forenameError.setText("✓");
                 } else {
                     forenameError.setForeground(Color.RED);
                     forenameError.setText("X");
+                    validEntry = false;
                 }
                 if (surname.getText().toString().matches("[a-zA-z]+")) {
                     surnameError.setForeground(Color.GREEN);
@@ -131,13 +137,15 @@ public class Registration extends JFrame {
                 } else {
                     surnameError.setForeground(Color.RED);
                     surnameError.setText("X");
+                    validEntry = false;
                 }
-                if (dob.getText().toString().matches("([0-9]{4})/([0-9]{2})/([0-9]{2})")) {
+                if (dob.getText().toString().matches("([0-9]{4})-([0-9]{2})-([0-9]{2})")) {
                     dobError.setForeground(Color.GREEN);
                     dobError.setText("✓");
                 } else {
                     dobError.setForeground(Color.RED);
                     dobError.setText("X");
+                    validEntry = false;
                 }
                 if (phone.getText().toString().matches("[0-9]+") && phone.getText().length() == 11) {
                     phoneError.setForeground(Color.GREEN);
@@ -145,6 +153,7 @@ public class Registration extends JFrame {
                 } else {
                     phoneError.setForeground(Color.RED);
                     phoneError.setText("X");
+                    validEntry = false;
                 }
                 if (house.getText().toString().matches("[0-9a-zA-z]+")) {
                     houseError.setForeground(Color.GREEN);
@@ -152,6 +161,7 @@ public class Registration extends JFrame {
                 } else {
                     houseError.setForeground(Color.RED);
                     houseError.setText("X");
+                    validEntry = false;
                 }
                 if (street.getText().toString().matches("[a-zA-Z]+")) {
                     streetError.setForeground(Color.GREEN);
@@ -159,6 +169,7 @@ public class Registration extends JFrame {
                 } else {
                     streetError.setForeground(Color.RED);
                     streetError.setText("X");
+                    validEntry = false;
                 }
                 if (district.getText().toString().matches("[a-zA-Z]+")) {
                     districtError.setForeground(Color.GREEN);
@@ -166,6 +177,7 @@ public class Registration extends JFrame {
                 } else {
                     districtError.setForeground(Color.RED);
                     districtError.setText("X");
+                    validEntry = false;
                 }
                 if (city.getText().toString().matches("[a-zA-Z]+")) {
                     cityError.setForeground(Color.GREEN);
@@ -173,6 +185,7 @@ public class Registration extends JFrame {
                 } else {
                     cityError.setForeground(Color.RED);
                     cityError.setText("X");
+                    validEntry = false;
                 }
                 if (postcode.getText().toString().matches("[a-zA-Z0-9]+") &&
                         postcode.getText().length() >= 5 && postcode.getText().length() <= 7) {
@@ -181,6 +194,30 @@ public class Registration extends JFrame {
                 } else {
                     postcodeError.setForeground(Color.RED);
                     postcodeError.setText("X");
+                    validEntry = false;
+                }
+                if (validEntry == true) {
+                    try {
+                        Class.forName("com.mysql.jdbc.Driver").newInstance();
+                        Connection con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team012?user=team012&password=8b4c5e49");
+                        Statement stmt = con.createStatement();
+                        String s1 = "INSERT INTO address VALUES ('"+house.getText()+postcode.getText()+"',"+house.getText()+",'"+street.getText()+"','"+district.getText()+"','"+city.getText()+"','"+postcode.getText()+"');";
+                        String s2 =  "INSERT INTO patients VALUES (1,'"+title.getSelectedItem()+"','" +forename.getText()+"','"+surname.getText()+"','"+dob.getText()+"','"+phone.getText()+"','"+house.getText()+postcode.getText()+"',NULL,0);";
+                        System.out.println(s1);
+                        System.out.println(s2);
+                        stmt.executeUpdate(s1);
+                        stmt.executeUpdate(s2);
+                        stmt.close();
+                        con.close();
+                    } catch (IllegalAccessException e1) {
+                        e1.printStackTrace();
+                    } catch (InstantiationException e1) {
+                       e1.printStackTrace();
+                    } catch (SQLException e1) {
+                        e1.printStackTrace();
+                    } catch (ClassNotFoundException e1) {
+                        e1.printStackTrace();
+                    }
                 }
             }
         });
