@@ -3,10 +3,7 @@
  */
 
 import javax.swing.*;
-<<<<<<< Updated upstream
 import javax.swing.text.MaskFormatter;
-=======
->>>>>>> Stashed changes
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
