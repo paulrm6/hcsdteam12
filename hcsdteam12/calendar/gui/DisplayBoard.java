@@ -1,10 +1,10 @@
+package hcsdteam12.calendar.gui;
+
 /**
  * DisplayBoard.java is responsible for setting the colour of the calendar components.
  * 
  * @author Seng Kin(Terence), Kong
  * **/
-
-package hcsdteam12.calendar.gui;
 
 import java.util.*;
 import java.awt.*;
