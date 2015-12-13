@@ -120,6 +120,11 @@ public class CalendarFrame extends javax.swing.JFrame implements ActionListener,
 		if(toggle == CalendarOptionsBar.previousYearButton) {
 			presentYear--;
 		}
+
+		if(toggle == CalendarOptionsBar.closeCalendar) {
+			setVisible(false);
+			dispose();
+		}
 		
 		reviseCalendar(presentMonth,presentYear); //Retrieve a new set of calendar data after requesting for a specific month and year
 
