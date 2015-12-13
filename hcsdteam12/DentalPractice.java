@@ -6,7 +6,7 @@ import javax.swing.*;
 import java.awt.event.*;
 
 /**
- * Authors: Paul
+ * Created by Paul on 13/12/2015
  */
 public class DentalPractice extends JFrame implements ActionListener{
     private JPanel logIn = new JPanel(),
