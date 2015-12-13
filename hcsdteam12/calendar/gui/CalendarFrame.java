@@ -3,7 +3,8 @@
  * within the calendar window. The GUI components include CalendarOptionsBar, AppointmentInfoWindow and CalendarPresentation.
  * It also uses DetailsManager to supervise the flow of logic and control throughout the calendar.
  *
- * @author Seng Kin (Terence), Kong 
+ * @author Seng Kin (Terence), Kong
+ * Modified by Paul on 13/12/2015
  **/
 
 package hcsdteam12.calendar.gui;
