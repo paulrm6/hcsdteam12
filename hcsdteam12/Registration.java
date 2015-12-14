@@ -144,12 +144,12 @@ public class Registration extends JFrame {
                         Class.forName("com.mysql.jdbc.Driver").newInstance();
                         Connection con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team012?user=team012&password=8b4c5e49");
                         Statement stmt = con.createStatement();
-                        if (!addressExists(con, house.getText(), postcode.getText())) {
-                            String query = "INSERT INTO address VALUES ('" + house.getText() + postcode.getText() + "'," + house.getText() + ",'" + street.getText() + "','" + district.getText() + "','" + city.getText() + "','" + postcode.getText() + "');";
+                        if (!addressExists(con, house.getText(), (postcode.getText()).replaceAll("\\s",""))) {
+                            String query = "INSERT INTO address VALUES ('" + house.getText() + (postcode.getText()).replaceAll("\\s","") + "'," + house.getText() + ",'" + street.getText() + "','" + district.getText() + "','" + city.getText() + "','" + (postcode.getText()).replaceAll("\\s","") + "');";
                             stmt.executeUpdate(query);
                         }
                         if (!personExists(con,forename.getText(), surname.getText(), dob.getText(), house.getText(), postcode.getText())) {
-                            String query2 = "INSERT INTO patients(title, forename, surname, dob, number, addressid, outstanding_bill) VALUES ('" + title.getSelectedItem() + "','" + forename.getText() + "','" + surname.getText() + "','" + dob.getText() + "','" + phone.getText() + "','" + house.getText() + postcode.getText() + "', 0);";
+                            String query2 = "INSERT INTO patients(title, forename, surname, dob, number, addressid, outstanding_bill) VALUES ('" + title.getSelectedItem() + "','" + forename.getText() + "','" + surname.getText() + "','" + dob.getText() + "','" + phone.getText() + "','" + house.getText() + (postcode.getText()).replaceAll("\\s","") + "', 0);";
                             stmt.executeUpdate(query2);
                         }
                         stmt.close();
@@ -174,15 +174,13 @@ public class Registration extends JFrame {
         view.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String postcodeView = JOptionPane.showInputDialog(null, "Enter the patients postcode:");
-                String forenameView;
-                String surnameView;
-                String houseNumber = JOptionPane.showInputDialog(null, "Enter the patients house Number:");
+                postcodeView = postcodeView.replaceAll("\\s","");
                 String name;
                 try {
                     Class.forName("com.mysql.jdbc.Driver").newInstance();
                     Connection con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team012?user=team012&password=8b4c5e49");
                     Statement stmt = con.createStatement();
-                    String query = "SELECT forename, surname FROM patients JOIN address ON patients.addressid = address.id WHERE address.id='"+houseNumber+postcodeView+"';";
+                    String query = "SELECT forename, surname, addressid FROM patients JOIN address ON patients.addressid = address.id WHERE address.postcode='"+postcodeView+"';";
                     ResultSet patients = stmt.executeQuery(query);
                     if (patients.next()) {
                         patients.last();
@@ -192,11 +190,11 @@ public class Registration extends JFrame {
                         while (patients.next()) {
                             String fore = patients.getString("forename");
                             String sur = patients.getString("surname");
-                            String fullname = sur+", "+fore;
+                            String addressid = patients.getString("addressid");
+                            String fullname = sur+", "+fore+", "+addressid;
                             patientList[i] = fullname;
                             i += 1;
                         }
-                        System.out.println(patientList);
                         name = (String) JOptionPane.showInputDialog(null, "Select the patient", "View Patient", JOptionPane.QUESTION_MESSAGE,
                                 null, patientList, patientList[0]);
                     } else {
@@ -204,12 +202,14 @@ public class Registration extends JFrame {
                         return;
                     }
                     patients.close();
-                    forenameView = name.split(",")[0];
-                    surnameView = name.split(",")[1];
+                    String surnameView = name.split(", ")[0];
+                    String forenameView = name.split(", ")[1];
+                    String addressidView = name.split(", ")[2];
                     String query2 = "SELECT patients.id, title, forename, surname, dob, patients.number, address.number, streetname, districtname, cityname, postcode FROM patients JOIN address ON patients.addressid=address.id " +
-                            "WHERE forename='"+forenameView+"' AND surname='"+surnameView+"' AND postcode='"+postcodeView+"';";
+                            "WHERE forename='"+forenameView+"' AND surname='"+surnameView+"' AND addressid='"+addressidView+"';";
                     ResultSet patient = stmt.executeQuery(query2);
                     patient.next();
+                    System.out.println(patient.getString("title"));
                     title.setSelectedItem(patient.getString("title"));
                     forename.setText(patient.getString("forename"));
                     surname.setText(patient.getString("surname"));
