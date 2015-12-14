@@ -191,7 +191,7 @@ public class Registration extends JFrame {
                         while (patients.next()) {
                             String fore = patients.getString("forename");
                             String sur = patients.getString("surname");
-                            String fullname = fore+","+sur;
+                            String fullname = sur+", "+fore;
                             patientList[i] = fullname;
                             i += 1;
                         }
