@@ -239,7 +239,8 @@ public class Registration extends JFrame {
                         }
                         //Needs code to remove redudant addresses
                         String query = "UPDATE patients SET title='"+title.getSelectedItem()+"', forename='"+forename.getText()+"', surname='"+
-                                    surname.getText()+"', dob='"+dob+"', number='"+phone.getText()+"', addressid='"+house.getText()+ postcode+"' WHERE id="+currentPatient+";";stmt.executeUpdate(query);
+                                    surname.getText()+"', dob='"+dob+"', number='"+phone.getText()+"', addressid='"+house.getText()+ postcode+"' WHERE id="+currentPatient+";";
+                        stmt.executeUpdate(query);
                         confirm.setForeground(Color.GREEN);
                         confirm.setText("Updated successfully");
                         stmt.close();
