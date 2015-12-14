@@ -175,10 +175,10 @@ public class Registration extends JFrame {
 
         view.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String postcodeView = JOptionPane.showInputDialog(null, "Enter the patients postcode:");
-                postcodeView = postcodeView.replaceAll("\\s","");
-                String name;
                 try {
+                    String postcodeView = JOptionPane.showInputDialog(null, "Enter the patients postcode:");
+                    postcodeView = postcodeView.replaceAll("\\s","");
+                    String name;
                     Class.forName("com.mysql.jdbc.Driver").newInstance();
                     Connection con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team012?user=team012&password=8b4c5e49");
                     Statement stmt = con.createStatement();
@@ -225,7 +225,9 @@ public class Registration extends JFrame {
                     patient.close();
                     stmt.close();
                     con.close();
-                } catch (IllegalAccessException e1) {
+                } catch(NullPointerException e1) {
+
+                }  catch (IllegalAccessException e1) {
                     e1.printStackTrace();
                 } catch (InstantiationException e1) {
                     e1.printStackTrace();
