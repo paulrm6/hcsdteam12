@@ -9,31 +9,35 @@ import java.sql.*;
 public class Database {
     public static int getPatientID() {
         String[] details = getPatient();
-        String forename = details[0];
-        String surname = details[1];
-        String addressid = details[2];
-        try {
-            Class.forName("com.mysql.jdbc.Driver").newInstance();
-            Connection con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team012?user=team012&password=8b4c5e49");
-            Statement stmt = con.createStatement();
-            String query2 = "SELECT id FROM patients WHERE forename='"+forename+"' AND surname='"+surname+"' AND addressid='"+addressid+"';";
-            ResultSet patient = stmt.executeQuery(query2);
-            patient.next();
-            int patientId = patient.getInt("id");
-            patient.close();
-            return patientId;
-        } catch(NullPointerException e) {
+        if (details != null) {
+            String forename = details[0];
+            String surname = details[1];
+            String addressid = details[2];
+            try {
+                Class.forName("com.mysql.jdbc.Driver").newInstance();
+                Connection con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team012?user=team012&password=8b4c5e49");
+                Statement stmt = con.createStatement();
+                String query2 = "SELECT id FROM patients WHERE forename='" + forename + "' AND surname='" + surname + "' AND addressid='" + addressid + "';";
+                ResultSet patient = stmt.executeQuery(query2);
+                patient.next();
+                int patientId = patient.getInt("id");
+                patient.close();
+                return patientId;
+            } catch (NullPointerException e) {
 
-        } catch(IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+            return 0;
+        } else {
+            return 0;
         }
-        return 0;
     }
 
     public static String[] getPatient() {
