@@ -9,6 +9,7 @@ import java.awt.event.*;
 
 /**
  * Created by Paul on 13/12/2015
+ * Modified by Joseph on 14/13/2015 (layout)
  */
 public class DentalPractice extends JFrame implements ActionListener{
     private JPanel logIn = new JPanel(),
@@ -105,19 +106,13 @@ public class DentalPractice extends JFrame implements ActionListener{
         if ("Healthcare Plans".equals(e.getActionCommand())) {
             new HealthcarePlans();
         }
+        if ("Treatments".equals(e.getActionCommand())) {
+            new Treatments();
+        }
     }
 
     public static void main (String args[]) {
         DentalPractice dp = new DentalPractice();
-//        dp.addButton("Secretary", dp.logIn);
-//        dp.addButton("Partner", dp.logIn);
-//        dp.addButton("Back", dp.secretaryPanel);
-//        dp.addButton("Patient Info", dp.secretaryPanel);
-//        dp.addButton("Calendar/Appointments", dp.secretaryPanel);
-//        dp.addButton("Healthcare Plans", dp.secretaryPanel);
-//        dp.addButton("Back", dp.partnerPanel);
-//        dp.addButton("Calendar", dp.partnerPanel);
-//        dp.addButton("Post Appointment", dp.partnerPanel);
         dp.createFrame();
     }
 }
