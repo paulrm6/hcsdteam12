@@ -24,7 +24,8 @@ public class Registration extends JFrame {
     private JLabel titleLabel, forenameLabel, surnameLabel, dobLabel, phoneLabel,
                     houseLabel, streetLabel, districtLabel, cityLabel, postcodeLabel,
                     forenameError, surnameError, dobError, phoneError,
-                    houseError, streetError, districtError, cityError, postcodeError;
+                    houseError, streetError, districtError, cityError, postcodeError,
+                    confirm;
     private JComboBox title;
     private JTextField forename, surname, phone,
                         house, street, district, city, postcode;
@@ -65,6 +66,7 @@ public class Registration extends JFrame {
         districtError = new JLabel("");
         cityError = new JLabel("");
         postcodeError = new JLabel("");
+        confirm = new JLabel("");
 
         // Creation of components
         title = new JComboBox(titles);
@@ -110,6 +112,7 @@ public class Registration extends JFrame {
         add(districtError,2,8,1,1);
         add(cityError,2,9,1,1);
         add(postcodeError,2,10,1,1);
+        add(confirm,1,13,1,1);
 
         // Laying out the components with GridBagConstraint
         add(title,1,1,1,1);
@@ -138,6 +141,7 @@ public class Registration extends JFrame {
         // Validation
         register.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e) {
+                confirm.setText("");
                 if (validEntry()) {
                     try {
                         Class.forName("com.mysql.jdbc.Driver").newInstance();
@@ -155,6 +159,8 @@ public class Registration extends JFrame {
                         }
                         stmt.close();
                         con.close();
+                        confirm.setForeground(Color.GREEN);
+                        confirm.setText("Added successfully");
                     } catch (IllegalAccessException e1) {
                         e1.printStackTrace();
                     } catch (InstantiationException e1) {
@@ -219,6 +225,7 @@ public class Registration extends JFrame {
         update.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                confirm.setText("");
                 if (validEntry()) {
                     try {
                         Class.forName("com.mysql.jdbc.Driver").newInstance();
@@ -233,6 +240,8 @@ public class Registration extends JFrame {
                         //Needs code to remove redudant addresses
                         String query = "UPDATE patients SET title='"+title.getSelectedItem()+"', forename='"+forename.getText()+"', surname='"+
                                     surname.getText()+"', dob='"+dob+"', number='"+phone.getText()+"', addressid='"+house.getText()+ postcode+"' WHERE id="+currentPatient+";";stmt.executeUpdate(query);
+                        confirm.setForeground(Color.GREEN);
+                        confirm.setText("Updated successfully");
                         stmt.close();
                         con.close();
                     } catch (IllegalAccessException e1) {
