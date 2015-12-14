@@ -196,12 +196,14 @@ public class Registration extends JFrame {
                         Class.forName("com.mysql.jdbc.Driver").newInstance();
                         Connection con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team012?user=team012&password=8b4c5e49");
                         Statement stmt = con.createStatement();
-                        String s1 = "INSERT INTO address VALUES ('"+house.getText()+postcode.getText()+"',"+house.getText()+",'"+street.getText()+"','"+district.getText()+"','"+city.getText()+"','"+postcode.getText()+"');";
-                        String s2 =  "INSERT INTO patients VALUES (1,'"+title.getSelectedItem()+"','" +forename.getText()+"','"+surname.getText()+"','"+dob.getText()+"','"+phone.getText()+"','"+house.getText()+postcode.getText()+"',NULL,0);";
-                        System.out.println(s1);
-                        System.out.println(s2);
-                        stmt.executeUpdate(s1);
-                        stmt.executeUpdate(s2);
+                        if (!addressExists(con, house.getText(), postcode.getText())) {
+                            String s1 = "INSERT INTO address VALUES ('" + house.getText() + postcode.getText() + "'," + house.getText() + ",'" + street.getText() + "','" + district.getText() + "','" + city.getText() + "','" + postcode.getText() + "');";
+                            stmt.executeUpdate(s1);
+                        }
+                        if (!personExists(con,forename.getText(), surname.getText(), dob.getText(), house.getText(), postcode.getText())) {
+                            String s2 = "INSERT INTO patients VALUES (1,'" + title.getSelectedItem() + "','" + forename.getText() + "','" + surname.getText() + "','" + dob.getText() + "','" + phone.getText() + "','" + house.getText() + postcode.getText() + "',NULL,0);";
+                            stmt.executeUpdate(s2);
+                        }
                         stmt.close();
                         con.close();
                     } catch (IllegalAccessException e1) {
@@ -221,6 +223,31 @@ public class Registration extends JFrame {
         setBounds(100,100,400,350);
         setVisible(true);
 
+    }
+
+    private boolean addressExists(Connection con, String house, String postcode) throws SQLException {
+        String s1 = "SELECT * FROM address WHERE id='"+house+postcode+"';";
+        Statement stmt = con.createStatement();
+        if (!stmt.executeQuery(s1).next()) {
+            stmt.close();
+            return false;
+        } else {
+            stmt.close();
+            return true;
+        }
+    }
+
+    private boolean personExists(Connection con, String forename, String surname, String dob, String house, String postcode) throws SQLException {
+        String s1 = "SELECT * FROM patients WHERE forename='"+forename+"' AND surname='"+surname+"' AND dob='"+dob+"' AND addressid='"+house+postcode+"';";
+        Statement stmt = con.createStatement();
+        if (!stmt.executeQuery(s1).next()) {
+            stmt.close();
+            return false;
+        } else {
+            stmt.close();
+            JOptionPane.showMessageDialog(null, "Patient already exists");
+            return true;
+        }
     }
 
     private void valError(JLabel label) {
