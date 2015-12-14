@@ -5,6 +5,7 @@ package hcsdteam12.calendar.gui;
  * for mouse input.
  * 
  * @author Seng Kin(Terence), Kong
+ * Extra button added by Paul MacDonald
  **/
 
 import java.util.*;
@@ -14,7 +15,7 @@ import javax.swing.*;
 public class CalendarOptionsBar extends JToolBar {
 	private static final long serialVersionUID = 1L;
 	public static JButton makeAppointmentButton, cancelAppointmentButton;
-	public static JButton nextMonthButton, previousMonthButton, previousYearButton, nextYearButton;
+	public static JButton nextMonthButton, previousMonthButton, previousYearButton, nextYearButton, closeCalendar;
 	private Vector toggles;
 
 	// Launches every JButton objects and inserts them into the calendar' options bar 
@@ -45,6 +46,10 @@ public class CalendarOptionsBar extends JToolBar {
 		nextYearButton = new JButton("Next Year");
 		add(nextYearButton);
 		toggles.addElement(nextYearButton);
+
+		closeCalendar = new JButton("Close Calendar");
+		add(closeCalendar);
+		toggles.addElement(closeCalendar);
 		
 		setListener(component);
 		}

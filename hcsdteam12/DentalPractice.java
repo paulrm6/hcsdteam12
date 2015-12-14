@@ -1,6 +1,7 @@
 package hcsdteam12;
 
 import hcsdteam12.calendar.*;
+import hcsdteam12.calendar.gui.*;
 import java.awt.Dimension;
 import javax.swing.*;
 import java.awt.event.*;
@@ -55,6 +56,9 @@ public class DentalPractice extends JFrame implements ActionListener{
         }
         if ("Calendar/Appointments".equals(e.getActionCommand())) {
             MainCalendar.display();
+        }
+        if ("Patient Info".equals(e.getActionCommand())) {
+            new Registration();
         }
     }
 

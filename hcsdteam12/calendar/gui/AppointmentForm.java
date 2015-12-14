@@ -4,6 +4,7 @@ package hcsdteam12.calendar.gui;
  * AppointmentForm.java launches a window where appointments can be made or altered.
  * 
  * @author Seng Kin(Terence), Kong
+ * Modified by Paul on 13/12/2015
  **/
 import javax.swing.*;
 import java.util.Calendar;

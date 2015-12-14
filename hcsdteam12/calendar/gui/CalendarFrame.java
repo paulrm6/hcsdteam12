@@ -3,7 +3,8 @@
  * within the calendar window. The GUI components include CalendarOptionsBar, AppointmentInfoWindow and CalendarPresentation.
  * It also uses DetailsManager to supervise the flow of logic and control throughout the calendar.
  *
- * @author Seng Kin (Terence), Kong 
+ * @author Seng Kin (Terence), Kong
+ * Modified by Paul on 13/12/2015
  **/
 
 package hcsdteam12.calendar.gui;
@@ -119,6 +120,11 @@ public class CalendarFrame extends javax.swing.JFrame implements ActionListener,
 
 		if(toggle == CalendarOptionsBar.previousYearButton) {
 			presentYear--;
+		}
+
+		if(toggle == CalendarOptionsBar.closeCalendar) {
+			setVisible(false);
+			dispose();
 		}
 		
 		reviseCalendar(presentMonth,presentYear); //Retrieve a new set of calendar data after requesting for a specific month and year

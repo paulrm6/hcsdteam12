@@ -1,5 +1,6 @@
 package hcsdteam12; /**
  * Created by Joseph on 08/12/2015.
+ * Modified by Paul on 13/12/2015
  */
 
 import javax.swing.*;
@@ -29,7 +30,7 @@ public class Registration extends JFrame {
     private JTextField forename, surname, phone,
                         house, street, district, city, postcode;
     private JFormattedTextField dob;
-    private JButton submit;
+    private JButton submit, close;
 
     private final DateFormat date = new SimpleDateFormat("yyyy-mm-dd");
 
@@ -75,6 +76,7 @@ public class Registration extends JFrame {
         city = new JTextField(10);
         postcode = new JTextField(5);
         submit = new JButton("Register"); // button
+        close = new JButton("Close"); // button
         // Setting the date of birth function to take a particular format
         dob = new JFormattedTextField(date);
         dob.setColumns(5);
@@ -118,82 +120,73 @@ public class Registration extends JFrame {
         add(city,1,8,1,1);
         add(postcode,1,9,1,1);
         add(submit,1,10,1,1); // button
+        add(close,0,10,1,1); // button
+
+        close.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setVisible(false);
+                dispose();
+            }
+        });
 
         // Validation
         submit.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e) {
                 boolean validEntry = true;
                 if (forename.getText().toString().matches("[a-zA-z]+")) {
-                    forenameError.setForeground(Color.GREEN);
-                    forenameError.setText("✓");
+                    valSuccess(forenameError);
                 } else {
-                    forenameError.setForeground(Color.RED);
-                    forenameError.setText("X");
+                    valError(forenameError);
                     validEntry = false;
                 }
                 if (surname.getText().toString().matches("[a-zA-z]+")) {
-                    surnameError.setForeground(Color.GREEN);
-                    surnameError.setText("✓");
+                    valSuccess(surnameError);
                 } else {
-                    surnameError.setForeground(Color.RED);
-                    surnameError.setText("X");
+                    valError(surnameError);
                     validEntry = false;
                 }
                 if (dob.getText().toString().matches("([0-9]{4})-([0-9]{2})-([0-9]{2})")) {
-                    dobError.setForeground(Color.GREEN);
-                    dobError.setText("✓");
+                    valSuccess(dobError);
                 } else {
-                    dobError.setForeground(Color.RED);
-                    dobError.setText("X");
+                    valError(dobError);
                     validEntry = false;
                 }
                 if (phone.getText().toString().matches("[0-9]+") && phone.getText().length() == 11) {
-                    phoneError.setForeground(Color.GREEN);
-                    phoneError.setText("✓");
+                    valSuccess(phoneError);
                 } else {
-                    phoneError.setForeground(Color.RED);
-                    phoneError.setText("X");
+                    valError(phoneError);
                     validEntry = false;
                 }
                 if (house.getText().toString().matches("[0-9a-zA-z]+")) {
-                    houseError.setForeground(Color.GREEN);
-                    houseError.setText("✓");
+                    valSuccess(houseError);
                 } else {
-                    houseError.setForeground(Color.RED);
-                    houseError.setText("X");
+                    valError(houseError);
                     validEntry = false;
                 }
                 if (street.getText().toString().matches("[a-zA-Z]+")) {
-                    streetError.setForeground(Color.GREEN);
-                    streetError.setText("✓");
+                    valSuccess(streetError);
                 } else {
-                    streetError.setForeground(Color.RED);
-                    streetError.setText("X");
+                    valError(streetError);
                     validEntry = false;
                 }
                 if (district.getText().toString().matches("[a-zA-Z]+")) {
-                    districtError.setForeground(Color.GREEN);
-                    districtError.setText("✓");
+                    valSuccess(districtError);
                 } else {
-                    districtError.setForeground(Color.RED);
-                    districtError.setText("X");
+                    valError(districtError);
                     validEntry = false;
                 }
                 if (city.getText().toString().matches("[a-zA-Z]+")) {
-                    cityError.setForeground(Color.GREEN);
-                    cityError.setText("✓");
+                    valSuccess(cityError);
                 } else {
-                    cityError.setForeground(Color.RED);
-                    cityError.setText("X");
+                    valError(cityError);
                     validEntry = false;
                 }
                 if (postcode.getText().toString().matches("[a-zA-Z0-9]+") &&
                         postcode.getText().length() >= 5 && postcode.getText().length() <= 7) {
-                    postcodeError.setForeground(Color.GREEN);
-                    postcodeError.setText("✓");
+                    valSuccess(postcodeError);
                 } else {
-                    postcodeError.setForeground(Color.RED);
-                    postcodeError.setText("X");
+                    valError(postcodeError);
                     validEntry = false;
                 }
                 if (validEntry == true) {
@@ -226,6 +219,16 @@ public class Registration extends JFrame {
         setBounds(100,100,400,350);
         setVisible(true);
 
+    }
+
+    private void valError(JLabel label) {
+        label.setForeground(Color.RED);
+        label.setText("X");
+    }
+
+    private void valSuccess(JLabel label) {
+        label.setForeground(Color.GREEN);
+        label.setText("✓");
     }
 
     // function for adding to the layout
