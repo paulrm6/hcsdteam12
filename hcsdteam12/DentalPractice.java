@@ -6,6 +6,7 @@ import hcsdteam12.calendar.gui.*;
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
+import java.awt.Toolkit;
 
 /**
  * Created by Paul on 13/12/2015
@@ -20,7 +21,7 @@ public class DentalPractice extends JFrame implements ActionListener{
     public DentalPractice() {
         setTitle("Dental Practice System");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        logIn.setPreferredSize(new Dimension(400,300));
+        logIn.setPreferredSize(new Dimension(500,300));
         secretaryPanel.setPreferredSize(new Dimension(400,400));
         partnerPanel.setPreferredSize(new Dimension(400,400));
 
@@ -32,8 +33,12 @@ public class DentalPractice extends JFrame implements ActionListener{
         logIn.setLayout(new GridBagLayout());
         secretaryPanel.setLayout(new GridBagLayout());
         partnerPanel.setLayout(new GridBagLayout());
-        JTextArea welcome = new JTextArea("Welcome to hcsdteam12's dental system!",5,20);
+        JTextArea welcome = new JTextArea("Welcome to HCSDTeam12's Dental System!",5,20);
         textProperty(welcome, logIn);
+        JTextArea secretaryText = new JTextArea("Secretary's panel",5,20);
+        textProperty(secretaryText, secretaryPanel);
+        JTextArea partnerText = new JTextArea("Partner's panel",5,20);
+        textProperty(partnerText, partnerPanel);
         addComponent(addButton("Secretary"),0,1,1,1,logIn);
         addComponent(addButton("Partner"),1,1,1,1,logIn);
         addComponent(addButton("Patient Info"),1,2,1,1,secretaryPanel);
@@ -43,12 +48,13 @@ public class DentalPractice extends JFrame implements ActionListener{
         addComponent(addButton("Back"),2,5,1,1,secretaryPanel);
         addComponent(addButton("Calendar"),1,1,1,1,partnerPanel);
         addComponent(addButton("Post Appointment"),1,2,1,1,partnerPanel);
-        addComponent(addButton("Back"),2,3,1,1,partnerPanel);
+        addComponent(addButton("Back"),2,2,1,1,partnerPanel);
         add(logIn);
         add(secretaryPanel);
         add(partnerPanel);
         setContentPane(logIn);
         pack();
+        setLocationRelativeTo(null);
         setVisible(true);
     }
 
@@ -84,7 +90,7 @@ public class DentalPractice extends JFrame implements ActionListener{
         panel.add(c, gbc);
     }
 
-    @Override
+//    @Override
     public void actionPerformed(ActionEvent e) {
         if ("Secretary".equals(e.getActionCommand())) {
             setContentPane(secretaryPanel);
@@ -111,7 +117,7 @@ public class DentalPractice extends JFrame implements ActionListener{
             new Treatments();
         }
         if ("Post Appointment".equals(e.getActionCommand())) {
-            new AddTreatment();
+            new PostAppointment();
         }
     }
 

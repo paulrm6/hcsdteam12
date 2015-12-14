@@ -154,7 +154,8 @@ public class CalendarFrame extends javax.swing.JFrame implements ActionListener,
 	private void startComponents() {
 		addWindowListener(new java.awt.event.WindowAdapter() {
 			public void windowClosing(java.awt.event.WindowEvent occur) {
-				closeWindow(occur);
+				setVisible(false);
+				dispose();
 			}
 		});
 
@@ -165,10 +166,6 @@ public class CalendarFrame extends javax.swing.JFrame implements ActionListener,
 		
 		setLocation(350, 150); //Pinpoints where the calendar should appear on the monitor.
 		pack();
-	}
-
-	private void closeWindow(java.awt.event.WindowEvent occur) {
-		System.exit(0);
 	}
 
 	//Project the calendar onto the display. 
