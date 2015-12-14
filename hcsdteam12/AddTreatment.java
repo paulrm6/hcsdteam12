@@ -8,44 +8,16 @@ import java.sql.*;
  */
 public class AddTreatment {
 
-    public AddTreatment() {
-        String postcode = JOptionPane.showInputDialog(null, "Enter the patients postcode:");
-        String name;
-        postcode = postcode.replaceAll("\\s","");
+    public AddTreatment(int patientID) {
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
             Connection con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team012?user=team012&password=8b4c5e49");
             Statement stmt = con.createStatement();
-            String query = "SELECT forename, surname, addressid FROM patients JOIN address ON patients.addressid = address.id WHERE postcode='"+postcode+"';";
-            ResultSet patients = stmt.executeQuery(query);
-            if (patients.next()) {
-                patients.last();
-                String[] patientList = new String[patients.getRow()];
-                patients.absolute(0);
-                int i = 0;
-                while (patients.next()) {
-                    String fore = patients.getString("forename");
-                    String sur = patients.getString("surname");
-                    String addressid = patients.getString("addressid");
-                    String fullDetails = fore+","+sur+","+addressid;
-                    patientList[i] = fullDetails;
-                    i += 1;
-                }
-                name = (String) JOptionPane.showInputDialog(null, "Select the patient", "View Patient", JOptionPane.QUESTION_MESSAGE,
-                        null, patientList, patientList[0]);
-            } else {
-                JOptionPane.showMessageDialog(null, "No patients live at this address");
-                return;
-            }
-            patients.close();
-            String forename = name.split(",")[0];
-            String surname = name.split(",")[1];
-            String addressid = name.split(",")[2];
-            String query2 = "SELECT id FROM patients WHERE forename='"+forename+"' AND surname='"+surname+"' AND addressid='"+addressid+"';";
-            ResultSet patient = stmt.executeQuery(query2);
+            String queryName = "SELECT forename, surname FROM patients WHERE id='"+patientID+"'";
+            ResultSet patient = stmt.executeQuery(queryName);
             patient.next();
-            int patientId = patient.getInt("id");
-            patient.close();
+            String forename = patient.getString("forename");
+            String surname = patient.getString("surname");
             String query3 = "SELECT name FROM treatments;";
             ResultSet treatments = stmt.executeQuery(query3);
             if (treatments.next()) {
@@ -61,7 +33,7 @@ public class AddTreatment {
                         treatmentList, "Select a treatment");
                 String query5;
                 if (treatment != "Select a treatment") {
-                    query5 = "INSERT into treatments_given (patientid, treatment_name) VALUES ('"+patientId+"','"+treatment+"')";
+                    query5 = "INSERT into treatments_given (patientid, treatment_name) VALUES ('"+patientID+"','"+treatment+"')";
                     stmt.executeUpdate(query5);
                 } else {
                     JOptionPane.showMessageDialog(null, "You must select a treatment");
@@ -69,7 +41,6 @@ public class AddTreatment {
             } else {
                 JOptionPane.showMessageDialog(null, "No treatment plans exist.");
             }
-            patients.close();
             stmt.close();
             con.close();
         } catch (IllegalAccessException e) {
