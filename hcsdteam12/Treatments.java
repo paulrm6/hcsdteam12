@@ -102,7 +102,9 @@ public class Treatments extends JFrame{
             int patientId = patient.getInt("id");
             patient.close();
             return patientId;
-        } catch (IllegalAccessException e) {
+        } catch(NullPointerException e) {
+
+        } catch(IllegalAccessException e) {
             e.printStackTrace();
         } catch (InstantiationException e) {
             e.printStackTrace();
