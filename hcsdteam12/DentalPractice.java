@@ -1,19 +1,19 @@
 package hcsdteam12;
 
 import hcsdteam12.calendar.*;
-import hcsdteam12.calendar.gui.*;
 
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
-import java.awt.Toolkit;
 
 /**
  * Created by Paul on 13/12/2015
- * Modified by Joseph on 14/13/2015 (layout)
+ * Modified by Joseph on 14/12/2015 (layout)
+ * Modified by Terence Kong on 14/12/2015
  */
 public class DentalPractice extends JFrame implements ActionListener{
-    private JPanel logIn = new JPanel(),
+	private static final long serialVersionUID = 1L;
+	private JPanel logIn = new JPanel(),
             secretaryPanel = new JPanel(),
             partnerPanel = new JPanel();
     private JLabel welcome;
@@ -22,8 +22,8 @@ public class DentalPractice extends JFrame implements ActionListener{
         setTitle("Dental Practice System");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         logIn.setPreferredSize(new Dimension(500,300));
-        secretaryPanel.setPreferredSize(new Dimension(400,400));
-        partnerPanel.setPreferredSize(new Dimension(400,400));
+        secretaryPanel.setPreferredSize(new Dimension(500,300));
+        partnerPanel.setPreferredSize(new Dimension(500,300));
 
         welcome = new JLabel("Welcome!",JLabel.CENTER);
         welcome.setFont(new Font("Serif", Font.PLAIN, 35));
