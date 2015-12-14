@@ -276,7 +276,7 @@ public class Registration extends JFrame {
             valError(phoneError);
             state = false;
         }
-        if (house.getText().toString().matches("[0-9a-zA-z]+")) {
+        if (house.getText().toString().matches("[0-9a-zA-z ]+")) {
             valSuccess(houseError);
         } else {
             valError(houseError);
