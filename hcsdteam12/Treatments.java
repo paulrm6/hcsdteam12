@@ -114,4 +114,9 @@ public class Treatments extends JFrame{
         return 0;
     }
 
+    public int updateTotalCostForPlan() {
+        //Updates the total cost of the bill to take away ones based on the plan a user is on
+        return 0;
+    }
+
 }
