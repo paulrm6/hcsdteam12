@@ -88,4 +88,24 @@ public class Database {
         return null;
 
     }
+
+    public static String[] getAppointment() {
+        String date;
+        date =  JOptionPane.showInputDialog(null, "Enter the date of the appointment (dd/mm/yyyy):");
+        while (!date.matches("([0-9]{2})/([0-9]{2})/([0-9]{4})")) {
+            date =  JOptionPane.showInputDialog(null, "Enter the date of the appointment (dd/mm/yyyy):");
+        }
+        date = changeDateFromForm(date);
+        return new String[] {date};
+    }
+
+    static String changeDateFromForm(String date) {
+        String splitDate[] = date.split("/");
+        return splitDate[2]+"-"+splitDate[1]+"-"+splitDate[0];
+    }
+
+    static String changeDateFromDatabase(String date) {
+        String splitDate[] = date.split("-");
+        return splitDate[2]+"/"+splitDate[1]+"/"+splitDate[0];
+    }
 }

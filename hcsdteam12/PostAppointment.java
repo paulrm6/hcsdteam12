@@ -5,4 +5,7 @@ package hcsdteam12;
  */
 public class PostAppointment {
 
+    public PostAppointment() {
+        Database.getAppointment();
+    }
 }

@@ -111,7 +111,7 @@ public class DentalPractice extends JFrame implements ActionListener{
             new Treatments();
         }
         if ("Post Appointment".equals(e.getActionCommand())) {
-            new AddTreatment(13);
+            new PostAppointment();
         }
     }
 

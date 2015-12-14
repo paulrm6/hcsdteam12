@@ -7,7 +7,6 @@ package hcsdteam12;
 
 import javax.swing.*;
 import javax.swing.text.MaskFormatter;
-import javax.xml.crypto.Data;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,7 +14,6 @@ import java.sql.*;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -146,7 +144,7 @@ public class Registration extends JFrame {
                         Connection con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team012?user=team012&password=8b4c5e49");
                         Statement stmt = con.createStatement();
                         String postcode = Registration.this.postcode.getText().replaceAll("\\s","");
-                        String dob = changeDateFromForm(Registration.this.dob.getText());
+                        String dob = Database.changeDateFromForm(Registration.this.dob.getText());
                         if (!addressExists(con, house.getText(), postcode)) {
                             String query = "INSERT INTO address VALUES ('" + house.getText() + postcode + "'," + house.getText() + ",'" + street.getText() + "','" + district.getText() + "','" + city.getText() + "','" + postcode + "');";
                             stmt.executeUpdate(query);
@@ -192,7 +190,7 @@ public class Registration extends JFrame {
                         title.setSelectedItem(patient.getString("title"));
                         forename.setText(patient.getString("forename"));
                         surname.setText(patient.getString("surname"));
-                        dob.setText(changeDateFromDatabase(patient.getString("dob")));
+                        dob.setText(Database.changeDateFromDatabase(patient.getString("dob")));
                         phone.setText(patient.getString("patients.number"));
                         house.setText(patient.getString("address.number"));
                         street.setText(patient.getString("streetname"));
@@ -227,7 +225,7 @@ public class Registration extends JFrame {
                         Connection con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team012?user=team012&password=8b4c5e49");
                         Statement stmt = con.createStatement();
                         String postcode = Registration.this.postcode.getText().replaceAll("\\s","");
-                        String dob = changeDateFromForm(Registration.this.dob.getText());
+                        String dob = Database.changeDateFromForm(Registration.this.dob.getText());
                         if (!addressExists(con, house.getText(), postcode)) {
                             String query = "INSERT INTO address VALUES ('"+house.getText()+ postcode+"',"+house.getText()+",'" + street.getText()+"','"+district.getText()+"','"+city.getText()+"','"+ postcode+"');";
                             stmt.executeUpdate(query);
@@ -310,16 +308,6 @@ public class Registration extends JFrame {
             state = false;
         }
         return state;
-    }
-
-    private String changeDateFromForm(String date) {
-        String splitDate[] = date.split("/");
-        return splitDate[2]+"-"+splitDate[1]+"-"+splitDate[0];
-    }
-
-    private String changeDateFromDatabase(String date) {
-        String splitDate[] = date.split("-");
-        return splitDate[2]+"/"+splitDate[1]+"/"+splitDate[0];
     }
 
     private boolean addressExists(Connection con, String house, String postcode) throws SQLException {
