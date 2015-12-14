@@ -51,7 +51,7 @@ public class Treatments extends JFrame{
             JTable table = new JTable(rowData, columnNames);
             JScrollPane scrollPane = new JScrollPane(table);
             double totalCost = 0;
-            for (int j = 0; j <= rowData[1].length; j++){
+            for (int j = 0; j < rowData.length; j++){
                 totalCost += Double.parseDouble(rowData[j][1].toString());
                 System.out.println(totalCost);
             }
