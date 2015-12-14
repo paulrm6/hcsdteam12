@@ -375,11 +375,4 @@ public class Registration extends JFrame {
         add(c, gbc);
     }
 
-    public static void main(String[] args) {
-
-        // Creating the GUI
-        new Registration();
-
-    }
-
 }
