@@ -3,6 +3,8 @@ package hcsdteam12;
 import javax.swing.*;
 import java.sql.*;
 import java.awt.BorderLayout;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Adam on 14/12/2015.
@@ -11,40 +13,60 @@ public class Treatments extends JFrame{
 
     private static final long serialVersionUID = 1L;
     // Creation of all variables needed for the form
-    private JLabel totalCost;
+    private JLabel totalCostLabel, totalCost;
     private JTable table;
-    private JTextField forename, surname, phone,
-            house, street, district, city, postcode;
-    private JButton newPatient;
+    private JButton close;
 
     public Treatments() {
-        JFrame frame = new JFrame();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        try {
-            Class.forName("com.mysql.jdbc.Driver").newInstance();
-            Connection con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team012?user=team012&password=8b4c5e49");
-            Statement stmt = con.createStatement();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+        int id = getPatientId();
+        if (id != 0) {
+            JFrame frame = new JFrame();
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            Object rowData[][] = {{}};
+            try {
+                Class.forName("com.mysql.jdbc.Driver").newInstance();
+                Connection con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team012?user=team012&password=8b4c5e49");
+                Statement stmt = con.createStatement();
+                String query = "SELECT treatment_name, cost FROM treatments_given JOIN treatments ON treatments_given.treatment_name = treatments.name WHERE patientid=" + id + ";";
+                ResultSet result = stmt.executeQuery(query);
+                result.last();
+                Object[][] resultSet = new Object[result.getRow()][2];
+                result.absolute(0);
+                int row = 0;
+                while (result.next()) {
+                    for (int i = 0; i < 2; i++) {
+                        resultSet[row][i] = result.getObject(i + 1);
+                    }
+                    row++;
+                }
+                rowData = resultSet;
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+            Object columnNames[] = {"Treatment", "Cost"};
+            JTable table = new JTable(rowData, columnNames);
+            JScrollPane scrollPane = new JScrollPane(table);
+            frame.add(scrollPane, BorderLayout.CENTER);
+
+            totalCostLabel = new JLabel("Total cost:");
+            totalCost = new JLabel("10");
+            add(totalCostLabel);
+            add(totalCost);
+            frame.setSize(300, 150);
+            frame.setVisible(true);
         }
-        Object rowData[][] = { { "Row1-Column1", "Row1-Column2"},
-                { "Row2-Column1", "Row2-Column2" } };
-        Object columnNames[] = {"Treatment", "Cost"};
-        JTable table = new JTable(rowData, columnNames);
-        JScrollPane scrollPane = new JScrollPane(table);
-        frame.add(scrollPane, BorderLayout.CENTER);
-        frame.setSize(300,150);
-        frame.setVisible(true);
     }
 
     public int getPatientId() {
         try {
+            String postcode = JOptionPane.showInputDialog(null, "Enter the patients postcode:");
+            postcode = postcode.replaceAll("\\s","");
             Class.forName("com.mysql.jdbc.Driver").newInstance();
             Connection con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team012?user=team012&password=8b4c5e49");
             Statement stmt = con.createStatement();
@@ -68,6 +90,7 @@ public class Treatments extends JFrame{
                         null, patientList, patientList[0]);
             } else {
                 JOptionPane.showMessageDialog(null, "No patients live at this postcode");
+                return 0;
             }
             patients.close();
             String forename = name.split(",")[0];
