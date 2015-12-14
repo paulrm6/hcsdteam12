@@ -166,25 +166,25 @@ public class Registration extends JFrame {
                     valError(houseError);
                     validEntry = false;
                 }
-                if (street.getText().toString().matches("[a-zA-Z]+")) {
+                if (street.getText().toString().matches("[a-zA-Z ]+")) {
                     valSuccess(streetError);
                 } else {
                     valError(streetError);
                     validEntry = false;
                 }
-                if (district.getText().toString().matches("[a-zA-Z]+")) {
+                if (district.getText().toString().matches("[a-zA-Z ]+")) {
                     valSuccess(districtError);
                 } else {
                     valError(districtError);
                     validEntry = false;
                 }
-                if (city.getText().toString().matches("[a-zA-Z]+")) {
+                if (city.getText().toString().matches("[a-zA-Z ]+")) {
                     valSuccess(cityError);
                 } else {
                     valError(cityError);
                     validEntry = false;
                 }
-                if (postcode.getText().toString().matches("[a-zA-Z0-9]+") &&
+                if (postcode.getText().toString().matches("[a-zA-Z0-9 ]+") &&
                         postcode.getText().length() >= 5 && postcode.getText().length() <= 7) {
                     valSuccess(postcodeError);
                 } else {
