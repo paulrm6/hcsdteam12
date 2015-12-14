@@ -1,6 +1,8 @@
-package hcsdteam12; /**
+package hcsdteam12;
+/**
  * Created by Joseph on 08/12/2015.
  * Modified by Paul on 13/12/2015
+ * Modified by Adam on 13/12/2015
  */
 
 import javax.swing.*;
