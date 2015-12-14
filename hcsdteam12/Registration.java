@@ -2,7 +2,7 @@ package hcsdteam12;
 /**
  * Created by Joseph on 08/12/2015.
  * Modified by Paul on 13/12/2015
- * Modified by Adam on 13/12/2015
+ * Modified by Adam to add relevant SQL to all functions on 13/12/2015
  */
 
 import javax.swing.*;
@@ -10,13 +10,11 @@ import javax.swing.text.MaskFormatter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -141,63 +139,7 @@ public class Registration extends JFrame {
         // Validation
         register.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e) {
-                boolean validEntry = true;
-                if (forename.getText().toString().matches("[a-zA-z]+")) {
-                    valSuccess(forenameError);
-                } else {
-                    valError(forenameError);
-                    validEntry = false;
-                }
-                if (surname.getText().toString().matches("[a-zA-z]+")) {
-                    valSuccess(surnameError);
-                } else {
-                    valError(surnameError);
-                    validEntry = false;
-                }
-                if (dob.getText().toString().matches("([0-9]{4})-([0-9]{2})-([0-9]{2})")) {
-                    valSuccess(dobError);
-                } else {
-                    valError(dobError);
-                    validEntry = false;
-                }
-                if (phone.getText().toString().matches("[0-9]+") && phone.getText().length() == 11) {
-                    valSuccess(phoneError);
-                } else {
-                    valError(phoneError);
-                    validEntry = false;
-                }
-                if (house.getText().toString().matches("[0-9a-zA-z]+")) {
-                    valSuccess(houseError);
-                } else {
-                    valError(houseError);
-                    validEntry = false;
-                }
-                if (street.getText().toString().matches("[a-zA-Z ]+")) {
-                    valSuccess(streetError);
-                } else {
-                    valError(streetError);
-                    validEntry = false;
-                }
-                if (district.getText().toString().matches("[a-zA-Z ]+")) {
-                    valSuccess(districtError);
-                } else {
-                    valError(districtError);
-                    validEntry = false;
-                }
-                if (city.getText().toString().matches("[a-zA-Z ]+")) {
-                    valSuccess(cityError);
-                } else {
-                    valError(cityError);
-                    validEntry = false;
-                }
-                if (postcode.getText().toString().matches("[a-zA-Z0-9 ]+") &&
-                        postcode.getText().length() >= 5 && postcode.getText().length() <= 7) {
-                    valSuccess(postcodeError);
-                } else {
-                    valError(postcodeError);
-                    validEntry = false;
-                }
-                if (validEntry == true) {
+                if (validEntry()) {
                     try {
                         Class.forName("com.mysql.jdbc.Driver").newInstance();
                         Connection con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team012?user=team012&password=8b4c5e49");
@@ -229,6 +171,128 @@ public class Registration extends JFrame {
         setBounds(100,100,400,380);
         setVisible(true);
 
+        view.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String postcodeView = JOptionPane.showInputDialog(null, "Enter the patients postcode:");
+                String forenameView;
+                String surnameView;
+                String name;
+                try {
+                    Class.forName("com.mysql.jdbc.Driver").newInstance();
+                    Connection con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team012?user=team012&password=8b4c5e49");
+                    Statement stmt = con.createStatement();
+                    String query = "SELECT forename, surname FROM patients JOIN address ON patients.addressid = address.id WHERE postcode='"+postcodeView+"';";
+                    ResultSet patients = stmt.executeQuery(query);
+                    if (patients.next()) {
+                        patients.last();
+                        String[] patientList = new String[patients.getRow()];
+                        patients.absolute(0);
+                        int i = 0;
+                        while (patients.next()) {
+                            String fore = patients.getString("forename");
+                            String sur = patients.getString("surname");
+                            String fullname = fore+","+sur;
+                            patientList[i] = fullname;
+                            i += 1;
+                        }
+                        System.out.println(patientList);
+                        name = (String) JOptionPane.showInputDialog(null, "Select the patient", "View Patient", JOptionPane.QUESTION_MESSAGE,
+                                null, patientList, patientList[0]);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "No patients live at this address");
+                        return;
+                    }
+                    patients.close();
+                    forenameView = name.split(",")[0];
+                    surnameView = name.split(",")[1];
+                    String query2 = "SELECT title, forename, surname, dob, patients.number, address.number, streetname, districtname, cityname, postcode FROM patients JOIN address ON patients.addressid=address.id " +
+                            "WHERE forename='"+forenameView+"' AND surname='"+surnameView+"' AND postcode='"+postcodeView+"';";
+                    ResultSet patient = stmt.executeQuery(query2);
+                    patient.next();
+                    title.setSelectedItem(patient.getString("title"));
+                    forename.setText(patient.getString("forename"));
+                    surname.setText(patient.getString("surname"));
+                    dob.setText(patient.getString("dob"));
+                    phone.setText(patient.getString("patients.number"));
+                    house.setText(patient.getString("address.number"));
+                    street.setText(patient.getString("streetname"));
+                    district.setText(patient.getString("districtname"));
+                    city.setText(patient.getString("cityname"));
+                    postcode.setText(patient.getString("postcode"));
+                    patient.close();
+                    stmt.close();
+                    con.close();
+                } catch (IllegalAccessException e1) {
+                    e1.printStackTrace();
+                } catch (InstantiationException e1) {
+                    e1.printStackTrace();
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                } catch (ClassNotFoundException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        });
+
+    }
+
+    private boolean validEntry() {
+        if (forename.getText().toString().matches("[a-zA-z]+")) {
+            valSuccess(forenameError);
+        } else {
+            valError(forenameError);
+            return false;
+        }
+        if (surname.getText().toString().matches("[a-zA-z]+")) {
+            valSuccess(surnameError);
+        } else {
+            valError(surnameError);
+            return false;
+        }
+        if (dob.getText().toString().matches("([0-9]{4})-([0-9]{2})-([0-9]{2})")) {
+            valSuccess(dobError);
+        } else {
+            valError(dobError);
+            return false;
+        }
+        if (phone.getText().toString().matches("[0-9]+") && phone.getText().length() == 11) {
+            valSuccess(phoneError);
+        } else {
+            valError(phoneError);
+            return false;
+        }
+        if (house.getText().toString().matches("[0-9a-zA-z]+")) {
+            valSuccess(houseError);
+        } else {
+            valError(houseError);
+            return false;
+        }
+        if (street.getText().toString().matches("[a-zA-Z ]+")) {
+            valSuccess(streetError);
+        } else {
+            valError(streetError);
+            return false;
+        }
+        if (district.getText().toString().matches("[a-zA-Z ]+")) {
+            valSuccess(districtError);
+        } else {
+            valError(districtError);
+            return false;
+        }
+        if (city.getText().toString().matches("[a-zA-Z ]+")) {
+            valSuccess(cityError);
+        } else {
+            valError(cityError);
+            return false;
+        }
+        if (postcode.getText().toString().matches("[a-zA-Z0-9 ]+") &&
+                postcode.getText().length() >= 5 && postcode.getText().length() <= 7) {
+            valSuccess(postcodeError);
+        } else {
+            valError(postcodeError);
+            return false;
+        }
+        return true;
     }
 
     private boolean addressExists(Connection con, String house, String postcode) throws SQLException {
