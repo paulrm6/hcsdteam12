@@ -44,7 +44,7 @@ public class Registration extends JFrame {
         //set properties of the frame
         setTitle("hcsdteam12.Registration form");
         setLayout(new GridBagLayout());
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         // Creation of labels
         titleLabel = new JLabel("Title:");
