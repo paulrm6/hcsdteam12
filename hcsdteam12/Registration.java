@@ -149,7 +149,7 @@ public class Registration extends JFrame {
                             stmt.executeUpdate(query);
                         }
                         if (!personExists(con,forename.getText(), surname.getText(), dob.getText(), house.getText(), postcode.getText())) {
-                            String query2 = "INSERT INTO patients(title, forename, surname, dob, phone, addressid) VALUES (1,'" + title.getSelectedItem() + "','" + forename.getText() + "','" + surname.getText() + "','" + dob.getText() + "','" + phone.getText() + "','" + house.getText() + postcode.getText() + "');";
+                            String query2 = "INSERT INTO patients(title, forename, surname, dob, number, addressid, outstanding_bill) VALUES ('" + title.getSelectedItem() + "','" + forename.getText() + "','" + surname.getText() + "','" + dob.getText() + "','" + phone.getText() + "','" + house.getText() + postcode.getText() + "', 0);";
                             stmt.executeUpdate(query2);
                         }
                         stmt.close();
@@ -247,6 +247,7 @@ public class Registration extends JFrame {
                             String query = "INSERT INTO address VALUES ('"+house.getText()+ postcode.getText()+"',"+house.getText()+",'" + street.getText()+"','"+district.getText()+"','"+city.getText()+"','"+postcode.getText()+"');";
                             stmt.executeUpdate(query);
                         }
+                        //Needs code to remove redudant addresses
                         String query = "UPDATE patients SET title='"+title.getSelectedItem()+"', forename='"+forename.getText()+"', surname='"+
                                     surname.getText()+"', dob='"+dob.getText()+"', number='"+phone.getText()+"', addressid='"+house.getText()+postcode.getText()+"' WHERE id="+currentPatient+";";stmt.executeUpdate(query);
                         stmt.close();
