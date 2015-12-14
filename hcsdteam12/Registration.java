@@ -34,7 +34,7 @@ public class Registration extends JFrame {
 
     private int currentPatient; //Holds an int relating to the id of the patient currently being viewed/update
 
-    private final DateFormat date = new SimpleDateFormat("yyyy-mm-dd");
+    private final DateFormat date = new SimpleDateFormat("dd/mm/yyyy");
 
     public Registration() {
 
@@ -50,7 +50,7 @@ public class Registration extends JFrame {
         titleLabel = new JLabel("Title:");
         forenameLabel = new JLabel("Forename:");
         surnameLabel = new JLabel("Surname:");
-        dobLabel = new JLabel("Date of birth (yyyy-mm-dd):");
+        dobLabel = new JLabel("Date of birth (dd/mm/yyyy):");
         phoneLabel = new JLabel("Phone number:");
         houseLabel = new JLabel("House number:");
         streetLabel = new JLabel("Street:");
@@ -85,7 +85,7 @@ public class Registration extends JFrame {
         dob = new JFormattedTextField(date);
         dob.setColumns(5);
         try {
-            MaskFormatter dateMask = new MaskFormatter("####-##-##");
+            MaskFormatter dateMask = new MaskFormatter("##/##/####");
             dateMask.install(dob);
         } catch (ParseException ex){
             Logger.getLogger(Registration.class.getName()).log(Level.SEVERE, null, ex);
@@ -144,12 +144,14 @@ public class Registration extends JFrame {
                         Class.forName("com.mysql.jdbc.Driver").newInstance();
                         Connection con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team012?user=team012&password=8b4c5e49");
                         Statement stmt = con.createStatement();
-                        if (!addressExists(con, house.getText(), (postcode.getText()).replaceAll("\\s",""))) {
-                            String query = "INSERT INTO address VALUES ('" + house.getText() + (postcode.getText()).replaceAll("\\s","") + "'," + house.getText() + ",'" + street.getText() + "','" + district.getText() + "','" + city.getText() + "','" + (postcode.getText()).replaceAll("\\s","") + "');";
+                        String postcode = Registration.this.postcode.getText().replaceAll("\\s","");
+                        String dob = changeDateFromForm(Registration.this.dob.getText());
+                        if (!addressExists(con, house.getText(), postcode)) {
+                            String query = "INSERT INTO address VALUES ('" + house.getText() + postcode + "'," + house.getText() + ",'" + street.getText() + "','" + district.getText() + "','" + city.getText() + "','" + postcode + "');";
                             stmt.executeUpdate(query);
                         }
-                        if (!personExists(con,forename.getText(), surname.getText(), dob.getText(), house.getText(), postcode.getText())) {
-                            String query2 = "INSERT INTO patients(title, forename, surname, dob, number, addressid, outstanding_bill) VALUES ('" + title.getSelectedItem() + "','" + forename.getText() + "','" + surname.getText() + "','" + dob.getText() + "','" + phone.getText() + "','" + house.getText() + (postcode.getText()).replaceAll("\\s","") + "', 0);";
+                        if (!personExists(con,forename.getText(), surname.getText(), dob, house.getText(), postcode)) {
+                            String query2 = "INSERT INTO patients(title, forename, surname, dob, number, addressid, outstanding_bill) VALUES ('" + title.getSelectedItem() + "','" + forename.getText() + "','" + surname.getText() + "','" + dob + "','" + phone.getText() + "','" + house.getText() + postcode + "', 0);";
                             stmt.executeUpdate(query2);
                         }
                         stmt.close();
@@ -212,7 +214,7 @@ public class Registration extends JFrame {
                     title.setSelectedItem(patient.getString("title"));
                     forename.setText(patient.getString("forename"));
                     surname.setText(patient.getString("surname"));
-                    dob.setText(patient.getString("dob"));
+                    dob.setText(changeDateFromDatabase(patient.getString("dob")));
                     phone.setText(patient.getString("patients.number"));
                     house.setText(patient.getString("address.number"));
                     street.setText(patient.getString("streetname"));
@@ -243,13 +245,15 @@ public class Registration extends JFrame {
                         Class.forName("com.mysql.jdbc.Driver").newInstance();
                         Connection con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team012?user=team012&password=8b4c5e49");
                         Statement stmt = con.createStatement();
-                        if (!addressExists(con, house.getText(), postcode.getText())) {
-                            String query = "INSERT INTO address VALUES ('"+house.getText()+ postcode.getText()+"',"+house.getText()+",'" + street.getText()+"','"+district.getText()+"','"+city.getText()+"','"+postcode.getText()+"');";
+                        String postcode = Registration.this.postcode.getText().replaceAll("\\s","");
+                        String dob = changeDateFromForm(Registration.this.dob.getText());
+                        if (!addressExists(con, house.getText(), postcode)) {
+                            String query = "INSERT INTO address VALUES ('"+house.getText()+ postcode+"',"+house.getText()+",'" + street.getText()+"','"+district.getText()+"','"+city.getText()+"','"+ postcode+"');";
                             stmt.executeUpdate(query);
                         }
                         //Needs code to remove redudant addresses
                         String query = "UPDATE patients SET title='"+title.getSelectedItem()+"', forename='"+forename.getText()+"', surname='"+
-                                    surname.getText()+"', dob='"+dob.getText()+"', number='"+phone.getText()+"', addressid='"+house.getText()+postcode.getText()+"' WHERE id="+currentPatient+";";stmt.executeUpdate(query);
+                                    surname.getText()+"', dob='"+dob+"', number='"+phone.getText()+"', addressid='"+house.getText()+ postcode+"' WHERE id="+currentPatient+";";stmt.executeUpdate(query);
                         stmt.close();
                         con.close();
                     } catch (IllegalAccessException e1) {
@@ -281,7 +285,7 @@ public class Registration extends JFrame {
             valError(surnameError);
             state = false;
         }
-        if (dob.getText().toString().matches("([0-9]{4})-([0-9]{2})-([0-9]{2})")) {
+        if (dob.getText().toString().matches("([0-9]{2})/([0-9]{2})/([0-9]{4})")) {
             valSuccess(dobError);
         } else {
             valError(dobError);
@@ -325,6 +329,16 @@ public class Registration extends JFrame {
             state = false;
         }
         return state;
+    }
+
+    private String changeDateFromForm(String date) {
+        String splitDate[] = date.split("/");
+        return splitDate[2]+"-"+splitDate[1]+"-"+splitDate[0];
+    }
+
+    private String changeDateFromDatabase(String date) {
+        String splitDate[] = date.split("-");
+        return splitDate[2]+"/"+splitDate[1]+"/"+splitDate[0];
     }
 
     private boolean addressExists(Connection con, String house, String postcode) throws SQLException {
