@@ -60,6 +60,9 @@ public class DentalPractice extends JFrame implements ActionListener{
         if ("Patient Info".equals(e.getActionCommand())) {
             new Registration();
         }
+        if ("Healthcare Plans".equals(e.getActionCommand())) {
+            new HealthcarePlans();
+        }
     }
 
     public static void main (String args[]) {
@@ -69,6 +72,7 @@ public class DentalPractice extends JFrame implements ActionListener{
         dp.addButton("Back", dp.secretaryPanel);
         dp.addButton("Patient Info", dp.secretaryPanel);
         dp.addButton("Calendar/Appointments", dp.secretaryPanel);
+        dp.addButton("Healthcare Plans", dp.secretaryPanel);
         dp.addButton("Back", dp.partnerPanel);
         dp.addButton("Calendar", dp.partnerPanel);
         dp.addButton("Post Appointment", dp.partnerPanel);
