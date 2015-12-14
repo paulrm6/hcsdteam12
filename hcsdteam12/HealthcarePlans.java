@@ -10,6 +10,7 @@ public class HealthcarePlans {
 
     public HealthcarePlans() {
         String postcode = JOptionPane.showInputDialog(null, "Enter the patients postcode:");
+        postcode = postcode.replaceAll("\\s","");
         String name;
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
