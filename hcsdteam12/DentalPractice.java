@@ -43,7 +43,7 @@ public class DentalPractice extends JFrame implements ActionListener{
         addComponent(addButton("Back"),2,5,1,1,secretaryPanel);
         addComponent(addButton("Calendar"),1,1,1,1,partnerPanel);
         addComponent(addButton("Post Appointment"),1,2,1,1,partnerPanel);
-        addComponent(addButton("Back"),2,3,1,1,partnerPanel);
+        addComponent(addButton("Back"),2,2,1,1,partnerPanel);
         add(logIn);
         add(secretaryPanel);
         add(partnerPanel);
