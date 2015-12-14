@@ -22,7 +22,7 @@ public class AddTreatment {
             ResultSet treatments = stmt.executeQuery(query3);
             if (treatments.next()) {
                 treatments.last();
-                String[] treatmentList = new String[treatments.getRow()+1];
+                String[] treatmentList = new String[treatments.getRow()];
                 treatments.absolute(0);
                 int i = 0;
                 while (treatments.next()) {
@@ -30,13 +30,11 @@ public class AddTreatment {
                     i += 1;
                 }
                 String treatment = (String)  JOptionPane.showInputDialog(null, "Add a treatment for "+forename+" "+surname+"below:", "Treatments", JOptionPane.QUESTION_MESSAGE, null,
-                        treatmentList, "Select a treatment");
+                        treatmentList,treatmentList[0]);
                 String query5;
-                if (treatment != "Select a treatment") {
+                if (treatment != null) {
                     query5 = "INSERT into treatments_given (patientid, treatment_name) VALUES ('"+patientID+"','"+treatment+"')";
                     stmt.executeUpdate(query5);
-                } else {
-                    JOptionPane.showMessageDialog(null, "You must select a treatment");
                 }
             } else {
                 JOptionPane.showMessageDialog(null, "No treatment plans exist.");
