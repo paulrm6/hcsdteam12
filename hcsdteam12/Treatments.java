@@ -3,11 +3,10 @@ package hcsdteam12;
 import javax.swing.*;
 import java.sql.*;
 import java.awt.BorderLayout;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Adam on 14/12/2015.
+ * Modified by Terence Kong on 14/12/2015, to remove unused import.
  */
 public class Treatments extends JFrame{
 
