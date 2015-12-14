@@ -1,7 +1,7 @@
 package hcsdteam12;
 /**
  * Created by Joseph on 08/12/2015.
- * Modified by Paul on 13/12/2015
+ * Modified by Paul on 13/12/2015, 14/12/2015 to add minor functionality
  * Modified by Adam to add relevant SQL to all functions on 13/12/2015
  */
 
