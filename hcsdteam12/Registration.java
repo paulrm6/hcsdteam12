@@ -32,7 +32,9 @@ public class Registration extends JFrame {
     private JTextField forename, surname, phone,
                         house, street, district, city, postcode;
     private JFormattedTextField dob;
-    private JButton submit, close;
+    private JButton register, close, view, update;
+
+    private int currentPatient; //Holds an int relating to the id of the patient currently being viewed/update
 
     private final DateFormat date = new SimpleDateFormat("yyyy-mm-dd");
 
@@ -77,8 +79,10 @@ public class Registration extends JFrame {
         district = new JTextField(10);
         city = new JTextField(10);
         postcode = new JTextField(5);
-        submit = new JButton("Register"); // button
+        register = new JButton("Register"); // button
         close = new JButton("Close"); // button
+        view = new JButton("View");
+        update = new JButton("Update");
         // Setting the date of birth function to take a particular format
         dob = new JFormattedTextField(date);
         dob.setColumns(5);
@@ -121,8 +125,10 @@ public class Registration extends JFrame {
         add(district,1,7,1,1);
         add(city,1,8,1,1);
         add(postcode,1,9,1,1);
-        add(submit,1,10,1,1); // button
+        add(register,1,10,1,1); // button
         add(close,0,10,1,1); // button
+        add(view,0,11,1,1); // button
+        add(update,1,11,1,1); // button
 
         close.addActionListener(new ActionListener() {
             @Override
@@ -133,7 +139,7 @@ public class Registration extends JFrame {
         });
 
         // Validation
-        submit.addActionListener(new ActionListener(){
+        register.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e) {
                 boolean validEntry = true;
                 if (forename.getText().toString().matches("[a-zA-z]+")) {
@@ -220,7 +226,7 @@ public class Registration extends JFrame {
         });
 
         // Setting size and visibility
-        setBounds(100,100,400,350);
+        setBounds(100,100,400,380);
         setVisible(true);
 
     }
