@@ -29,7 +29,7 @@ public class AddTreatment {
                     treatmentList[i] = treatments.getString("name");
                     i += 1;
                 }
-                String treatment = (String)  JOptionPane.showInputDialog(null, "Add a treatment for "+forename+" "+surname+"below:", "Treatments", JOptionPane.QUESTION_MESSAGE, null,
+                String treatment = (String)  JOptionPane.showInputDialog(null, "Add a treatment for "+forename+" "+surname+" below:", "Treatments", JOptionPane.QUESTION_MESSAGE, null,
                         treatmentList,treatmentList[0]);
                 String query5;
                 if (treatment != null) {
