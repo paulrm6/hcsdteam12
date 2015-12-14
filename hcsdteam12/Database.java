@@ -2,10 +2,8 @@ package hcsdteam12;
 
 import javax.swing.*;
 import java.sql.*;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Created by Paul on 14/12/2015.
@@ -47,13 +45,13 @@ public class Database {
     public static String[] getPatient() {
         try {
             String postcode = JOptionPane.showInputDialog(null, "Enter the patients postcode:");
-            postcode = postcode.replaceAll("\\s","");
+            postcode = postcode.replaceAll("\\s", "");
             Class.forName("com.mysql.jdbc.Driver").newInstance();
             Connection con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team012?user=team012&password=8b4c5e49");
             Statement stmt = con.createStatement();
-            String query = "SELECT forename, surname, addressid FROM patients JOIN address ON patients.addressid = address.id WHERE postcode='"+postcode+"';";
+            String query = "SELECT forename, surname, addressid FROM patients JOIN address ON patients.addressid = address.id WHERE postcode='" + postcode + "';";
             ResultSet patients = stmt.executeQuery(query);
-            String name = "";
+            String name;
             if (patients.next()) {
                 patients.last();
                 String[] patientList = new String[patients.getRow()];
@@ -63,7 +61,7 @@ public class Database {
                     String fore = patients.getString("forename");
                     String sur = patients.getString("surname");
                     String addressid = patients.getString("addressid");
-                    String fullDetails = fore+","+sur+","+addressid;
+                    String fullDetails = fore + "," + sur + "," + addressid;
                     patientList[i] = fullDetails;
                     i += 1;
                 }
@@ -79,10 +77,10 @@ public class Database {
             String forename = name.split(",")[0];
             String surname = name.split(",")[1];
             String addressid = name.split(",")[2];
-            return new String[] {forename, surname, addressid};
-        } catch(NullPointerException e) {
+            return new String[]{forename, surname, addressid};
+        } catch (NullPointerException e) {
 
-        } catch(IllegalAccessException e) {
+        } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (InstantiationException e) {
             e.printStackTrace();
@@ -102,7 +100,7 @@ public class Database {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
             Connection con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team012?user=team012&password=8b4c5e49");
             Statement stmt = con.createStatement();
-            String query = "SELECT startTime, endTime, forename, surname FROM appointment JOIN patients ON id = patientid WHERE date='"+date+"' and partnerid="+partnerID+";";
+            String query = "SELECT startTime, endTime, forename, surname FROM appointment JOIN patients ON id = patientid WHERE date='" + date + "' and partnerid=" + partnerID + ";";
             ResultSet appointments = stmt.executeQuery(query);
             if (appointments.next()) {
                 appointments.last();
@@ -115,7 +113,7 @@ public class Database {
                     String end = appointments.getString("endTime");
                     String fore = appointments.getString("forename");
                     String sur = appointments.getString("surname");
-                    String fullDetails = start+" to "+end+", "+fore+" "+sur;
+                    String fullDetails = start + " to " + end + ", " + fore + " " + sur;
                     patientList[i] = fullDetails;
                     i += 1;
                 }
@@ -125,12 +123,12 @@ public class Database {
                 appointment = (String) JOptionPane.showInputDialog(null, "Select the patient", "View Patient", JOptionPane.QUESTION_MESSAGE,
                         null, patientList, patientList[0]);
                 appointment = appointment.split(",")[0];
-                return new String[] {date, appointment.split(" to ")[0], appointment.split(" to ")[1]};
+                return new String[]{date, appointment.split(" to ")[0], appointment.split(" to ")[1]};
             } else {
                 JOptionPane.showMessageDialog(null, "No appointments on that date for that parner");
                 return null;
             }
-        } catch(NullPointerException e) {
+        } catch (NullPointerException e) {
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (InstantiationException e) {
@@ -145,9 +143,9 @@ public class Database {
 
     public static String getDate() {
         String date;
-        date =  JOptionPane.showInputDialog(null, "Enter the date of the appointment (dd/mm/yyyy):");
+        date = JOptionPane.showInputDialog(null, "Enter the date of the appointment (dd/mm/yyyy):");
         while (!date.matches("([0-9]{2})/([0-9]{2})/([0-9]{4})")) {
-            date =  JOptionPane.showInputDialog(null, "Enter the date of the appointment (dd/mm/yyyy):");
+            date = JOptionPane.showInputDialog(null, "Enter the date of the appointment (dd/mm/yyyy):");
         }
         return changeDateFromForm(date);
     }
@@ -159,7 +157,7 @@ public class Database {
             Statement stmt = con.createStatement();
             String query = "SELECT id, forename, surname, role FROM partners;";
             ResultSet partners = stmt.executeQuery(query);
-            String name = "";
+            String name;
             if (partners.next()) {
                 partners.last();
                 String[] partnerList = new String[partners.getRow()];
@@ -170,9 +168,9 @@ public class Database {
                     String fore = partners.getString("forename");
                     String sur = partners.getString("surname");
                     String role = partners.getString("role");
-                    String fullDetails = fore+","+sur+","+role;
+                    String fullDetails = fore + "," + sur + "," + role;
                     partnerList[i] = fullDetails;
-                    partnerLookup.put(fullDetails,partners.getInt("id"));
+                    partnerLookup.put(fullDetails, partners.getInt("id"));
                     i += 1;
                 }
                 partners.close();
@@ -185,7 +183,7 @@ public class Database {
                 JOptionPane.showMessageDialog(null, "No partners exist");
                 return -1;
             }
-        } catch(IllegalAccessException e) {
+        } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (InstantiationException e) {
             e.printStackTrace();
@@ -200,11 +198,11 @@ public class Database {
 
     static String changeDateFromForm(String date) {
         String splitDate[] = date.split("/");
-        return splitDate[2]+"-"+splitDate[1]+"-"+splitDate[0];
+        return splitDate[2] + "-" + splitDate[1] + "-" + splitDate[0];
     }
 
     static String changeDateFromDatabase(String date) {
         String splitDate[] = date.split("-");
-        return splitDate[2]+"/"+splitDate[1]+"/"+splitDate[0];
+        return splitDate[2] + "/" + splitDate[1] + "/" + splitDate[0];
     }
 }
