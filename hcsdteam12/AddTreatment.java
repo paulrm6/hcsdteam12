@@ -61,7 +61,7 @@ public class AddTreatment {
                         treatmentList, "Select a treatment");
                 String query5;
                 if (treatment != "Select a treatment") {
-                    query5 = "UPDATE treatments_given SET patientid='"+patientId+"', treatment_name='"+treatment+"'";
+                    query5 = "INSERT into treatments_given (patientid, treatment_name) VALUES ('"+patientId+"','"+treatment+"')";
                     stmt.executeUpdate(query5);
                 } else {
                     JOptionPane.showMessageDialog(null, "You must select a treatment");
