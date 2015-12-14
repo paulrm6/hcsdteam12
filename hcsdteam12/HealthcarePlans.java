@@ -50,9 +50,11 @@ public class HealthcarePlans {
                     if (plan == "No plan" && plan != null) {
                         query5 = "UPDATE patients SET plan_name=NULL WHERE id=" + patientId;
                         stmt.executeUpdate(query5);
+                        JOptionPane.showMessageDialog(null, forename + " " + surname + " now has no plan");
                     } else if (plan != null) {
                         query5 = "UPDATE patients SET plan_name='" + plan + "' WHERE id=" + patientId;
                         stmt.executeUpdate(query5);
+                        JOptionPane.showMessageDialog(null, forename + " " + surname + " has been added to " + plan);
                     }
                 } else {
                     JOptionPane.showMessageDialog(null, "No healthcare plans exist.");
