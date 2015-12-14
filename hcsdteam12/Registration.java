@@ -40,7 +40,7 @@ public class Registration extends JFrame {
         String[] titles = new String[]{"Mr", "Mrs", "Miss", "Ms", "Dr"};
 
         //set properties of the frame
-        setTitle("hcsdteam12.Registration form");
+        setTitle("Patient Info");
         setLayout(new GridBagLayout());
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
