@@ -32,7 +32,6 @@ public class HealthcarePlans {
                     patientList[i] = fullDetails;
                     i += 1;
                 }
-                System.out.println(patientList);
                 name = (String) JOptionPane.showInputDialog(null, "Select the patient", "View Patient", JOptionPane.QUESTION_MESSAGE,
                         null, patientList, patientList[0]);
             } else {
@@ -60,11 +59,14 @@ public class HealthcarePlans {
                     i += 1;
                 }
                 planList[0] = "No plan";
-                System.out.println(plans);
                 String query4 = "SELECT plan_name FROM patients WHERE id="+patientId;
                 ResultSet currentPlan = stmt.executeQuery(query4);
                 currentPlan.next();
-                String plan = (String)  JOptionPane.showInputDialog(null, "Patients current plan is: "+currentPlan.getString("plan_name")+"\n Set the new plan below", "Healthcare Plans", JOptionPane.QUESTION_MESSAGE, null,
+                String currentPlanName = currentPlan.getString("plan_name");
+                if(currentPlanName == null) {
+                    currentPlanName = "No Plan";
+                }
+                String plan = (String)  JOptionPane.showInputDialog(null, "Patients current plan is: "+currentPlanName+"\n Set the new plan below", "Healthcare Plans", JOptionPane.QUESTION_MESSAGE, null,
                         planList, planList[0]);
                 String query5;
                 currentPlan.close();
