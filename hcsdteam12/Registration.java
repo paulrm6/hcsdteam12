@@ -80,7 +80,7 @@ public class Registration extends JFrame {
         postcode = new JTextField(5);
         register = new JButton("Register"); // button
         close = new JButton("Close"); // button
-        view = new JButton("View");
+        view = new JButton("View patient");
         update = new JButton("Update");
         // Setting the date of birth function to take a particular format
         dob = new JFormattedTextField(date);
@@ -93,41 +93,41 @@ public class Registration extends JFrame {
         }
 
         // Laying out the labels with GridBagConstraint
-        add(titleLabel,0,0,1,1);
-        add(forenameLabel,0,1,1,1);
-        add(surnameLabel,0,2,1,1);
-        add(dobLabel,0,3,1,1);
-        add(phoneLabel,0,4,1,1);
-        add(houseLabel,0,5,1,1);
-        add(streetLabel,0,6,1,1);
-        add(districtLabel,0,7,1,1);
-        add(cityLabel,0,8,1,1);
-        add(postcodeLabel,0,9,1,1);
-        add(forenameError,2,1,1,1);
-        add(surnameError,2,2,1,1);
-        add(dobError,2,3,1,1);
-        add(phoneError,2,4,1,1);
-        add(houseError,2,5,1,1);
-        add(streetError,2,6,1,1);
-        add(districtError,2,7,1,1);
-        add(cityError,2,8,1,1);
-        add(postcodeError,2,9,1,1);
+        add(titleLabel,0,1,1,1);
+        add(forenameLabel,0,2,1,1);
+        add(surnameLabel,0,3,1,1);
+        add(dobLabel,0,4,1,1);
+        add(phoneLabel,0,5,1,1);
+        add(houseLabel,0,6,1,1);
+        add(streetLabel,0,7,1,1);
+        add(districtLabel,0,8,1,1);
+        add(cityLabel,0,9,1,1);
+        add(postcodeLabel,0,10,1,1);
+        add(forenameError,2,2,1,1);
+        add(surnameError,2,3,1,1);
+        add(dobError,2,4,1,1);
+        add(phoneError,2,5,1,1);
+        add(houseError,2,6,1,1);
+        add(streetError,2,7,1,1);
+        add(districtError,2,8,1,1);
+        add(cityError,2,9,1,1);
+        add(postcodeError,2,10,1,1);
 
         // Laying out the components with GridBagConstraint
-        add(title,1,0,1,1);
-        add(forename,1,1,1,1);
-        add(surname,1,2,1,1);
-        add(dob,1,3,1,1);
-        add(phone,1,4,1,1);
-        add(house,1,5,1,1);
-        add(street,1,6,1,1);
-        add(district,1,7,1,1);
-        add(city,1,8,1,1);
-        add(postcode,1,9,1,1);
-        add(register,1,10,1,1); // button
-        add(close,0,10,1,1); // button
-        add(view,0,11,1,1); // button
-        add(update,1,11,1,1); // button
+        add(title,1,1,1,1);
+        add(forename,1,2,1,1);
+        add(surname,1,3,1,1);
+        add(dob,1,4,1,1);
+        add(phone,1,5,1,1);
+        add(house,1,6,1,1);
+        add(street,1,7,1,1);
+        add(district,1,8,1,1);
+        add(city,1,9,1,1);
+        add(postcode,1,10,1,1);
+        add(register,1,11,1,1); // button
+        add(close,0,13,1,1); // button
+        add(view,0,0,1,1); // button
+        add(update,0,11,1,1); // button
 
         close.addActionListener(new ActionListener() {
             @Override
@@ -171,7 +171,7 @@ public class Registration extends JFrame {
         });
 
         // Setting size and visibility
-        setBounds(100,100,400,380);
+        setBounds(100,100,400,450);
         setVisible(true);
 
         view.addActionListener(new ActionListener() {
