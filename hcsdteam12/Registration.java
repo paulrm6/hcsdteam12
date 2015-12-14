@@ -128,6 +128,7 @@ public class Registration extends JFrame {
         add(view, 0, 0, 1, 1); // button
         add(update, 0, 11, 1, 1); // button
 
+        // Action for close button
         close.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -136,7 +137,7 @@ public class Registration extends JFrame {
             }
         });
 
-        // Validation
+        // Check for valid entry and adds details into database if valid, otherwise, returns an error
         register.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 confirm.setText("");
@@ -172,10 +173,12 @@ public class Registration extends JFrame {
             }
         });
 
-        // Setting size and visibility
+        // Setting size, visibility and position
         setBounds(100, 100, 400, 450);
         setVisible(true);
+        setLocationRelativeTo(null);
 
+        // Retrieves information about a patient after taking postcode and selecting their name
         view.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String[] details = Database.getPatient();
@@ -220,6 +223,7 @@ public class Registration extends JFrame {
             }
         });
 
+        // Updates patient information
         update.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -258,6 +262,7 @@ public class Registration extends JFrame {
 
     }
 
+    // Validates each field for type or whether it is filled in
     private boolean validEntry() {
         boolean state = true;
         if (forename.getText().toString().matches("[a-zA-z]+")) {
@@ -343,11 +348,13 @@ public class Registration extends JFrame {
         }
     }
 
+    // Formatting for validation if there is an error
     private void valError(JLabel label) {
         label.setForeground(Color.RED);
         label.setText("X");
     }
 
+    // Formatting for validation if there is no error
     private void valSuccess(JLabel label) {
         label.setForeground(Color.GREEN);
         label.setText("✓");
@@ -356,13 +363,13 @@ public class Registration extends JFrame {
     // function for adding to the layout
     public void add(Component c, int x, int y, int w, int h) {
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridx = x; // horizontal
-        gbc.gridy = y; // vertical
+        gbc.gridx = x;
+        gbc.gridy = y;
         gbc.gridwidth = w;
         gbc.gridheight = h;
         gbc.anchor = GridBagConstraints.WEST;
-        gbc.ipadx = 20; // padding between the components horizontally
-        gbc.ipady = 5; // padding between the components vertically
+        gbc.ipadx = 20;
+        gbc.ipady = 5;
         add(c, gbc);
     }
 

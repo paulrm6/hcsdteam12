@@ -20,14 +20,13 @@ public class DentalPractice extends JFrame implements ActionListener {
     private JLabel welcome;
 
     public DentalPractice() {
+
+        // Setting frame properties
         setTitle("Dental Practice System");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         logIn.setPreferredSize(new Dimension(500, 300));
         secretaryPanel.setPreferredSize(new Dimension(500, 300));
         partnerPanel.setPreferredSize(new Dimension(500, 300));
-
-        welcome = new JLabel("Welcome!", JLabel.CENTER);
-        welcome.setFont(new Font("Serif", Font.PLAIN, 35));
     }
 
     public static void main(String args[]) {
@@ -35,6 +34,7 @@ public class DentalPractice extends JFrame implements ActionListener {
         dp.createFrame();
     }
 
+    // Adds all the components into the panel with positioning
     private void createFrame() {
         logIn.setLayout(new GridBagLayout());
         secretaryPanel.setLayout(new GridBagLayout());
@@ -64,6 +64,7 @@ public class DentalPractice extends JFrame implements ActionListener {
         setVisible(true);
     }
 
+    // Adds the same properties to each text field
     private void textProperty(JTextArea area, JPanel panel) {
         area.setLineWrap(true);
         area.setWrapStyleWord(true);
@@ -77,6 +78,7 @@ public class DentalPractice extends JFrame implements ActionListener {
         panel.add(area, gbc);
     }
 
+    // Adds the same properties to each button
     private JButton addButton(String name) {
         JButton button = new JButton(name);
         button.setPreferredSize(new Dimension(150, 100));
@@ -85,6 +87,7 @@ public class DentalPractice extends JFrame implements ActionListener {
         return button;
     }
 
+    // Adds components (buttons) with particular positioning and properties
     public void addComponent(Component c, int x, int y, int w, int h, JPanel panel) {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = x;
