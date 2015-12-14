@@ -34,6 +34,10 @@ public class DentalPractice extends JFrame implements ActionListener{
         partnerPanel.setLayout(new GridBagLayout());
         JTextArea welcome = new JTextArea("Welcome to hcsdteam12's dental system!",5,20);
         textProperty(welcome, logIn);
+        JTextArea secretaryText = new JTextArea("Secretary's panel",5,20);
+        textProperty(secretaryText, secretaryPanel);
+        JTextArea partnerText = new JTextArea("Partner's panel",5,20);
+        textProperty(partnerText, partnerPanel);
         addComponent(addButton("Secretary"),0,1,1,1,logIn);
         addComponent(addButton("Partner"),1,1,1,1,logIn);
         addComponent(addButton("Patient Info"),1,2,1,1,secretaryPanel);
