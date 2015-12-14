@@ -13,7 +13,7 @@ public class AddTreatment {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
             Connection con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team012?user=team012&password=8b4c5e49");
             Statement stmt = con.createStatement();
-            String queryName = "SELECT forename, surname FROM patients WHERE id='"+patientID+"'";
+            String queryName = "SELECT forename, surname FROM patients WHERE id='" + patientID + "'";
             ResultSet patient = stmt.executeQuery(queryName);
             patient.next();
             String forename = patient.getString("forename");
@@ -29,11 +29,11 @@ public class AddTreatment {
                     treatmentList[i] = treatments.getString("name");
                     i += 1;
                 }
-                String treatment = (String)  JOptionPane.showInputDialog(null, "Add a treatment for "+forename+" "+surname+" below:", "Treatments", JOptionPane.QUESTION_MESSAGE, null,
-                        treatmentList,treatmentList[0]);
+                String treatment = (String) JOptionPane.showInputDialog(null, "Add a treatment for " + forename + " " + surname + " below:", "Treatments", JOptionPane.QUESTION_MESSAGE, null,
+                        treatmentList, treatmentList[0]);
                 String query5;
                 if (treatment != null) {
-                    query5 = "INSERT into treatments_given (patientid, treatment_name) VALUES ('"+patientID+"','"+treatment+"')";
+                    query5 = "INSERT into treatments_given (patientid, treatment_name) VALUES ('" + patientID + "','" + treatment + "')";
                     stmt.executeUpdate(query5);
                 }
             } else {

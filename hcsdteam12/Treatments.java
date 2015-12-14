@@ -1,14 +1,14 @@
 package hcsdteam12;
 
 import javax.swing.*;
+import java.awt.*;
 import java.sql.*;
-import java.awt.BorderLayout;
 
 /**
  * Created by Adam on 14/12/2015.
  * Modified by Terence Kong on 14/12/2015, to remove unused import.
  */
-public class Treatments extends JFrame{
+public class Treatments extends JFrame {
 
     private static final long serialVersionUID = 1L;
     // Creation of all variables needed for the form
@@ -50,11 +50,11 @@ public class Treatments extends JFrame{
             JTable table = new JTable(rowData, columnNames);
             JScrollPane scrollPane = new JScrollPane(table);
             double totalCost = 0;
-            for (int j = 0; j < rowData.length; j++){
+            for (int j = 0; j < rowData.length; j++) {
                 totalCost += Double.parseDouble(rowData[j][1].toString());
                 System.out.println(totalCost);
             }
-            totalCostLabel = new JLabel("Total cost: £"+totalCost);
+            totalCostLabel = new JLabel("Total cost: £" + totalCost);
             add(scrollPane, BorderLayout.CENTER);
             add(totalCostLabel, BorderLayout.SOUTH);
             setSize(300, 400);

@@ -19,27 +19,25 @@ import java.util.logging.Logger;
 
 public class Registration extends JFrame {
 
-	private static final long serialVersionUID = 1L;
-	// Creation of all variables needed for the form
+    private static final long serialVersionUID = 1L;
+    private final DateFormat date = new SimpleDateFormat("dd/mm/yyyy");
+    // Creation of all variables needed for the form
     private JLabel titleLabel, forenameLabel, surnameLabel, dobLabel, phoneLabel,
-                    houseLabel, streetLabel, districtLabel, cityLabel, postcodeLabel,
-                    forenameError, surnameError, dobError, phoneError,
-                    houseError, streetError, districtError, cityError, postcodeError,
-                    confirm;
+            houseLabel, streetLabel, districtLabel, cityLabel, postcodeLabel,
+            forenameError, surnameError, dobError, phoneError,
+            houseError, streetError, districtError, cityError, postcodeError,
+            confirm;
     private JComboBox title;
     private JTextField forename, surname, phone,
-                        house, street, district, city, postcode;
+            house, street, district, city, postcode;
     private JFormattedTextField dob;
     private JButton register, close, view, update;
-
     private int currentPatient; //Holds an int relating to the id of the patient currently being viewed/update
-
-    private final DateFormat date = new SimpleDateFormat("dd/mm/yyyy");
 
     public Registration() {
 
         // Array of titles to add into combo box
-        String[] titles = new String[] {"Mr","Mrs","Miss","Ms","Dr"};
+        String[] titles = new String[]{"Mr", "Mrs", "Miss", "Ms", "Dr"};
 
         //set properties of the frame
         setTitle("hcsdteam12.Registration form");
@@ -88,47 +86,47 @@ public class Registration extends JFrame {
         try {
             MaskFormatter dateMask = new MaskFormatter("##/##/####");
             dateMask.install(dob);
-        } catch (ParseException ex){
+        } catch (ParseException ex) {
             Logger.getLogger(Registration.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         // Laying out the labels with GridBagConstraint
-        add(titleLabel,0,1,1,1);
-        add(forenameLabel,0,2,1,1);
-        add(surnameLabel,0,3,1,1);
-        add(dobLabel,0,4,1,1);
-        add(phoneLabel,0,5,1,1);
-        add(houseLabel,0,6,1,1);
-        add(streetLabel,0,7,1,1);
-        add(districtLabel,0,8,1,1);
-        add(cityLabel,0,9,1,1);
-        add(postcodeLabel,0,10,1,1);
-        add(forenameError,2,2,1,1);
-        add(surnameError,2,3,1,1);
-        add(dobError,2,4,1,1);
-        add(phoneError,2,5,1,1);
-        add(houseError,2,6,1,1);
-        add(streetError,2,7,1,1);
-        add(districtError,2,8,1,1);
-        add(cityError,2,9,1,1);
-        add(postcodeError,2,10,1,1);
-        add(confirm,1,13,1,1);
+        add(titleLabel, 0, 1, 1, 1);
+        add(forenameLabel, 0, 2, 1, 1);
+        add(surnameLabel, 0, 3, 1, 1);
+        add(dobLabel, 0, 4, 1, 1);
+        add(phoneLabel, 0, 5, 1, 1);
+        add(houseLabel, 0, 6, 1, 1);
+        add(streetLabel, 0, 7, 1, 1);
+        add(districtLabel, 0, 8, 1, 1);
+        add(cityLabel, 0, 9, 1, 1);
+        add(postcodeLabel, 0, 10, 1, 1);
+        add(forenameError, 2, 2, 1, 1);
+        add(surnameError, 2, 3, 1, 1);
+        add(dobError, 2, 4, 1, 1);
+        add(phoneError, 2, 5, 1, 1);
+        add(houseError, 2, 6, 1, 1);
+        add(streetError, 2, 7, 1, 1);
+        add(districtError, 2, 8, 1, 1);
+        add(cityError, 2, 9, 1, 1);
+        add(postcodeError, 2, 10, 1, 1);
+        add(confirm, 1, 13, 1, 1);
 
         // Laying out the components with GridBagConstraint
-        add(title,1,1,1,1);
-        add(forename,1,2,1,1);
-        add(surname,1,3,1,1);
-        add(dob,1,4,1,1);
-        add(phone,1,5,1,1);
-        add(house,1,6,1,1);
-        add(street,1,7,1,1);
-        add(district,1,8,1,1);
-        add(city,1,9,1,1);
-        add(postcode,1,10,1,1);
-        add(register,1,11,1,1); // button
-        add(close,0,13,1,1); // button
-        add(view,0,0,1,1); // button
-        add(update,0,11,1,1); // button
+        add(title, 1, 1, 1, 1);
+        add(forename, 1, 2, 1, 1);
+        add(surname, 1, 3, 1, 1);
+        add(dob, 1, 4, 1, 1);
+        add(phone, 1, 5, 1, 1);
+        add(house, 1, 6, 1, 1);
+        add(street, 1, 7, 1, 1);
+        add(district, 1, 8, 1, 1);
+        add(city, 1, 9, 1, 1);
+        add(postcode, 1, 10, 1, 1);
+        add(register, 1, 11, 1, 1); // button
+        add(close, 0, 13, 1, 1); // button
+        add(view, 0, 0, 1, 1); // button
+        add(update, 0, 11, 1, 1); // button
 
         close.addActionListener(new ActionListener() {
             @Override
@@ -139,7 +137,7 @@ public class Registration extends JFrame {
         });
 
         // Validation
-        register.addActionListener(new ActionListener(){
+        register.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 confirm.setText("");
                 if (validEntry()) {
@@ -147,13 +145,13 @@ public class Registration extends JFrame {
                         Class.forName("com.mysql.jdbc.Driver").newInstance();
                         Connection con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team012?user=team012&password=8b4c5e49");
                         Statement stmt = con.createStatement();
-                        String postcode = Registration.this.postcode.getText().replaceAll("\\s","");
+                        String postcode = Registration.this.postcode.getText().replaceAll("\\s", "");
                         String dob = Database.changeDateFromForm(Registration.this.dob.getText());
                         if (!addressExists(con, house.getText(), postcode)) {
                             String query = "INSERT INTO address VALUES ('" + house.getText() + postcode + "','" + house.getText() + "','" + street.getText() + "','" + district.getText() + "','" + city.getText() + "','" + postcode + "');";
                             stmt.executeUpdate(query);
                         }
-                        if (!personExists(con,forename.getText(), surname.getText(), dob, house.getText(), postcode)) {
+                        if (!personExists(con, forename.getText(), surname.getText(), dob, house.getText(), postcode)) {
                             String query2 = "INSERT INTO patients(title, forename, surname, dob, number, addressid, outstanding_bill) VALUES ('" + title.getSelectedItem() + "','" + forename.getText() + "','" + surname.getText() + "','" + dob + "','" + phone.getText() + "','" + house.getText() + postcode + "', 0);";
                             stmt.executeUpdate(query2);
                             confirm.setForeground(Color.GREEN);
@@ -164,7 +162,7 @@ public class Registration extends JFrame {
                     } catch (IllegalAccessException e1) {
                         e1.printStackTrace();
                     } catch (InstantiationException e1) {
-                       e1.printStackTrace();
+                        e1.printStackTrace();
                     } catch (SQLException e1) {
                         e1.printStackTrace();
                     } catch (ClassNotFoundException e1) {
@@ -175,7 +173,7 @@ public class Registration extends JFrame {
         });
 
         // Setting size and visibility
-        setBounds(100,100,400,450);
+        setBounds(100, 100, 400, 450);
         setVisible(true);
 
         view.addActionListener(new ActionListener() {
@@ -231,15 +229,15 @@ public class Registration extends JFrame {
                         Class.forName("com.mysql.jdbc.Driver").newInstance();
                         Connection con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team012?user=team012&password=8b4c5e49");
                         Statement stmt = con.createStatement();
-                        String postcode = Registration.this.postcode.getText().replaceAll("\\s","");
+                        String postcode = Registration.this.postcode.getText().replaceAll("\\s", "");
                         String dob = Database.changeDateFromForm(Registration.this.dob.getText());
                         if (!addressExists(con, house.getText(), postcode)) {
-                            String query = "INSERT INTO address VALUES ('"+house.getText()+ postcode+"','"+house.getText()+"','" + street.getText()+"','"+district.getText()+"','"+city.getText()+"','"+ postcode+"');";
+                            String query = "INSERT INTO address VALUES ('" + house.getText() + postcode + "','" + house.getText() + "','" + street.getText() + "','" + district.getText() + "','" + city.getText() + "','" + postcode + "');";
                             stmt.executeUpdate(query);
                         }
                         //Needs code to remove redudant addresses
-                        String query = "UPDATE patients SET title='"+title.getSelectedItem()+"', forename='"+forename.getText()+"', surname='"+
-                                    surname.getText()+"', dob='"+dob+"', number='"+phone.getText()+"', addressid='"+house.getText()+ postcode+"' WHERE id="+currentPatient+";";
+                        String query = "UPDATE patients SET title='" + title.getSelectedItem() + "', forename='" + forename.getText() + "', surname='" +
+                                surname.getText() + "', dob='" + dob + "', number='" + phone.getText() + "', addressid='" + house.getText() + postcode + "' WHERE id=" + currentPatient + ";";
                         stmt.executeUpdate(query);
                         confirm.setForeground(Color.GREEN);
                         confirm.setText("Updated successfully");
@@ -321,7 +319,7 @@ public class Registration extends JFrame {
     }
 
     private boolean addressExists(Connection con, String house, String postcode) throws SQLException {
-        String s1 = "SELECT * FROM address WHERE id='"+house+postcode+"';";
+        String s1 = "SELECT * FROM address WHERE id='" + house + postcode + "';";
         Statement stmt = con.createStatement();
         if (!stmt.executeQuery(s1).next()) {
             stmt.close();
@@ -333,7 +331,7 @@ public class Registration extends JFrame {
     }
 
     private boolean personExists(Connection con, String forename, String surname, String dob, String house, String postcode) throws SQLException {
-        String s1 = "SELECT * FROM patients WHERE forename='"+forename+"' AND surname='"+surname+"' AND dob='"+dob+"' AND addressid='"+house+postcode+"';";
+        String s1 = "SELECT * FROM patients WHERE forename='" + forename + "' AND surname='" + surname + "' AND dob='" + dob + "' AND addressid='" + house + postcode + "';";
         Statement stmt = con.createStatement();
         if (!stmt.executeQuery(s1).next()) {
             stmt.close();

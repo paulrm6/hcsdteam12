@@ -2,15 +2,14 @@ package design.awtcomponents;
 
 /**
  * Taken from Java.net
- * 
+ *
  * @author unable to identify
  * @date Aug 19, 1998
  * @version 1.01
  * Source: https://java.net/projects/oooview/sources/svn/content/trunk/src/writer/ui/layout/AbsoluteConstraints.java?rev=7
  **/
 
-import java.awt.Dimension;
-import java.awt.Point;
+import java.awt.*;
 
 /** An object that encapsulates position and (optionally) size for
  *  absolute positioning of objects.
@@ -18,20 +17,20 @@ import java.awt.Point;
 
 /** Absolute positioning of components */
 public class AbsoluteConstraints implements java.io.Serializable {
-	/** generated Serialized Version UID */
-	static final long serialVersionUID = 5261460716622152494L;
+    /** generated Serialized Version UID */
+    static final long serialVersionUID = 5261460716622152494L;
 
     /** The X and Y position of the components */
     public int x;
     public int y;
-    
+
     /** The width/height of the component or -1 if the component's preferred width/height should be used */
     public int width = -1;
     public int height = -1;
 
     /***/
     public AbsoluteConstraints(Point pos) {
-        this (pos.x, pos.y);
+        this(pos.x, pos.y);
     }
 
     /***/
@@ -59,24 +58,24 @@ public class AbsoluteConstraints implements java.io.Serializable {
     }
 
     /** The X and Y position are represented by these AbsoluteConstraints */
-    public int getX () {
+    public int getX() {
         return x;
     }
 
-    public int getY () {
+    public int getY() {
         return y;
     }
 
     /***/
-    public int getWidth () {
+    public int getWidth() {
         return width;
     }
 
-    public int getHeight () {
+    public int getHeight() {
         return height;
     }
 
-    public String toString () {
-        return super.toString () + " [x="+x+", y="+y+", width="+width+", height="+height+"]";
+    public String toString() {
+        return super.toString() + " [x=" + x + ", y=" + y + ", width=" + width + ", height=" + height + "]";
     }
 }
