@@ -44,7 +44,7 @@ public class Registration extends JFrame {
         //set properties of the frame
         setTitle("hcsdteam12.Registration form");
         setLayout(new GridBagLayout());
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         // Creation of labels
         titleLabel = new JLabel("Title:");
@@ -209,7 +209,6 @@ public class Registration extends JFrame {
                             "WHERE forename='"+forenameView+"' AND surname='"+surnameView+"' AND addressid='"+addressidView+"';";
                     ResultSet patient = stmt.executeQuery(query2);
                     patient.next();
-                    System.out.println(patient.getString("title"));
                     title.setSelectedItem(patient.getString("title"));
                     forename.setText(patient.getString("forename"));
                     surname.setText(patient.getString("surname"));
