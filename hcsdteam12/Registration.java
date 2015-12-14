@@ -50,7 +50,7 @@ public class Registration extends JFrame {
         titleLabel = new JLabel("Title:");
         forenameLabel = new JLabel("Forename:");
         surnameLabel = new JLabel("Surname:");
-        dobLabel = new JLabel("Date of birth (dd-mm-yyyy):");
+        dobLabel = new JLabel("Date of birth (yyyy-mm-dd):");
         phoneLabel = new JLabel("Phone number:");
         houseLabel = new JLabel("House number:");
         streetLabel = new JLabel("Street:");
