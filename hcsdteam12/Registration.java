@@ -145,12 +145,12 @@ public class Registration extends JFrame {
                         Connection con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team012?user=team012&password=8b4c5e49");
                         Statement stmt = con.createStatement();
                         if (!addressExists(con, house.getText(), postcode.getText())) {
-                            String s1 = "INSERT INTO address VALUES ('" + house.getText() + postcode.getText() + "'," + house.getText() + ",'" + street.getText() + "','" + district.getText() + "','" + city.getText() + "','" + postcode.getText() + "');";
-                            stmt.executeUpdate(s1);
+                            String query = "INSERT INTO address VALUES ('" + house.getText() + postcode.getText() + "'," + house.getText() + ",'" + street.getText() + "','" + district.getText() + "','" + city.getText() + "','" + postcode.getText() + "');";
+                            stmt.executeUpdate(query);
                         }
                         if (!personExists(con,forename.getText(), surname.getText(), dob.getText(), house.getText(), postcode.getText())) {
-                            String s2 = "INSERT INTO patients VALUES (1,'" + title.getSelectedItem() + "','" + forename.getText() + "','" + surname.getText() + "','" + dob.getText() + "','" + phone.getText() + "','" + house.getText() + postcode.getText() + "',NULL,0);";
-                            stmt.executeUpdate(s2);
+                            String query2 = "INSERT INTO patients(title, forename, surname, dob, phone, addressid) VALUES (1,'" + title.getSelectedItem() + "','" + forename.getText() + "','" + surname.getText() + "','" + dob.getText() + "','" + phone.getText() + "','" + house.getText() + postcode.getText() + "');";
+                            stmt.executeUpdate(query2);
                         }
                         stmt.close();
                         con.close();
@@ -205,7 +205,7 @@ public class Registration extends JFrame {
                     patients.close();
                     forenameView = name.split(",")[0];
                     surnameView = name.split(",")[1];
-                    String query2 = "SELECT title, forename, surname, dob, patients.number, address.number, streetname, districtname, cityname, postcode FROM patients JOIN address ON patients.addressid=address.id " +
+                    String query2 = "SELECT patients.id, title, forename, surname, dob, patients.number, address.number, streetname, districtname, cityname, postcode FROM patients JOIN address ON patients.addressid=address.id " +
                             "WHERE forename='"+forenameView+"' AND surname='"+surnameView+"' AND postcode='"+postcodeView+"';";
                     ResultSet patient = stmt.executeQuery(query2);
                     patient.next();
@@ -219,6 +219,7 @@ public class Registration extends JFrame {
                     district.setText(patient.getString("districtname"));
                     city.setText(patient.getString("cityname"));
                     postcode.setText(patient.getString("postcode"));
+                    currentPatient = patient.getInt("patients.id");
                     patient.close();
                     stmt.close();
                     con.close();
@@ -230,6 +231,35 @@ public class Registration extends JFrame {
                     e1.printStackTrace();
                 } catch (ClassNotFoundException e1) {
                     e1.printStackTrace();
+                }
+            }
+        });
+
+        update.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (validEntry()) {
+                    try {
+                        Class.forName("com.mysql.jdbc.Driver").newInstance();
+                        Connection con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team012?user=team012&password=8b4c5e49");
+                        Statement stmt = con.createStatement();
+                        if (!addressExists(con, house.getText(), postcode.getText())) {
+                            String query = "INSERT INTO address VALUES ('"+house.getText()+ postcode.getText()+"',"+house.getText()+",'" + street.getText()+"','"+district.getText()+"','"+city.getText()+"','"+postcode.getText()+"');";
+                            stmt.executeUpdate(query);
+                        }
+                        String query = "UPDATE patients SET title='"+title.getSelectedItem()+"', forename='"+forename.getText()+"', surname='"+
+                                    surname.getText()+"', dob='"+dob.getText()+"', number='"+phone.getText()+"', addressid='"+house.getText()+postcode.getText()+"' WHERE id="+currentPatient+";";stmt.executeUpdate(query);
+                        stmt.close();
+                        con.close();
+                    } catch (IllegalAccessException e1) {
+                        e1.printStackTrace();
+                    } catch (InstantiationException e1) {
+                        e1.printStackTrace();
+                    } catch (SQLException e1) {
+                        e1.printStackTrace();
+                    } catch (ClassNotFoundException e1) {
+                        e1.printStackTrace();
+                    }
                 }
             }
         });
