@@ -13,9 +13,7 @@ public class Treatments extends JFrame{
 
     private static final long serialVersionUID = 1L;
     // Creation of all variables needed for the form
-    private JLabel totalCostLabel, totalCost;
-    private JTable table;
-    private JButton close;
+    private JLabel totalCostLabel;
 
     public Treatments() {
         int id = getPatientId();
@@ -27,7 +25,7 @@ public class Treatments extends JFrame{
                 Class.forName("com.mysql.jdbc.Driver").newInstance();
                 Connection con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team012?user=team012&password=8b4c5e49");
                 Statement stmt = con.createStatement();
-                String query = "SELECT treatment_name, cost FROM treatments_given JOIN treatments ON treatments_given.treatment_name = treatments.name WHERE patientid=" + id + ";";
+                String query = "SELECT treatment_name, cost FROM treatments_given JOIN treatments ON treatments_given.treatment_name = treatments.name WHERE patientid=" + id + " AND paid = 0;";
                 ResultSet result = stmt.executeQuery(query);
                 result.last();
                 Object[][] resultSet = new Object[result.getRow()][2];
@@ -52,14 +50,16 @@ public class Treatments extends JFrame{
             Object columnNames[] = {"Treatment", "Cost"};
             JTable table = new JTable(rowData, columnNames);
             JScrollPane scrollPane = new JScrollPane(table);
-            frame.add(scrollPane, BorderLayout.CENTER);
-
-            totalCostLabel = new JLabel("Total cost:");
-            totalCost = new JLabel("10");
-            add(totalCostLabel);
-            add(totalCost);
-            frame.setSize(300, 150);
-            frame.setVisible(true);
+            double totalCost = 0;
+            for (int j = 0; j <= rowData[1].length; j++){
+                totalCost += Double.parseDouble(rowData[j][1].toString());
+                System.out.println(totalCost);
+            }
+            totalCostLabel = new JLabel("Total cost: £"+totalCost);
+            add(scrollPane, BorderLayout.CENTER);
+            add(totalCostLabel, BorderLayout.SOUTH);
+            setSize(300, 400);
+            setVisible(true);
         }
     }
 
