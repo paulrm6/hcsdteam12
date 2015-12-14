@@ -61,7 +61,7 @@ public class Database {
                     String fore = patients.getString("forename");
                     String sur = patients.getString("surname");
                     String addressid = patients.getString("addressid");
-                    String fullDetails = fore + "," + sur + "," + addressid;
+                    String fullDetails = sur + ", " + fore + " - " + addressid;
                     patientList[i] = fullDetails;
                     i += 1;
                 }
@@ -74,9 +74,10 @@ public class Database {
                 JOptionPane.showMessageDialog(null, "No patients live at this postcode");
                 return null;
             }
-            String forename = name.split(",")[0];
-            String surname = name.split(",")[1];
-            String addressid = name.split(",")[2];
+            String surname = name.split(" - ")[0];
+            String forename = surname.split(", ")[1];
+            surname = surname.split(", ")[0];
+            String addressid = name.split(" - ")[1];
             return new String[]{forename, surname, addressid};
         } catch (NullPointerException e) {
 
@@ -168,7 +169,7 @@ public class Database {
                     String fore = partners.getString("forename");
                     String sur = partners.getString("surname");
                     String role = partners.getString("role");
-                    String fullDetails = fore + "," + sur + "," + role;
+                    String fullDetails = sur + ", " + fore + " - " + role;
                     partnerList[i] = fullDetails;
                     partnerLookup.put(fullDetails, partners.getInt("id"));
                     i += 1;
