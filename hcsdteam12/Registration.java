@@ -156,11 +156,11 @@ public class Registration extends JFrame {
                         if (!personExists(con,forename.getText(), surname.getText(), dob, house.getText(), postcode)) {
                             String query2 = "INSERT INTO patients(title, forename, surname, dob, number, addressid, outstanding_bill) VALUES ('" + title.getSelectedItem() + "','" + forename.getText() + "','" + surname.getText() + "','" + dob + "','" + phone.getText() + "','" + house.getText() + postcode + "', 0);";
                             stmt.executeUpdate(query2);
+                            confirm.setForeground(Color.GREEN);
+                            confirm.setText("Added successfully");
                         }
                         stmt.close();
                         con.close();
-                        confirm.setForeground(Color.GREEN);
-                        confirm.setText("Added successfully");
                     } catch (IllegalAccessException e1) {
                         e1.printStackTrace();
                     } catch (InstantiationException e1) {
