@@ -146,7 +146,7 @@ public class Registration extends JFrame {
                         String postcode = Registration.this.postcode.getText().replaceAll("\\s","");
                         String dob = Database.changeDateFromForm(Registration.this.dob.getText());
                         if (!addressExists(con, house.getText(), postcode)) {
-                            String query = "INSERT INTO address VALUES ('" + house.getText() + postcode + "'," + house.getText() + ",'" + street.getText() + "','" + district.getText() + "','" + city.getText() + "','" + postcode + "');";
+                            String query = "INSERT INTO address VALUES ('" + house.getText() + postcode + "','" + house.getText() + "','" + street.getText() + "','" + district.getText() + "','" + city.getText() + "','" + postcode + "');";
                             stmt.executeUpdate(query);
                         }
                         if (!personExists(con,forename.getText(), surname.getText(), dob, house.getText(), postcode)) {
@@ -227,7 +227,7 @@ public class Registration extends JFrame {
                         String postcode = Registration.this.postcode.getText().replaceAll("\\s","");
                         String dob = Database.changeDateFromForm(Registration.this.dob.getText());
                         if (!addressExists(con, house.getText(), postcode)) {
-                            String query = "INSERT INTO address VALUES ('"+house.getText()+ postcode+"',"+house.getText()+",'" + street.getText()+"','"+district.getText()+"','"+city.getText()+"','"+ postcode+"');";
+                            String query = "INSERT INTO address VALUES ('"+house.getText()+ postcode+"','"+house.getText()+"','" + street.getText()+"','"+district.getText()+"','"+city.getText()+"','"+ postcode+"');";
                             stmt.executeUpdate(query);
                         }
                         //Needs code to remove redudant addresses
