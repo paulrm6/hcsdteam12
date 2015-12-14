@@ -209,7 +209,6 @@ public class Registration extends JFrame {
                             "WHERE forename='"+forenameView+"' AND surname='"+surnameView+"' AND addressid='"+addressidView+"';";
                     ResultSet patient = stmt.executeQuery(query2);
                     patient.next();
-                    System.out.println(patient.getString("title"));
                     title.setSelectedItem(patient.getString("title"));
                     forename.setText(patient.getString("forename"));
                     surname.setText(patient.getString("surname"));
