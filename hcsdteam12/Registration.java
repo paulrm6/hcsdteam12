@@ -268,62 +268,63 @@ public class Registration extends JFrame {
     }
 
     private boolean validEntry() {
+        boolean state = true;
         if (forename.getText().toString().matches("[a-zA-z]+")) {
             valSuccess(forenameError);
         } else {
             valError(forenameError);
-            return false;
+            state = false;
         }
         if (surname.getText().toString().matches("[a-zA-z]+")) {
             valSuccess(surnameError);
         } else {
             valError(surnameError);
-            return false;
+            state = false;
         }
         if (dob.getText().toString().matches("([0-9]{4})-([0-9]{2})-([0-9]{2})")) {
             valSuccess(dobError);
         } else {
             valError(dobError);
-            return false;
+            state = false;
         }
         if (phone.getText().toString().matches("[0-9]+") && phone.getText().length() == 11) {
             valSuccess(phoneError);
         } else {
             valError(phoneError);
-            return false;
+            state = false;
         }
         if (house.getText().toString().matches("[0-9a-zA-z]+")) {
             valSuccess(houseError);
         } else {
             valError(houseError);
-            return false;
+            state = false;
         }
         if (street.getText().toString().matches("[a-zA-Z ]+")) {
             valSuccess(streetError);
         } else {
             valError(streetError);
-            return false;
+            state = false;
         }
         if (district.getText().toString().matches("[a-zA-Z ]+")) {
             valSuccess(districtError);
         } else {
             valError(districtError);
-            return false;
+            state = false;
         }
         if (city.getText().toString().matches("[a-zA-Z ]+")) {
             valSuccess(cityError);
         } else {
             valError(cityError);
-            return false;
+            state = false;
         }
         if (postcode.getText().toString().matches("[a-zA-Z0-9 ]+") &&
                 postcode.getText().length() >= 5 && postcode.getText().length() <= 7) {
             valSuccess(postcodeError);
         } else {
             valError(postcodeError);
-            return false;
+            state = false;
         }
-        return true;
+        return state;
     }
 
     private boolean addressExists(Connection con, String house, String postcode) throws SQLException {
