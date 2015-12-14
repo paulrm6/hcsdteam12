@@ -63,7 +63,7 @@ public class Database {
                         null, patientList, patientList[0]);
             } else {
                 JOptionPane.showMessageDialog(null, "No patients live at this postcode");
-                return new String[] {"","",""};
+                return null;
             }
             patients.close();
             String forename = name.split(",")[0];
@@ -81,7 +81,7 @@ public class Database {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-        return new String[] {"","",""};
+        return null;
 
     }
 }

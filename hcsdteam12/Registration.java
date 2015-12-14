@@ -177,41 +177,43 @@ public class Registration extends JFrame {
         view.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String[] details = Database.getPatient();
-                String forenameView = details[0];
-                String surnameView = details[1];
-                String addressidView = details[2];
-                try {
-                    Class.forName("com.mysql.jdbc.Driver").newInstance();
-                    Connection con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team012?user=team012&password=8b4c5e49");
-                    Statement stmt = con.createStatement();
-                    String query2 = "SELECT patients.id, title, forename, surname, dob, patients.number, address.number, streetname, districtname, cityname, postcode FROM patients JOIN address ON patients.addressid=address.id " +
-                            "WHERE forename='"+forenameView+"' AND surname='"+surnameView+"' AND addressid='"+addressidView+"';";
-                    ResultSet patient = stmt.executeQuery(query2);
-                    patient.next();
-                    title.setSelectedItem(patient.getString("title"));
-                    forename.setText(patient.getString("forename"));
-                    surname.setText(patient.getString("surname"));
-                    dob.setText(changeDateFromDatabase(patient.getString("dob")));
-                    phone.setText(patient.getString("patients.number"));
-                    house.setText(patient.getString("address.number"));
-                    street.setText(patient.getString("streetname"));
-                    district.setText(patient.getString("districtname"));
-                    city.setText(patient.getString("cityname"));
-                    postcode.setText(patient.getString("postcode"));
-                    currentPatient = patient.getInt("patients.id");
-                    patient.close();
-                    stmt.close();
-                    con.close();
-                } catch(NullPointerException e1) {
+                if (details != null) {
+                    String forenameView = details[0];
+                    String surnameView = details[1];
+                    String addressidView = details[2];
+                    try {
+                        Class.forName("com.mysql.jdbc.Driver").newInstance();
+                        Connection con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team012?user=team012&password=8b4c5e49");
+                        Statement stmt = con.createStatement();
+                        String query2 = "SELECT patients.id, title, forename, surname, dob, patients.number, address.number, streetname, districtname, cityname, postcode FROM patients JOIN address ON patients.addressid=address.id " +
+                                "WHERE forename='" + forenameView + "' AND surname='" + surnameView + "' AND addressid='" + addressidView + "';";
+                        ResultSet patient = stmt.executeQuery(query2);
+                        patient.next();
+                        title.setSelectedItem(patient.getString("title"));
+                        forename.setText(patient.getString("forename"));
+                        surname.setText(patient.getString("surname"));
+                        dob.setText(changeDateFromDatabase(patient.getString("dob")));
+                        phone.setText(patient.getString("patients.number"));
+                        house.setText(patient.getString("address.number"));
+                        street.setText(patient.getString("streetname"));
+                        district.setText(patient.getString("districtname"));
+                        city.setText(patient.getString("cityname"));
+                        postcode.setText(patient.getString("postcode"));
+                        currentPatient = patient.getInt("patients.id");
+                        patient.close();
+                        stmt.close();
+                        con.close();
+                    } catch (NullPointerException e1) {
 
-                }  catch (IllegalAccessException e1) {
-                    e1.printStackTrace();
-                } catch (InstantiationException e1) {
-                    e1.printStackTrace();
-                } catch (SQLException e1) {
-                    e1.printStackTrace();
-                } catch (ClassNotFoundException e1) {
-                    e1.printStackTrace();
+                    } catch (IllegalAccessException e1) {
+                        e1.printStackTrace();
+                    } catch (InstantiationException e1) {
+                        e1.printStackTrace();
+                    } catch (SQLException e1) {
+                        e1.printStackTrace();
+                    } catch (ClassNotFoundException e1) {
+                        e1.printStackTrace();
+                    }
                 }
             }
         });
