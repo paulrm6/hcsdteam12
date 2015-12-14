@@ -22,6 +22,7 @@ public class PostAppointment {
                 ResultSet appointment = stmt.executeQuery(query);
                 appointment.next();
                 int patientid = appointment.getInt("patientid");
+                appointment.close();
                 int reply;
                 do {
                     reply = JOptionPane.showConfirmDialog(null, "Would you like to add a treatment to this appointment?", null, JOptionPane.YES_NO_OPTION);
@@ -32,6 +33,8 @@ public class PostAppointment {
                 String query2 = "UPDATE appointment SET seen=1 WHERE date='"+date+"' AND startTime='"+startTime+"' AND endTime='"+endTime+"';";
                 stmt.executeUpdate(query2);
                 JOptionPane.showMessageDialog(null,"Patient has been marked as seen.");
+                stmt.close();
+                con.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }

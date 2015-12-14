@@ -67,13 +67,15 @@ public class Database {
                     patientList[i] = fullDetails;
                     i += 1;
                 }
+                patients.close();
+                stmt.close();
+                con.close();
                 name = (String) JOptionPane.showInputDialog(null, "Select the patient", "View Patient", JOptionPane.QUESTION_MESSAGE,
                         null, patientList, patientList[0]);
             } else {
                 JOptionPane.showMessageDialog(null, "No patients live at this postcode");
                 return null;
             }
-            patients.close();
             String forename = name.split(",")[0];
             String surname = name.split(",")[1];
             String addressid = name.split(",")[2];
@@ -117,6 +119,9 @@ public class Database {
                     patientList[i] = fullDetails;
                     i += 1;
                 }
+                appointments.close();
+                stmt.close();
+                con.close();
                 appointment = (String) JOptionPane.showInputDialog(null, "Select the patient", "View Patient", JOptionPane.QUESTION_MESSAGE,
                         null, patientList, patientList[0]);
                 appointment = appointment.split(",")[0];
@@ -125,7 +130,8 @@ public class Database {
                 JOptionPane.showMessageDialog(null, "No appointments on that date for that parner");
                 return null;
             }
-        } catch(IllegalAccessException e) {
+        } catch(NullPointerException e) {
+        } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (InstantiationException e) {
             e.printStackTrace();
@@ -169,6 +175,9 @@ public class Database {
                     partnerLookup.put(fullDetails,partners.getInt("id"));
                     i += 1;
                 }
+                partners.close();
+                stmt.close();
+                con.close();
                 name = (String) JOptionPane.showInputDialog(null, "Select partner name", "View Patient", JOptionPane.QUESTION_MESSAGE,
                         null, partnerList, partnerList[0]);
                 return partnerLookup.get(name);
@@ -184,6 +193,7 @@ public class Database {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
+        } catch (NullPointerException e) {
         }
         return -1;
     }
