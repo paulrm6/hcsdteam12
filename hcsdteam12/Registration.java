@@ -7,6 +7,7 @@ package hcsdteam12;
 
 import javax.swing.*;
 import javax.swing.text.MaskFormatter;
+import javax.xml.crypto.Data;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -175,38 +176,14 @@ public class Registration extends JFrame {
 
         view.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                String[] details = Database.getPatient();
+                String forenameView = details[0];
+                String surnameView = details[1];
+                String addressidView = details[2];
                 try {
-                    String postcodeView = JOptionPane.showInputDialog(null, "Enter the patients postcode:");
-                    postcodeView = postcodeView.replaceAll("\\s","");
-                    String name;
                     Class.forName("com.mysql.jdbc.Driver").newInstance();
                     Connection con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team012?user=team012&password=8b4c5e49");
                     Statement stmt = con.createStatement();
-                    String query = "SELECT forename, surname, addressid FROM patients JOIN address ON patients.addressid = address.id WHERE address.postcode='"+postcodeView+"';";
-                    ResultSet patients = stmt.executeQuery(query);
-                    if (patients.next()) {
-                        patients.last();
-                        String[] patientList = new String[patients.getRow()];
-                        patients.absolute(0);
-                        int i = 0;
-                        while (patients.next()) {
-                            String fore = patients.getString("forename");
-                            String sur = patients.getString("surname");
-                            String addressid = patients.getString("addressid");
-                            String fullname = sur+", "+fore+", "+addressid;
-                            patientList[i] = fullname;
-                            i += 1;
-                        }
-                        name = (String) JOptionPane.showInputDialog(null, "Select the patient", "View Patient", JOptionPane.QUESTION_MESSAGE,
-                                null, patientList, patientList[0]);
-                    } else {
-                        JOptionPane.showMessageDialog(null, "No patients live at this address");
-                        return;
-                    }
-                    patients.close();
-                    String surnameView = name.split(", ")[0];
-                    String forenameView = name.split(", ")[1];
-                    String addressidView = name.split(", ")[2];
                     String query2 = "SELECT patients.id, title, forename, surname, dob, patients.number, address.number, streetname, districtname, cityname, postcode FROM patients JOIN address ON patients.addressid=address.id " +
                             "WHERE forename='"+forenameView+"' AND surname='"+surnameView+"' AND addressid='"+addressidView+"';";
                     ResultSet patient = stmt.executeQuery(query2);

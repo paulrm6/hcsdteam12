@@ -16,7 +16,7 @@ public class Treatments extends JFrame{
     private JLabel totalCostLabel;
 
     public Treatments() {
-        int id = getPatientId();
+        int id = Database.getPatientID();
         if (id != 0) {
             JFrame frame = new JFrame();
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -61,59 +61,6 @@ public class Treatments extends JFrame{
             setSize(300, 400);
             setVisible(true);
         }
-    }
-
-    public int getPatientId() {
-        try {
-            String postcode = JOptionPane.showInputDialog(null, "Enter the patients postcode:");
-            postcode = postcode.replaceAll("\\s","");
-            Class.forName("com.mysql.jdbc.Driver").newInstance();
-            Connection con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team012?user=team012&password=8b4c5e49");
-            Statement stmt = con.createStatement();
-            String query = "SELECT forename, surname, addressid FROM patients JOIN address ON patients.addressid = address.id WHERE postcode='"+postcode+"';";
-            ResultSet patients = stmt.executeQuery(query);
-            String name = "";
-            if (patients.next()) {
-                patients.last();
-                String[] patientList = new String[patients.getRow()];
-                patients.absolute(0);
-                int i = 0;
-                while (patients.next()) {
-                    String fore = patients.getString("forename");
-                    String sur = patients.getString("surname");
-                    String addressid = patients.getString("addressid");
-                    String fullDetails = fore+","+sur+","+addressid;
-                    patientList[i] = fullDetails;
-                    i += 1;
-                }
-                name = (String) JOptionPane.showInputDialog(null, "Select the patient", "View Patient", JOptionPane.QUESTION_MESSAGE,
-                        null, patientList, patientList[0]);
-            } else {
-                JOptionPane.showMessageDialog(null, "No patients live at this postcode");
-                return 0;
-            }
-            patients.close();
-            String forename = name.split(",")[0];
-            String surname = name.split(",")[1];
-            String addressid = name.split(",")[2];
-            String query2 = "SELECT id FROM patients WHERE forename='"+forename+"' AND surname='"+surname+"' AND addressid='"+addressid+"';";
-            ResultSet patient = stmt.executeQuery(query2);
-            patient.next();
-            int patientId = patient.getInt("id");
-            patient.close();
-            return patientId;
-        } catch(NullPointerException e) {
-
-        } catch(IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        return 0;
     }
 
 }
