@@ -5,7 +5,7 @@ import java.sql.*;
 
 /**
  * Created by Adam on 14/12/2015.
- * Modified by Paul on 14/12/2015 to make minor SQL changes
+ * Modified by Paul on 14/12/2015 to make minor SQL and display changes
  */
 public class HealthcarePlans {
 
