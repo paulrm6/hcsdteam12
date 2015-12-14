@@ -15,8 +15,6 @@ public class PostAppointment {
             String startTime = details[1];
             String endTime = details[2];
 
-            System.out.println(date+startTime+endTime);
-
             try {
                 Connection con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team012?user=team012&password=8b4c5e49");
                 Statement stmt = con.createStatement();
@@ -24,7 +22,7 @@ public class PostAppointment {
                 ResultSet appointment = stmt.executeQuery(query);
                 appointment.next();
                 int patientid = appointment.getInt("patientid");
-                int reply = JOptionPane.YES_OPTION;
+                int reply;
                 do {
                     reply = JOptionPane.showConfirmDialog(null, "Would you like to add a treatment to this appointment?", null, JOptionPane.YES_NO_OPTION);
                     if(reply == JOptionPane.YES_OPTION) {
