@@ -176,12 +176,13 @@ public class Registration extends JFrame {
                 String postcodeView = JOptionPane.showInputDialog(null, "Enter the patients postcode:");
                 String forenameView;
                 String surnameView;
+                String houseNumber = JOptionPane.showInputDialog(null, "Enter the patients house Number:");
                 String name;
                 try {
                     Class.forName("com.mysql.jdbc.Driver").newInstance();
                     Connection con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team012?user=team012&password=8b4c5e49");
                     Statement stmt = con.createStatement();
-                    String query = "SELECT forename, surname FROM patients JOIN address ON patients.addressid = address.id WHERE postcode='"+postcodeView+"';";
+                    String query = "SELECT forename, surname FROM patients JOIN address ON patients.addressid = address.id WHERE address.id='"+houseNumber+postcodeView+"';";
                     ResultSet patients = stmt.executeQuery(query);
                     if (patients.next()) {
                         patients.last();
