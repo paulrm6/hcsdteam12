@@ -4,9 +4,6 @@ import java.sql.*;
 
 /**
  * Created by Paul on 15/12/2015.
- * I declare that this code is my own work.
- * prmacdonald1@sheffield.ac.uk
- * 1350155458
  */
 public class Appointment {
     private String date, startTime, endTime, newDate, newStartTime, newEndTime;
