@@ -31,26 +31,6 @@ public class CalendarOptionsBar extends JToolBar {
         add(cancelAppointmentButton);
         toggles.addElement(cancelAppointmentButton);
 
-        previousMonthButton = new JButton("Previous Month");
-        add(previousMonthButton);
-        toggles.addElement(previousMonthButton);
-
-        nextMonthButton = new JButton("Next Month");
-        add(nextMonthButton);
-        toggles.addElement(nextMonthButton);
-
-        previousYearButton = new JButton("Previous Year");
-        add(previousYearButton);
-        toggles.addElement(previousYearButton);
-
-        nextYearButton = new JButton("Next Year");
-        add(nextYearButton);
-        toggles.addElement(nextYearButton);
-
-        closeCalendar = new JButton("Close Calendar");
-        add(closeCalendar);
-        toggles.addElement(closeCalendar);
-
         setListener(component);
     }
 
