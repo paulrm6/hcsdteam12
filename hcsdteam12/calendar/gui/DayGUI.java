@@ -12,7 +12,6 @@ import javax.swing.*;
 
 public class DayGUI extends JPanel {
 	private static final long serialVersionUID = 1L;
-	
 	public JLabel narrativeText; //JLabel stores date in text form
 	private Day day; //Day object
 	

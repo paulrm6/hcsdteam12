@@ -10,12 +10,7 @@ import org.w3c.dom.Element;
 
 public class Appointment {
     public static final int NO_REMINDER = -1;
-    public static final int WEEKLY_REOCCURENCE = 1;
-    public static final int MONTHLY_REOCCURENCE = 2;
-    public static final int YEARLY_REOCCURENCE = 3;
-    public static final int INFINITE_REOCCURENCE = 1000;
-    public static final int NO_REOCCURENCE = 0;
-    private static final int TIME_NOT_SET = -1;
+    public static final int WEEKLY_REOCCURENCE = 1, MONTHLY_REOCCURENCE = 2, YEARLY_REOCCURENCE = 3, INFINITE_REOCCURENCE = 1000, NO_REOCCURENCE = 0, TIME_NOT_SET = -1;
     private boolean legitimate;
 
     private int startHour, startMinute, startDay, startMonth, startYear, duration, alert;
