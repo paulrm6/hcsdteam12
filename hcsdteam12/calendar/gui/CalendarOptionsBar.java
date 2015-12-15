@@ -14,8 +14,8 @@ import java.util.Vector;
 
 public class CalendarOptionsBar extends JToolBar {
     private static final long serialVersionUID = 1L;
-    public static JButton makeAppointmentButton, cancelAppointmentButton;
-    public static JButton nextMonthButton, previousMonthButton, previousYearButton, nextYearButton, closeCalendar;
+    public static JButton makeAppointmentButton, cancelAppointmentButton, dentistButton,
+                            hygienistButton, secretaryButton;
     private Vector toggles;
 
     // Launches every JButton objects and inserts them into the calendar' options bar
@@ -31,25 +31,17 @@ public class CalendarOptionsBar extends JToolBar {
         add(cancelAppointmentButton);
         toggles.addElement(cancelAppointmentButton);
 
-        previousMonthButton = new JButton("Previous Month");
-        add(previousMonthButton);
-        toggles.addElement(previousMonthButton);
+        dentistButton = new JButton("Dentist");
+        toggles.addElement(dentistButton);
+        add(dentistButton);
 
-        nextMonthButton = new JButton("Next Month");
-        add(nextMonthButton);
-        toggles.addElement(nextMonthButton);
+        hygienistButton = new JButton("Hygienist");
+        toggles.addElement(hygienistButton);
+        add(hygienistButton);
 
-        previousYearButton = new JButton("Previous Year");
-        add(previousYearButton);
-        toggles.addElement(previousYearButton);
-
-        nextYearButton = new JButton("Next Year");
-        add(nextYearButton);
-        toggles.addElement(nextYearButton);
-
-        closeCalendar = new JButton("Close Calendar");
-        add(closeCalendar);
-        toggles.addElement(closeCalendar);
+        secretaryButton = new JButton("Secretary");
+        toggles.addElement(secretaryButton);
+        add(secretaryButton);
 
         setListener(component);
     }
