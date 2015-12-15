@@ -124,50 +124,23 @@ public class Registration extends JFrame {
         add(city, 1, 9, 1, 1);
         add(postcode, 1, 10, 1, 1);
         add(register, 1, 11, 1, 1); // button
-        add(close, 0, 13, 1, 1); // button
         add(view, 0, 0, 1, 1); // button
         add(update, 0, 11, 1, 1); // button
-
-        // Action for close button
-        close.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                setVisible(false);
-                dispose();
-            }
-        });
 
         // Check for valid entry and adds details into database if valid, otherwise, returns an error
         register.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 confirm.setText("");
                 if (validEntry()) {
-                    try {
-                        Class.forName("com.mysql.jdbc.Driver").newInstance();
-                        Connection con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team012?user=team012&password=8b4c5e49");
-                        Statement stmt = con.createStatement();
-                        String postcode = Registration.this.postcode.getText().replaceAll("\\s", "");
-                        String dob = Database.changeDateFromForm(Registration.this.dob.getText());
-                        if (!addressExists(con, house.getText(), postcode)) {
-                            String query = "INSERT INTO address VALUES ('" + house.getText() + postcode + "','" + house.getText() + "','" + street.getText() + "','" + district.getText() + "','" + city.getText() + "','" + postcode + "');";
-                            stmt.executeUpdate(query);
-                        }
-                        if (!personExists(con, forename.getText(), surname.getText(), dob, house.getText(), postcode)) {
-                            String query2 = "INSERT INTO patients(title, forename, surname, dob, number, addressid, outstanding_bill) VALUES ('" + title.getSelectedItem() + "','" + forename.getText() + "','" + surname.getText() + "','" + dob + "','" + phone.getText() + "','" + house.getText() + postcode + "', 0);";
-                            stmt.executeUpdate(query2);
-                            confirm.setForeground(Color.GREEN);
-                            confirm.setText("Added successfully");
-                        }
-                        stmt.close();
-                        con.close();
-                    } catch (IllegalAccessException e1) {
-                        e1.printStackTrace();
-                    } catch (InstantiationException e1) {
-                        e1.printStackTrace();
-                    } catch (SQLException e1) {
-                        e1.printStackTrace();
-                    } catch (ClassNotFoundException e1) {
-                        e1.printStackTrace();
+                    String dob = Database.changeDateFromForm(Registration.this.dob.getText());
+                    if(Patient.create((String) title.getSelectedItem(),forename.getText(),surname.getText(),dob,phone.getText()
+                            ,house.getText(),street.getText(),district.getText(),city.getText()
+                            ,postcode.getText())!=null) {
+                        confirm.setForeground(Color.GREEN);
+                        confirm.setText("Added successfully");
+                    } else {
+                        confirm.setForeground(Color.RED);
+                        confirm.setText("Add successful");
                     }
                 }
             }
@@ -181,45 +154,19 @@ public class Registration extends JFrame {
         // Retrieves information about a patient after taking postcode and selecting their name
         view.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String[] details = Database.getPatient();
-                if (details != null) {
-                    String forenameView = details[0];
-                    String surnameView = details[1];
-                    String addressidView = details[2];
-                    try {
-                        Class.forName("com.mysql.jdbc.Driver").newInstance();
-                        Connection con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team012?user=team012&password=8b4c5e49");
-                        Statement stmt = con.createStatement();
-                        String query2 = "SELECT patients.id, title, forename, surname, dob, patients.number, " +
-                                "address.number, streetname, districtname, cityname, postcode FROM patients JOIN address ON patients.addressid=address.id " +
-                                "WHERE forename='" + forenameView + "' AND surname='" + surnameView + "' AND addressid='" + addressidView + "';";
-                        ResultSet patient = stmt.executeQuery(query2);
-                        patient.next();
-                        title.setSelectedItem(patient.getString("title"));
-                        forename.setText(patient.getString("forename"));
-                        surname.setText(patient.getString("surname"));
-                        dob.setText(Database.changeDateFromDatabase(patient.getString("dob")));
-                        phone.setText(patient.getString("patients.number"));
-                        house.setText(patient.getString("address.number"));
-                        street.setText(patient.getString("streetname"));
-                        district.setText(patient.getString("districtname"));
-                        city.setText(patient.getString("cityname"));
-                        postcode.setText(patient.getString("postcode"));
-                        currentPatient = patient.getInt("patients.id");
-                        patient.close();
-                        stmt.close();
-                        con.close();
-                    } catch (NullPointerException e1) {
-
-                    } catch (IllegalAccessException e1) {
-                        e1.printStackTrace();
-                    } catch (InstantiationException e1) {
-                        e1.printStackTrace();
-                    } catch (SQLException e1) {
-                        e1.printStackTrace();
-                    } catch (ClassNotFoundException e1) {
-                        e1.printStackTrace();
-                    }
+                Patient patient = Database.getPatient();
+                if (patient != null) {
+                        title.setSelectedItem(patient.getTitle());
+                        forename.setText(patient.getForename());
+                        surname.setText(patient.getSurname());
+                        dob.setText(Database.changeDateFromDatabase(patient.getDob()));
+                        phone.setText(patient.getPhoneNumber());
+                        house.setText(patient.getHouseNumber());
+                        street.setText(patient.getStreetName());
+                        district.setText(patient.getDistrictName());
+                        city.setText(patient.getCityName());
+                        postcode.setText(patient.getPostcode());
+                        currentPatient = patient.getId();
                 }
             }
         });
@@ -230,32 +177,24 @@ public class Registration extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 confirm.setText("");
                 if (validEntry()) {
-                    try {
-                        Class.forName("com.mysql.jdbc.Driver").newInstance();
-                        Connection con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team012?user=team012&password=8b4c5e49");
-                        Statement stmt = con.createStatement();
-                        String postcode = Registration.this.postcode.getText().replaceAll("\\s", "");
-                        String dob = Database.changeDateFromForm(Registration.this.dob.getText());
-                        if (!addressExists(con, house.getText(), postcode)) {
-                            String query = "INSERT INTO address VALUES ('" + house.getText() + postcode + "','" + house.getText() + "','" + street.getText() + "','" + district.getText() + "','" + city.getText() + "','" + postcode + "');";
-                            stmt.executeUpdate(query);
-                        }
-                        //Needs code to remove redudant addresses
-                        String query = "UPDATE patients SET title='" + title.getSelectedItem() + "', forename='" + forename.getText() + "', surname='" +
-                                surname.getText() + "', dob='" + dob + "', number='" + phone.getText() + "', addressid='" + house.getText() + postcode + "' WHERE id=" + currentPatient + ";";
-                        stmt.executeUpdate(query);
+                    String dob = Database.changeDateFromForm(Registration.this.dob.getText());
+                    Patient patient = new Patient(currentPatient);
+                    patient.setTitle((String) title.getSelectedItem());
+                    patient.setForename(forename.getText());
+                    patient.setSurname(surname.getText());
+                    patient.setDob(dob);
+                    patient.setPhoneNumber(phone.getText());
+                    patient.setHouseNumber(house.getText());
+                    patient.setStreetName(street.getText());
+                    patient.setDistrictName(district.getText());
+                    patient.setCityName(city.getText());
+                    patient.setPostcode(postcode.getText());
+                    if(patient.update()) {
                         confirm.setForeground(Color.GREEN);
                         confirm.setText("Updated successfully");
-                        stmt.close();
-                        con.close();
-                    } catch (IllegalAccessException e1) {
-                        e1.printStackTrace();
-                    } catch (InstantiationException e1) {
-                        e1.printStackTrace();
-                    } catch (SQLException e1) {
-                        e1.printStackTrace();
-                    } catch (ClassNotFoundException e1) {
-                        e1.printStackTrace();
+                    } else {
+                        confirm.setForeground(Color.RED);
+                        confirm.setText("Updated unsuccessfully");
                     }
                 }
             }
@@ -322,31 +261,6 @@ public class Registration extends JFrame {
             state = false;
         }
         return state;
-    }
-
-    private boolean addressExists(Connection con, String house, String postcode) throws SQLException {
-        String s1 = "SELECT * FROM address WHERE id='" + house + postcode + "';";
-        Statement stmt = con.createStatement();
-        if (!stmt.executeQuery(s1).next()) {
-            stmt.close();
-            return false;
-        } else {
-            stmt.close();
-            return true;
-        }
-    }
-
-    private boolean personExists(Connection con, String forename, String surname, String dob, String house, String postcode) throws SQLException {
-        String s1 = "SELECT * FROM patients WHERE forename='" + forename + "' AND surname='" + surname + "' AND dob='" + dob + "' AND addressid='" + house + postcode + "';";
-        Statement stmt = con.createStatement();
-        if (!stmt.executeQuery(s1).next()) {
-            stmt.close();
-            return false;
-        } else {
-            stmt.close();
-            JOptionPane.showMessageDialog(null, "Patient already exists");
-            return true;
-        }
     }
 
     // Formatting for validation if there is an error
