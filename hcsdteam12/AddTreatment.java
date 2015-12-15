@@ -33,6 +33,10 @@ public class AddTreatment {
                         treatmentList, treatmentList[0]);
                 String query5;
                 if (treatment != null) {
+                    //Checks if treatment is covered or not and updates the covered column
+                    //User patient id to get plan_name, then use plan_name to check service level
+                    //See how many are already covered of a certain type
+                    //Check how many already covered
                     query5 = "INSERT into treatments_given (patientid, treatment_name) VALUES ('" + patientID + "','" + treatment + "')";
                     stmt.executeUpdate(query5);
                 }
