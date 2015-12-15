@@ -7,13 +7,8 @@ import java.sql.*;
  */
 public class Appointment {
     private String date, startTime, endTime, newDate, newStartTime, newEndTime;
-    private int patientid;
-    private int partnerid;
-
-    private int seen;
-    private int newPatientid;
-    private int newPartnerid;
-    private int newSeen;
+    private int patientid,partnerid;
+    private int seen,newPatientid,newPartnerid,newSeen;
     private String patientForename, patientSurname, addressid;
     private String partnerForename, partnerSurname, role;
     private boolean exists = true;
@@ -128,7 +123,7 @@ public class Appointment {
      *
      * @return a boolean indicating success
      */
-    public boolean updateAppointment() {
+    public boolean update() {
         if(checkForClash(newDate,newStartTime,newEndTime,newPartnerid)) {
             return false;
         }
@@ -166,7 +161,7 @@ public class Appointment {
      *
      * @return boolean indication of success
      */
-    public boolean deleteAppointment() {
+    public boolean delete() {
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
             Connection con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team012?user=team012&password=8b4c5e49");

@@ -190,7 +190,8 @@ public class Registration extends JFrame {
                         Class.forName("com.mysql.jdbc.Driver").newInstance();
                         Connection con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team012?user=team012&password=8b4c5e49");
                         Statement stmt = con.createStatement();
-                        String query2 = "SELECT patients.id, title, forename, surname, dob, patients.number, address.number, streetname, districtname, cityname, postcode FROM patients JOIN address ON patients.addressid=address.id " +
+                        String query2 = "SELECT patients.id, title, forename, surname, dob, patients.number, " +
+                                "address.number, streetname, districtname, cityname, postcode FROM patients JOIN address ON patients.addressid=address.id " +
                                 "WHERE forename='" + forenameView + "' AND surname='" + surnameView + "' AND addressid='" + addressidView + "';";
                         ResultSet patient = stmt.executeQuery(query2);
                         patient.next();

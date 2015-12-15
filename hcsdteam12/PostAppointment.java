@@ -18,7 +18,7 @@ public class PostAppointment {
                 }
             } while (reply == JOptionPane.YES_OPTION);
             appointment.setSeen(1);
-            if (appointment.updateAppointment()) {
+            if (appointment.update()) {
                 JOptionPane.showMessageDialog(null, "Patient has been marked as seen.");
             }
         }
