@@ -47,7 +47,6 @@ public class CalendarFrame extends javax.swing.JFrame implements ActionListener,
 
             //Get information about current date
             present = Calendar.getInstance();
-            present = Calendar.getInstance();
             presentDay = present.get(Calendar.DAY_OF_MONTH);
             presentMonth = present.get(Calendar.MONTH);
             presentYear = present.get(Calendar.YEAR);
@@ -91,39 +90,6 @@ public class CalendarFrame extends javax.swing.JFrame implements ActionListener,
         Object toggle = action.getSource();
         if (toggle == CalendarOptionsBar.makeAppointmentButton) {
             new AppointmentForm(this, "Add New Appointment", true).show();
-        }
-
-        if (toggle == CalendarOptionsBar.nextMonthButton) {
-            if (presentMonth == 11) {
-                presentMonth = 0;
-                presentYear++;
-
-            } else {
-                presentMonth++;
-
-            }
-        }
-
-        if (toggle == CalendarOptionsBar.previousMonthButton) {
-            if (presentMonth == 0) {
-                presentMonth = 11;
-                presentYear--;
-            } else {
-                presentMonth--;
-            }
-        }
-
-        if (toggle == CalendarOptionsBar.nextYearButton) {
-            presentYear++;
-        }
-
-        if (toggle == CalendarOptionsBar.previousYearButton) {
-            presentYear--;
-        }
-
-        if (toggle == CalendarOptionsBar.closeCalendar) {
-            setVisible(false);
-            dispose();
         }
 
         reviseCalendar(presentMonth, presentYear); //Retrieve a new set of calendar data after requesting for a specific month and year
