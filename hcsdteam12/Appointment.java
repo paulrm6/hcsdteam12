@@ -41,9 +41,6 @@ public class Appointment {
             newPatientid = this.patientid;
             newPartnerid = this.partnerid;
             newSeen = this.seen;
-
-        } else {
-            System.out.println("Doesn't Exist");
         }
     }
 
@@ -189,6 +186,32 @@ public class Appointment {
         return false;
     }
 
+    /**
+     * Finds if there is a clash for an appointment
+     * @param date the date (yyyy-MM-dd)
+     * @param startTime the start time (hh:mm:ss)
+     * @param endTime the end time (hh:mm:ss)
+     * @param partnerid the parter id
+     * @return true if there is a clash, false if there isn't
+     */
+    public static boolean checkForClash(String date, String startTime, String endTime, int partnerid) {
+        Appointment[] Appointments = getAppointments(date,partnerid);
+        boolean clash = false;
+        if(Appointments==null) {
+            return false;
+        }
+        for(Appointment appointment: Appointments) {
+            if(appointment == null) {
+                return false;
+            }
+            if (timeToMins(appointment.startTime) < timeToMins(endTime) &&
+                    timeToMins(appointment.endTime) > timeToMins(startTime)) {
+                clash = true;
+            }
+        }
+        return clash;
+    }
+
     public String getDate() {
         return date;
     }
@@ -234,11 +257,15 @@ public class Appointment {
     }
 
     public String getDuration() {
-        int startTimeMins = Integer.parseInt(startTime.split(":")[0]) * 60 + Integer.parseInt(startTime.split(":")[1]);
-        int endTimeMins = Integer.parseInt(endTime.split(":")[0]) * 60 + Integer.parseInt(endTime.split(":")[1]);
+        int startTimeMins = timeToMins(startTime);
+        int endTimeMins = timeToMins(endTime);
         int durationMins = endTimeMins - startTimeMins;
         String duration = (durationMins / 60) + ":" + (durationMins % 60) + ":00";
         return duration;
+    }
+
+    private static int timeToMins(String time) {
+        return Integer.parseInt(time.split(":")[0]) * 60 + Integer.parseInt(time.split(":")[1]);
     }
 
     public int getSeen() {
@@ -309,9 +336,12 @@ public class Appointment {
      * @param endTime end time of the appointment (hh:mm:ss)
      * @param patientid the id of the patient (null if holiday)
      * @param partnerid the id of the partner
-     * @return The newly created appointment as an Appointment
+     * @return The newly created appointment as an Appointment or null if it overlaps another appointment
      */
     public static Appointment createAppointment(String date, String startTime, String endTime, int patientid, int partnerid) {
+        if(checkForClash(date,startTime,endTime,partnerid)) {
+            return null;
+        }
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
             Connection con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team012?user=team012&password=8b4c5e49");
