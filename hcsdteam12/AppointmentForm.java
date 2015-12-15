@@ -107,15 +107,15 @@ public class AppointmentForm extends JFrame {
         add(confirm, 1, 13, 1, 1);
 
         // Laying out the components with GridBagConstraint
-        add(patientName, 1, 1, 1, 1);
-        add(partnerName, 1, 2, 1, 1);
-        add(date, 1, 3, 1, 1);
+        add(patientName, 1, 1, 2, 1);
+        add(partnerName, 1, 2, 2, 1);
+        add(date, 1, 3, 2, 1);
         add(startH, 1, 4, 1, 1);
-        add(startM, 1, 4, 1, 1);
+        add(startM, 2, 4, 1, 1);
         add(endH, 1, 5, 1, 1);
-        add(endM, 1, 5, 1, 1);
-        add(addAppointment, 1, 6, 1, 1); // button
-        add(view, 0, 7, 1, 1); // button
+        add(endM, 2, 5, 1, 1);
+        add(addAppointment, 1, 6, 2, 1); // button
+        add(view, 0, 7, 2, 1); // button
         add(update, 0, 6, 1, 1); // button
 
         // Check for valid entry and adds details into database if valid, otherwise, returns an error
@@ -123,7 +123,8 @@ public class AppointmentForm extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 confirm.setText("");
                 if (validEntry()) {
-                    if (Appointment.create(date.getText(), startTime.getText(), endTime.getText(), currentPatient, currentPartner) != null) {
+                    if (Appointment.create(date.getText(), startH.getSelectedItem().toString()+":"+startM.getSelectedItem().toString()+":00",
+                            endH.getSelectedItem().toString()+":"+endM.getSelectedItem().toString()+":00", currentPatient, currentPartner) != null) {
                         confirm.setForeground(Color.GREEN);
                         confirm.setText("Added successfully");
                     } else {
@@ -156,8 +157,8 @@ public class AppointmentForm extends JFrame {
                     Appointment appointment = new Appointment(currentDate, currentStartTime, currentPartner);
                     if(appointment!=null) {
                         appointment.setDate(date.getText());
-                        appointment.setStartTime(startTime.getText());
-                        appointment.setEndTime(endTime.getText());
+                        appointment.setStartTime(startH.getSelectedItem().toString()+":"+startM.getSelectedItem().toString()+":00");
+                        appointment.setEndTime(endH.getSelectedItem().toString()+":"+endM.getSelectedItem().toString()+":00");
                         appointment.setPatientid(currentPatient);
                         appointment.setPartnerid(currentPartner);
                         if (appointment.update()) {
@@ -179,8 +180,10 @@ public class AppointmentForm extends JFrame {
     private void update(Appointment appointment) {
         if (appointment.isExists()) {
             date.setText(appointment.getDate());
-            startTime.setText(appointment.getStartTime());
-            endTime.setText(appointment.getEndTime());
+            startH.setSelectedItem(appointment.getStartHour());
+            startM.setSelectedItem(appointment.getStartMinute());
+            endH.setSelectedItem(appointment.getEndHour());
+            endM.setSelectedItem(appointment.getEndMinute());
             Patient patient = new Patient(appointment.getPatientid());
             patientName.setText(patient.getForename()+" "+patient.getSurname());
             Partner partner = new Partner(appointment.getPartnerid());
@@ -202,18 +205,6 @@ public class AppointmentForm extends JFrame {
             valSuccess(dateError);
         } else {
             valError(dateError);
-            state = false;
-        }
-        if (startTime.getText().toString().matches("([0-9]{2}):([0-9]{2}):([0-9]{2})")) {
-            valSuccess(startTimeError);
-        } else {
-            valError(startTimeError);
-            state = false;
-        }
-        if (endTime.getText().toString().matches("([0-9]{2}):([0-9]{2}):([0-9]{2})")) {
-            valSuccess(endTimeError);
-        } else {
-            valError(endTimeError);
             state = false;
         }
         return state;
