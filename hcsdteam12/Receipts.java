@@ -16,8 +16,7 @@ public class Receipts extends JFrame {
     private static final long serialVersionUID = 1L;
     // Creation of all variables needed for the form
     private JLabel totalCostLabel;
-    private JButton paid = new JButton("Paid?");;
-    private JFrame frame = new JFrame();
+    private JButton paid = new JButton("Paid?"); 
     private int id;
 
     public Receipts() {
