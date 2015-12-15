@@ -33,16 +33,34 @@ public class AddTreatment {
                         treatmentList, treatmentList[0]);
                 String query5;
                 if (treatment != null) {
-                    //Checks if treatment is covered or not and updates the covered column
-                    //User patient id to get plan_name, then use plan_name to check service level
-                    //See how many are already covered of a certain type
-                    //Check how many already covered
-                    query5 = "INSERT into treatments_given (patientid, treatment_name) VALUES ('" + patientID + "','" + treatment + "')";
+                    String query7 = "SELECT type FROM treatments WHERE name='"+treatment+"';";
+                    ResultSet type = stmt.executeQuery(query7);
+                    type.next();
+                    String treatmentType = type.getString("type");
+                    type.close();
+                    String query8 = "SELECT COUNT(*) AS used FROM treatments_given INNER JOIN treatments ON treatments_given.treatment_name=treatments.name WHERE patientid="+patientID+" AND covered=1 AND DATEDIFF(NOW(), date_given) < 365 AND type='"+treatmentType+"'";
+                    ResultSet current = stmt.executeQuery(query8);
+                    current.next();
+                    int currentUsed = current.getInt("used");
+                    current.close();
+                    treatmentType = treatmentType.replaceAll("\\s+","");
+                    String query9 = "SELECT serviceLvl"+treatmentType+" FROM healthcare_plan INNER JOIN patients ON healthcare_plan.name=patients.plan_name WHERE id="+patientID+";";
+                    ResultSet total = stmt.executeQuery(query9);
+                    total.next();
+                    int totalAmount = total.getInt("serviceLvl"+treatmentType);
+                    total.close();
+                    int coveredLeft = totalAmount - currentUsed;
+                    if (coveredLeft > 0) {
+                        query5 = "INSERT into treatments_given (patientid, treatment_name, paid, covered, date_given) VALUES ('" + patientID + "','" + treatment + "', 1, 1, CURDATE())";
+                    } else {
+                        query5 = "INSERT into treatments_given (patientid, treatment_name, covered, date_given) VALUES ('" + patientID + "','" + treatment + "', 0, CURDATE())";
+                    }
                     stmt.executeUpdate(query5);
                 }
             } else {
                 JOptionPane.showMessageDialog(null, "No treatment plans exist.");
             }
+            treatments.close();
             stmt.close();
             con.close();
         } catch (IllegalAccessException e) {
