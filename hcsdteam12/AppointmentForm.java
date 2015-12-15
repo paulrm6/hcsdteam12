@@ -54,7 +54,7 @@ public class AppointmentForm extends JFrame {
     private void createForm() {
         //set properties of the frame
         String[] hours = new String[]{"09","10","11","12","13","14","15","16"};
-        String[] minutes = new String[]{"00","05","10","15","20","25","30","35","40","45","50","55",};
+        String[] minutes = new String[]{"00","05","10","15","20","25","30","35","40","45","50","55"};
         setTitle("Appointment Form");
         setLayout(new GridBagLayout());
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
