@@ -15,7 +15,7 @@ public class Treatments extends JFrame {
     private JLabel totalCostLabel;
 
     public Treatments() {
-        int id = Database.getPatientID();
+        int id = Prompt.getPatientID();
         if (id != 0) {
             JFrame frame = new JFrame();
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

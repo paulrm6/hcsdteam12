@@ -8,7 +8,7 @@ import java.util.Map;
 /**
  * Created by Paul on 14/12/2015.
  */
-public class Database {
+public class Prompt {
     public static int getPatientID() {
         Patient patient = getPatient();
         if(patient != null) {

@@ -8,7 +8,7 @@ import javax.swing.*;
 public class PostAppointment {
 
     public PostAppointment() {
-        Appointment appointment = Database.getAppointment();
+        Appointment appointment = Prompt.getAppointment();
         if (appointment != null) {
             int reply;
             do {

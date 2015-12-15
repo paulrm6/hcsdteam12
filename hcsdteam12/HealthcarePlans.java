@@ -10,7 +10,7 @@ import java.sql.*;
 public class HealthcarePlans {
 
     public HealthcarePlans() {
-        Patient patient = Database.getPatient();
+        Patient patient = Prompt.getPatient();
         if (patient != null) {
             try {
                 Class.forName("com.mysql.jdbc.Driver").newInstance();

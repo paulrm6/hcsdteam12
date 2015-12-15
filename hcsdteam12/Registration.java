@@ -10,7 +10,6 @@ import javax.swing.text.MaskFormatter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.*;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -132,7 +131,7 @@ public class Registration extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 confirm.setText("");
                 if (validEntry()) {
-                    String dob = Database.changeDateFromForm(Registration.this.dob.getText());
+                    String dob = Prompt.changeDateFromForm(Registration.this.dob.getText());
                     if(Patient.create((String) title.getSelectedItem(),forename.getText(),surname.getText(),dob,phone.getText()
                             ,house.getText(),street.getText(),district.getText(),city.getText()
                             ,postcode.getText())!=null) {
@@ -154,12 +153,12 @@ public class Registration extends JFrame {
         // Retrieves information about a patient after taking postcode and selecting their name
         view.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                Patient patient = Database.getPatient();
+                Patient patient = Prompt.getPatient();
                 if (patient != null) {
                         title.setSelectedItem(patient.getTitle());
                         forename.setText(patient.getForename());
                         surname.setText(patient.getSurname());
-                        dob.setText(Database.changeDateFromDatabase(patient.getDob()));
+                        dob.setText(Prompt.changeDateFromDatabase(patient.getDob()));
                         phone.setText(patient.getPhoneNumber());
                         house.setText(patient.getHouseNumber());
                         street.setText(patient.getStreetName());
@@ -177,7 +176,7 @@ public class Registration extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 confirm.setText("");
                 if (validEntry()) {
-                    String dob = Database.changeDateFromForm(Registration.this.dob.getText());
+                    String dob = Prompt.changeDateFromForm(Registration.this.dob.getText());
                     Patient patient = new Patient(currentPatient);
                     patient.setTitle((String) title.getSelectedItem());
                     patient.setForename(forename.getText());
