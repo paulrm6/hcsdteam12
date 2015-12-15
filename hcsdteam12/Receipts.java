@@ -9,6 +9,7 @@ import java.sql.*;
 /**
  * Created by Adam on 14/12/2015.
  * Modified by Terence Kong on 14/12/2015, to remove unused import.
+ * Modified by Joseph Chung on 15/12/2015 (layout)
  */
 public class Receipts extends JFrame {
 
