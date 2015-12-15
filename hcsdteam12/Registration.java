@@ -191,7 +191,7 @@ public class Registration extends JFrame {
                         confirm.setText("Updated successfully");
                     } else {
                         confirm.setForeground(Color.RED);
-                        confirm.setText("Updated unsuccessfully");
+                        confirm.setText("Update unsuccessful");
                     }
                 }
             }
