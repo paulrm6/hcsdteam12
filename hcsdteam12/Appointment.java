@@ -269,6 +269,50 @@ public class Appointment {
         return duration;
     }
 
+    public String getStartHour() {
+        return startTime.split(":")[0];
+    }
+
+    public String getStartMinute() {
+        return startTime.split(":")[1];
+    }
+
+    public String getEndHour() {
+        return endTime.split(":")[0];
+    }
+
+    public String getEndMinute() {
+        return endTime.split(":")[1];
+    }
+
+    public boolean setStartHour(String hour) {
+        if(setStartTime(hour+":"+getStartMinute()+":00")) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean setStartMinute(String minute) {
+        if(setStartTime(getStartHour()+":"+minute+":00")) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean setEndHour(String hour) {
+        if(setEndTime(hour+":"+getEndMinute()+":00")) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean setEndMinute(String minute) {
+        if(setEndTime(getEndHour()+":"+minute+":00")) {
+            return true;
+        }
+        return false;
+    }
+
     private static int timeToMins(String time) {
         return Integer.parseInt(time.split(":")[0]) * 60 + Integer.parseInt(time.split(":")[1]);
     }
