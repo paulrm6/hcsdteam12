@@ -2,6 +2,8 @@ package hcsdteam12;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.*;
 
 /**
@@ -13,12 +15,13 @@ public class Receipts extends JFrame {
     private static final long serialVersionUID = 1L;
     // Creation of all variables needed for the form
     private JLabel totalCostLabel;
+    private JButton paid = new JButton("Paid?");;
+    private JFrame frame = new JFrame();
+    private int id;
 
     public Receipts() {
-        int id = Prompt.getPatientID();
+        id = Prompt.getPatientID();
         if (id != 0) {
-            JFrame frame = new JFrame();
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             Object rowData[][] = {{}};
             try {
                 Class.forName("com.mysql.jdbc.Driver").newInstance();
@@ -44,13 +47,41 @@ public class Receipts extends JFrame {
                     double totalCost = 0;
                     for (int j = 0; j < rowData.length; j++) {
                         totalCost += Double.parseDouble(rowData[j][1].toString());
-                        System.out.println(totalCost);
                     }
+                    result.close();
+                    stmt.close();
+                    con.close();
                     totalCostLabel = new JLabel("Total cost: £" + totalCost);
-                    add(scrollPane, BorderLayout.CENTER);
-                    add(totalCostLabel, BorderLayout.SOUTH);
+                    setTitle("Receipt");
+                    setLayout(new GridBagLayout());
+                    setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                    add(scrollPane, 0, 0, 300, 300);
+                    add(totalCostLabel, 0, 1, 1, 1);
+                    add(paid, 1, 1, 1, 1);
                     setSize(300, 400);
                     setVisible(true);
+                    paid.addActionListener(new ActionListener() {
+                        public void actionPerformed(ActionEvent e) {
+                            try {
+                                Class.forName("com.mysql.jdbc.Driver").newInstance();
+                                Connection con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team012?user=team012&password=8b4c5e49");
+                                Statement stmt = con.createStatement();
+                                String query = "UPDATE treatments_given SET paid=1 WHERE patientid=" + id + " AND paid = 0;";
+                                stmt.executeUpdate(query);
+                                dispose();
+                                stmt.close();
+                                con.close();
+                            } catch (InstantiationException e1) {
+                                e1.printStackTrace();
+                            } catch (IllegalAccessException e1) {
+                                e1.printStackTrace();
+                            } catch (ClassNotFoundException e1) {
+                                e1.printStackTrace();
+                            } catch (SQLException e1) {
+                                e1.printStackTrace();
+                            }
+                        }
+                    });
                 } else {
                     JOptionPane.showMessageDialog(null, "This patient has no outstanding bills");
                 }
@@ -63,7 +94,9 @@ public class Receipts extends JFrame {
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
+
         }
+
     }
 
     public int updateTotalCostForPlan() {
@@ -71,4 +104,15 @@ public class Receipts extends JFrame {
         return 0;
     }
 
+    public void add(Component c, int x, int y, int w, int h) {
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = x;
+        gbc.gridy = y;
+        gbc.gridwidth = w;
+        gbc.gridheight = h;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.ipadx = 20;
+        gbc.ipady = 5;
+        add(c, gbc);
+    }
 }
