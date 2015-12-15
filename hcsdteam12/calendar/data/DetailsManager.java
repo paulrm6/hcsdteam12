@@ -267,114 +267,11 @@ public class DetailsManager {
         return null;
     }
     
-//    //Saves details of an appointment into the XML tree data structure.
-//    public boolean saveAppointment(Appointment consult) {
-//        if (!consult.isAppointmentLegitimate()) {
-//            return false; 
-//        }
-//        
-//        //Place the new appointment node into the XML tree data structure.
-//        Document rec = retrieveDocument();
-//        Element root = rec.getDocumentElement();
-//        Element consultationElement = rec.createElement("appointment");
-//        root.appendChild(consultationElement);
-//        
-//        //Grab the data of an appointment and place it into the XML data tree structure.
-//        Element startHourElement = rec.createElement("Start Hour"); //Make a new element node in order to house the info
-//        Text startHourText = rec.createTextNode(Integer.toString(consult.retrieveStartHour())); //Make a text node before storing the info
-//        startHourElement.appendChild(startHourText); //Child of an element node is the text node.
-//        consultationElement.appendChild(startHourElement); //The element is now the child of an appointment node.
-//        
-//        //The above is repeated for each element
-//        Element startMinute = rec.createElement("Start Minute");
-//        Text startMinuteText = rec.createTextNode(Integer.toString(consult.retrieveStartMinute()));
-//        startMinute.appendChild(startMinuteText);
-//        consultationElement.appendChild(startMinute);
-//        
-//        Element startDay = rec.createElement("Start Day");
-//        Text startDayText = rec.createTextNode(Integer.toString(consult.retrieveStartDay()));
-//        startDay.appendChild(startDayText);
-//        consultationElement.appendChild(startDay);
-//        
-//        Element startMonth = rec.createElement("Start Month");
-//        Text startMonthText = rec.createTextNode(Integer.toString(consult.retrieveStartMonth()));
-//        startMonth.appendChild(startMonthText);
-//        consultationElement.appendChild(startMonth);
-//        
-//        Element startYear = rec.createElement("Start Year");
-//        Text startYearText = rec.createTextNode(Integer.toString(consult.retrieveStartYear()));
-//        startYear.appendChild(startYearText);
-//        consultationElement.appendChild(startYear);
-//        
-//        Element duration = rec.createElement("Duration");
-//        Text durationText = rec.createTextNode(Integer.toString(consult.retrieveDuration()));
-//        duration.appendChild(durationText);
-//        consultationElement.appendChild(duration);
-//        
-//        Element patientName = rec.createElement("Patient Name");
-//        Text patientNameText = rec.createTextNode(consult.retrievePatientName());
-//        patientName.appendChild(patientNameText);
-//        consultationElement.appendChild(patientName);
-//        
-//        Element healthcarePlan = rec.createElement("Healthcare Plan");
-//        Text healthcareText = rec.createTextNode(consult.retrievePatientName());
-//        healthcarePlan.appendChild(healthcareText);
-//        consultationElement.appendChild(healthcarePlan);
-//        
-//        Element patientID = rec.createElement("Patient ID");
-//        Text patientIDText = rec.createTextNode(consult.retrievePatientID());
-//        patientID.appendChild(patientIDText);
-//        consultationElement.appendChild(patientID);
-//        
-//        Element alert = rec.createElement("Alert Time");
-//        Text alertText = rec.createTextNode(Integer.toString(consult.retrieveAlertTime()));
-//        alert.appendChild(alertText);
-//        consultationElement.appendChild(alert);
-//        
-//        Element partner = rec.createElement("Partner");
-//        Text partnerText = rec.createTextNode(consult.retrievePartner());
-//        partner.appendChild(partnerText);
-//        consultationElement.appendChild(partner);
-//        
-//        Element description = rec.createElement("Description");
-//        Text descriptionText = rec.createTextNode(consult.retrieveDescription());
-//        description.appendChild(descriptionText);
-//        consultationElement.appendChild(description);
-//        
-//        Element reoccurOnDay = rec.createElement("Reoccur On Day");
-//        String reoccurOnDayString = "";
-//        for (int i = 0; i < consult.getReoccurWhichDay().length; i++) {
-//        	reoccurOnDayString += consult.getReoccurWhichDay()[i] + ",";
-//        }
-//        Text repeatDayText = rec.createTextNode(reoccurOnDayString);
-//        reoccurOnDay.appendChild(repeatDayText);
-//        consultationElement.appendChild(reoccurOnDay);
-//        
-//        Element repeatOn = rec.createElement("Reoccur On");
-//        Text reoccurOnText = rec.createTextNode(Integer.toString(consult.getRetrieveReoccurOn()));
-//        repeatOn.appendChild(reoccurOnText);
-//        consultationElement.appendChild(repeatOn);
-//        
-//        Element repeatRate = rec.createElement("Frequency Of Reoccurence");
-//        Text reoccurRateText = rec.createTextNode(Integer.toString(consult.getReoccurRate()));
-//        repeatRate.appendChild(reoccurRateText);
-//        consultationElement.appendChild(repeatRate);
-//        
-//        Element numberOfReoccurences = rec.createElement("Number of Reoccurences");
-//        Text repeatNumberText = rec.createTextNode(Integer.toString(consult.getNumberOfReoccurences()));
-//        numberOfReoccurences.appendChild(repeatNumberText);
-//        consultationElement.appendChild(numberOfReoccurences);
-//        
-//        //Allow the appointment to locate where it is stored within the XML data tree structure.
-//        consult.establishXML(consultationElement);
-//        
-//        if (isSelfSave()) {
-//            return writeXML();
-//        }
-//        else {
-//            return true;
-//        }
-//    }
+    //Saves details of an appointment into the XML tree data structure.
+    public void saveAppointment(Appointment consult) {
+        if (!consult.isAppointmentLegitimate()) {
+            return; }
+        }
     
     //Deletes information of an appointment from the XML data framework. It will not generate a new XML file.
     public boolean deleteAppointment(Appointment consultation) {
