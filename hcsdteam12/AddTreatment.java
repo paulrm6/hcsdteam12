@@ -8,7 +8,7 @@ import java.sql.*;
  */
 public class AddTreatment {
 
-    public AddTreatment(int patientID) {
+    public AddTreatment(int patientID, String date) {
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
             Connection con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team012?user=team012&password=8b4c5e49");
@@ -51,9 +51,11 @@ public class AddTreatment {
                     total.close();
                     int coveredLeft = totalAmount - currentUsed;
                     if (coveredLeft > 0) {
-                        query5 = "INSERT into treatments_given (patientid, treatment_name, paid, covered, date_given) VALUES ('" + patientID + "','" + treatment + "', 1, 1, CURDATE())";
+                        query5 = "INSERT into treatments_given (patientid, treatment_name, paid, covered, date_given) VALUES ('" + patientID + "','" + treatment + "', 1, 1, '"+date+"')";
+                        System.out.println(date);
                     } else {
-                        query5 = "INSERT into treatments_given (patientid, treatment_name, covered, date_given) VALUES ('" + patientID + "','" + treatment + "', 0, CURDATE())";
+                        query5 = "INSERT into treatments_given (patientid, treatment_name, covered, date_given) VALUES ('" + patientID + "','" + treatment + "', 0, '"+date+"')";
+                        System.out.println(date);
                     }
                     stmt.executeUpdate(query5);
                 }

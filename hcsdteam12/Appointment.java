@@ -220,6 +220,9 @@ public class Appointment {
     public String getDate() {
         return changeDateFromDatabase(date);
     }
+    public String getDatabaseDate() {
+        return date;
+    }
 
     public String getStartTime() {
         return startTime;

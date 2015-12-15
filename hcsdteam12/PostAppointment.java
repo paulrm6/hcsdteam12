@@ -14,7 +14,7 @@ public class PostAppointment {
             do {
                 reply = JOptionPane.showConfirmDialog(null, "Would you like to add a treatment to this appointment?", null, JOptionPane.YES_NO_OPTION);
                 if (reply == JOptionPane.YES_OPTION) {
-                    new AddTreatment(appointment.getPatientid());
+                    new AddTreatment(appointment.getPatientid(), appointment.getDatabaseDate());
                 }
             } while (reply == JOptionPane.YES_OPTION);
             appointment.setSeen(1);
