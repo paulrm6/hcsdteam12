@@ -9,14 +9,14 @@ import java.sql.*;
 /**
  * Created by Adam on 14/12/2015.
  * Modified by Terence Kong on 14/12/2015, to remove unused import.
+ * Modified by Joseph Chung on 15/12/2015 (layout)
  */
 public class Receipts extends JFrame {
 
     private static final long serialVersionUID = 1L;
     // Creation of all variables needed for the form
     private JLabel totalCostLabel;
-    private JButton paid = new JButton("Paid?");;
-    private JFrame frame = new JFrame();
+    private JButton paid = new JButton("Paid?"); 
     private int id;
 
     public Receipts() {
@@ -44,6 +44,7 @@ public class Receipts extends JFrame {
                     Object columnNames[] = {"Treatment", "Cost"};
                     JTable table = new JTable(rowData, columnNames);
                     JScrollPane scrollPane = new JScrollPane(table);
+                    scrollPane.setSize(300,300);
                     double totalCost = 0;
                     for (int j = 0; j < rowData.length; j++) {
                         totalCost += Double.parseDouble(rowData[j][1].toString());
@@ -55,7 +56,7 @@ public class Receipts extends JFrame {
                     setTitle("Receipt");
                     setLayout(new GridBagLayout());
                     setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                    add(scrollPane, 0, 0, 300, 300);
+                    addScrollPane(scrollPane, 0, 0, 2, 1);
                     add(totalCostLabel, 0, 1, 1, 1);
                     add(paid, 1, 1, 1, 1);
                     setSize(300, 400);
@@ -103,6 +104,21 @@ public class Receipts extends JFrame {
     public int updateTotalCostForPlan() {
         //Updates the total cost of the bill to take away ones based on the plan a user is on
         return 0;
+    }
+
+    public void addScrollPane(Component c, int x, int y, int w, int h) {
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = x;
+        gbc.gridy = y;
+        gbc.gridwidth = w;
+        gbc.gridheight = h;
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.ipadx = 20;
+        gbc.ipady = 5;
+        add(c, gbc);
     }
 
     public void add(Component c, int x, int y, int w, int h) {

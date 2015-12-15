@@ -134,7 +134,7 @@ public class CalendarPresentation extends JPanel {
             int days = 7; //Representing 7 days in a week
             int weeks = dataToBeKept.size() / 7; //Calculate number of rows needed in the calendar.
             this.data = new Day[weeks][days]; //2D array
-            for (int curRow = 0; curRow < weeks; curRow++) {
+            for (int curRow = 0; curRow < 2; curRow++) {
                 for (int curCol = 0; curCol < 7; curCol++) {
                     this.data[curRow][curCol] = (Day) dataToBeKept.remove(0);
                 }

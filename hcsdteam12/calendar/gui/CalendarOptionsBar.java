@@ -14,8 +14,8 @@ import java.util.Vector;
 
 public class CalendarOptionsBar extends JToolBar {
     private static final long serialVersionUID = 1L;
-    public static JButton makeAppointmentButton, cancelAppointmentButton;
-    public static JButton nextMonthButton, previousMonthButton, previousYearButton, nextYearButton, closeCalendar;
+    public static JButton makeAppointmentButton, cancelAppointmentButton, dentistButton,
+                            hygienistButton, secretaryButton;
     private Vector toggles;
 
     // Launches every JButton objects and inserts them into the calendar' options bar
@@ -30,6 +30,18 @@ public class CalendarOptionsBar extends JToolBar {
         cancelAppointmentButton = new JButton("Delete An Appointment");
         add(cancelAppointmentButton);
         toggles.addElement(cancelAppointmentButton);
+
+        dentistButton = new JButton("Dentist");
+        toggles.addElement(dentistButton);
+        add(dentistButton);
+
+        hygienistButton = new JButton("Hygienist");
+        toggles.addElement(hygienistButton);
+        add(hygienistButton);
+
+        secretaryButton = new JButton("Secretary");
+        toggles.addElement(secretaryButton);
+        add(secretaryButton);
 
         setListener(component);
     }
