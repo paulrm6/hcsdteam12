@@ -10,14 +10,13 @@ import java.awt.event.ActionListener;
 /**
  * Created by Paul on 13/12/2015
  * Modified by Joseph on 14/12/2015 (layout)
- * Modified by Terence Kong on 14/12/2015
+ * Modified by Terence Kong on 15/12/2015
  */
 public class DentalPractice extends JFrame implements ActionListener {
     private static final long serialVersionUID = 1L;
     private JPanel logIn = new JPanel(),
             secretaryPanel = new JPanel(),
             partnerPanel = new JPanel();
-    private JLabel welcome;
 
     public DentalPractice() {
 
