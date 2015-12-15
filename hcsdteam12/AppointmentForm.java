@@ -129,7 +129,7 @@ public class AppointmentForm extends JFrame {
                         confirm.setText("Added successfully");
                     } else {
                         confirm.setForeground(Color.RED);
-                        confirm.setText("Add successful");
+                        confirm.setText("Appointment Clash");
                     }
                 }
             }
