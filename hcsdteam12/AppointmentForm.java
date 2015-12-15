@@ -18,12 +18,12 @@ public class AppointmentForm extends JFrame {
 
     private static final long serialVersionUID = 1L;
     private final DateFormat dateFormat = new SimpleDateFormat("dd/mm/yyyy");
-    private final DateFormat time = new SimpleDateFormat("HH:mm:ss");
     // Creation of all variables needed for the form
     private JLabel dateLabel, startTimeLabel, endTimeLabel, partnerNameLabel, patientNameLabel,
             dateError, startTimeError, endTimeError, partnerNameError, patientNameError,
             confirm, patientName, partnerName;
-    private JFormattedTextField date, startTime, endTime;
+    private JFormattedTextField date;
+    private JComboBox startH, startM, endH, endM;
     private JButton addAppointment, view, update;
     private int currentPatient, currentPartner;
     private String currentDate, currentStartTime;
@@ -53,6 +53,8 @@ public class AppointmentForm extends JFrame {
 
     private void createForm() {
         //set properties of the frame
+        String[] hours = new String[]{"09","10","11","12","13","14","15,","16"};
+        String[] minutes = new String[]{"00","05","10","15","20","25","30","35","40","45","50","55",};
         setTitle("Appointment Form");
         setLayout(new GridBagLayout());
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -75,10 +77,10 @@ public class AppointmentForm extends JFrame {
         // Setting the dateFormat of birth function to take a particular format
         date = new JFormattedTextField(dateFormat);
         date.setColumns(5);
-        startTime = new JFormattedTextField(time);
-        startTime.setColumns(6);
-        endTime = new JFormattedTextField(time);
-        endTime.setColumns(6);
+        startH = new JComboBox(hours);
+        startM = new JComboBox(minutes);
+        endH = new JComboBox(hours);
+        endM = new JComboBox(minutes);
         patientName = new JLabel("");
         partnerName = new JLabel("");
         addAppointment = new JButton("Add Appointment"); // button
@@ -87,19 +89,16 @@ public class AppointmentForm extends JFrame {
         try {
             MaskFormatter dateMask = new MaskFormatter("##/##/####");
             dateMask.install(date);
-            MaskFormatter timeMask = new MaskFormatter("##:##:##");
-            timeMask.install(startTime);
-            timeMask.install(endTime);
         } catch (ParseException ex) {
             Logger.getLogger(AppointmentForm.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         // Laying out the labels with GridBagConstraint
-        add(dateLabel, 0, 1, 1, 1);
-        add(startTimeLabel, 0, 2, 1, 1);
-        add(endTimeLabel, 0, 3, 1, 1);
-        add(partnerNameLabel, 0, 4, 1, 1);
-        add(patientNameLabel, 0, 5, 1, 1);
+        add(patientNameLabel, 0, 1, 1, 1);
+        add(partnerNameLabel, 0, 2, 1, 1);
+        add(dateLabel, 0, 3, 1, 1);
+        add(startTimeLabel, 0, 4, 1, 1);
+        add(endTimeLabel, 0, 5, 1, 1);
         add(dateError, 2, 1, 1, 1);
         add(startTimeError, 2, 2, 1, 1);
         add(endTimeError, 2, 3, 1, 1);
@@ -108,14 +107,16 @@ public class AppointmentForm extends JFrame {
         add(confirm, 1, 13, 1, 1);
 
         // Laying out the components with GridBagConstraint
-        add(date, 1, 1, 1, 1);
-        add(startTime, 1, 2, 1, 1);
-        add(endTime, 1, 3, 1, 1);
-        add(partnerName, 1, 4, 1, 1);
-        add(patientName, 1, 5, 1, 1);
-        add(addAppointment, 1, 11, 1, 1); // button
-        add(view, 0, 0, 1, 1); // button
-        add(update, 0, 11, 1, 1); // button
+        add(patientName, 1, 1, 1, 1);
+        add(partnerName, 1, 2, 1, 1);
+        add(date, 1, 3, 1, 1);
+        add(startH, 1, 4, 1, 1);
+        add(startM, 1, 4, 1, 1);
+        add(endH, 1, 5, 1, 1);
+        add(endM, 1, 5, 1, 1);
+        add(addAppointment, 1, 6, 1, 1); // button
+        add(view, 0, 7, 1, 1); // button
+        add(update, 0, 6, 1, 1); // button
 
         // Check for valid entry and adds details into database if valid, otherwise, returns an error
         addAppointment.addActionListener(new ActionListener() {
@@ -134,7 +135,7 @@ public class AppointmentForm extends JFrame {
         });
 
         // Setting size, visibility and position
-        setBounds(100, 100, 400, 450);
+        setBounds(100, 100, 450, 450);
         setVisible(true);
         setLocationRelativeTo(null);
 
