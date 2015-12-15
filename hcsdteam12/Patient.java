@@ -12,6 +12,11 @@ public class Patient {
     private String houseNumber, streetName, districtName, cityName, postcode,
             newHouseNumber, newStreetName, newDistrictName,newCityName,newPostcode;
     private int healthcareCheckUp = 0, healthcareHygiene = 0, healthcareRepair = 0;
+
+    public boolean isExists() {
+        return exists;
+    }
+
     private boolean exists = true;
 
     public Patient(String forename, String surname, String addressid) {
