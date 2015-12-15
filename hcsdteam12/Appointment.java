@@ -356,6 +356,12 @@ public class Appointment {
         newSeen = seen;
     }
 
+    /**
+     * Returns all the appointments on a given day for a partner
+     * @param date the date (yyyy-MM-dd)
+     * @param partnerid the partner id
+     * @return a list of appointments
+     */
     public static Appointment[] getAppointments(String date, int partnerid) {
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
