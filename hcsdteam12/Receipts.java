@@ -63,6 +63,7 @@ public class Receipts extends JFrame {
                     paid.addActionListener(new ActionListener() {
                         public void actionPerformed(ActionEvent e) {
                             try {
+                                System.out.println("Read");
                                 Class.forName("com.mysql.jdbc.Driver").newInstance();
                                 Connection con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team012?user=team012&password=8b4c5e49");
                                 Statement stmt = con.createStatement();
