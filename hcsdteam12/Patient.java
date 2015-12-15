@@ -169,7 +169,7 @@ public class Patient {
             Connection con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team012?user=team012&password=8b4c5e49");
             Statement stmt = con.createStatement();
             String query = "UPDATE patients SET title='" + newTitle + "', forename='" + newForename + "', surname='" +
-                    newSurname + "', dob='" + newDob + "', number='" + newPhoneNumber + "', plan_name="+newPlanName+", outstanding_bill="+
+                    newSurname + "', dob='" + newDob + "', number='" + newPhoneNumber + "', plan_name='"+newPlanName+"', outstanding_bill="+
                     newOutstandingBill+" WHERE id=" + id +";";
             stmt.executeUpdate(query);
             stmt.close();
