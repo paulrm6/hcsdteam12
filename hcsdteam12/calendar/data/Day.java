@@ -33,6 +33,9 @@ public class Day {
         establishCalendarYear(year);
         establishAppointments(new LinkedList());
         valid = true;
+
+        addAppointment(new Appointment(12,37,14,12,2015,60,"Paul MacDonald","None","14",0,"Adam",""));
+        addAppointment(new Appointment(12,37,15,12,2015,60,"Paul MacDonald","None","14",0,"Adam",""));
     }
 
     //Adds a new appointment to the Day object. The appointments are sorted by their start times. To allow recurring appointments to be

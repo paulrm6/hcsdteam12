@@ -94,7 +94,7 @@ public class Database {
 
     }
 
-    public static String[] getAppointment() {
+    public static Appointment getAppointment() {
         String date = getDate();
         int partnerID = getPartnerID();
         try {
@@ -123,8 +123,8 @@ public class Database {
                 con.close();
                 appointment = (String) JOptionPane.showInputDialog(null, "Select the patient", "View Patient", JOptionPane.QUESTION_MESSAGE,
                         null, patientList, patientList[0]);
-                appointment = appointment.split(",")[0];
-                return new String[]{date, appointment.split(" to ")[0], appointment.split(" to ")[1]};
+                String startTime = appointment.split(" to ")[0];
+                return new Appointment(date,startTime,partnerID);
             } else {
                 JOptionPane.showMessageDialog(null, "No appointments on that date for that parner");
                 return null;
