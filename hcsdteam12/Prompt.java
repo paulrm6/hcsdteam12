@@ -7,6 +7,7 @@ import java.util.Map;
 
 /**
  * Created by Paul on 14/12/2015.
+ * Modified by Terence Kong on 14/12/2015 to parameterized the references to generic type HashMap<K,V>
  */
 public class Prompt {
     public static int getPatientID() {
@@ -99,7 +100,7 @@ public class Prompt {
             if (partners.next()) {
                 partners.last();
                 String[] partnerList = new String[partners.getRow()];
-                Map<String, Integer> partnerLookup = new HashMap();
+                Map<String, Integer> partnerLookup = new HashMap<String, Integer>();
                 partners.absolute(0);
                 int i = 0;
                 while (partners.next()) {
