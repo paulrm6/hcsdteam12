@@ -124,7 +124,6 @@ public class AppointmentForm extends javax.swing.JDialog {
         buttonGroup2 = new javax.swing.ButtonGroup();
         container1 = new javax.swing.JPanel();
         toggleInsertAppointment = new javax.swing.JButton();
-        toggleExit = new javax.swing.JButton();
         textdisplay1 = new javax.swing.JLabel();
         textdisplay2 = new javax.swing.JLabel();
         textdisplay3 = new javax.swing.JLabel();
@@ -158,12 +157,6 @@ public class AppointmentForm extends javax.swing.JDialog {
         EndPM = new javax.swing.JRadioButton();
         textdisplay11 = new javax.swing.JLabel();
 
-        addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowClosing(java.awt.event.WindowEvent action) {
-                closeDialog(action);
-            }
-        });
-
         container1.setLayout(new design.awtcomponents.AbsoluteLayout());
 
         toggleInsertAppointment.setText("Insert Appointment");
@@ -173,7 +166,7 @@ public class AppointmentForm extends javax.swing.JDialog {
             }
         });
 
-        container1.add(toggleInsertAppointment, new design.awtcomponents.AbsoluteConstraints(10, 430, 150, -1));
+        container1.add(toggleInsertAppointment, new design.awtcomponents.AbsoluteConstraints(30, 430, 170, -1));
 
         toggleEmptyFields.setText("Empty Fields");
         toggleEmptyFields.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -181,15 +174,8 @@ public class AppointmentForm extends javax.swing.JDialog {
                 toggleEmptyFieldsMouseClicked(action);
             }
         });
-        container1.add(toggleEmptyFields, new design.awtcomponents.AbsoluteConstraints(160, 430, 150, -1));
-
-        toggleExit.setText("Exit Window");
-        toggleExit.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent action) {
-                toggleExitMouseClicked(action);
-            }
-        });
-        container1.add(toggleExit, new design.awtcomponents.AbsoluteConstraints(310, 430, 150, -1));
+        
+        container1.add(toggleEmptyFields, new design.awtcomponents.AbsoluteConstraints(220, 430, 170, -1));
 
         textdisplay1.setText("Patient Name");
         container1.add(textdisplay1, new design.awtcomponents.AbsoluteConstraints(10, 24, 100, -1));
@@ -310,14 +296,7 @@ public class AppointmentForm extends javax.swing.JDialog {
                     }
                 }
                 int duration = ((EndHours - StartHours) * 60) + (EndMinutes - StartMinutes);
-
-                frame.makeAppointment(new Appointment(StartHours, StartMinutes, when.get(Calendar.DAY_OF_MONTH), when.get(Calendar.MONTH), when.get(Calendar.YEAR), duration,
-                        PatientNameText.getText(), HealthcarePlanText.getText(), PatientIDText.getText(), Appointment.NO_REMINDER, PartnerText.getText(), DescriptionText.getText()));
-            } else { //If the appointment has not been given a start or stop time.
-                frame.makeAppointment(new Appointment(when.get(Calendar.DAY_OF_MONTH), when.get(Calendar.MONTH),
-                        when.get(Calendar.YEAR), PatientNameText.getText(),
-                        HealthcarePlanText.getText(), PatientIDText.getText(),
-                        PartnerText.getText(), DescriptionText.getText()));
+                
             }
             if (EDIT) { //Remove the previous details of an appointment and replaces it with new ones.
                 frame.deleteAppointment(appointment);
@@ -338,22 +317,11 @@ public class AppointmentForm extends javax.swing.JDialog {
         DayText.setText("");
     }
 
-    //When the "Exit Window" button is clicked on, it closes the appointment window.
-    private void toggleExitMouseClicked(java.awt.event.MouseEvent action) {
-        setVisible(false);
-        dispose();
-    }
 
     //When a month is chosen, it retrieves the value of that month.
     private void MonthsDropDownActionPerformed(java.awt.event.ActionEvent action) {
         JComboBox origin = (JComboBox) action.getSource();
         String nameOfMonth = (String) origin.getSelectedItem();
         month = obtainValueOfMonth(nameOfMonth);
-    }
-
-    //Closes the appointment window.
-    private void closeDialog(java.awt.event.WindowEvent action) {
-        setVisible(false);
-        dispose();
     }
 }

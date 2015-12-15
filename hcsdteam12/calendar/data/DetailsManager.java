@@ -274,26 +274,26 @@ public class DetailsManager {
         }
     
     //Deletes information of an appointment from the XML data framework. It will not generate a new XML file.
-    public boolean deleteAppointment(Appointment consultation) {
-        if (!consultation.isAppointmentLegitimate()) {
-            return false; //If the appointments are illegitimate, do not perform any operations.
-        }
-        
-        Element consultationElement = consultation.fetchXMLDocument();
-        if (consultationElement == null) {
-            return false; //Discards the appointment
-        }
-        
-        Node parentNode = consultationElement.getParentNode();
-        parentNode.removeChild(consultationElement);
-        consultation.establishXML(null);
-        if (isSelfSave()) {
-            return writeXML();
-        }
-        else {
-            return true;
-        }
-    }
+//    public boolean deleteAppointment(Appointment consultation) {
+//        if (!consultation.isAppointmentLegitimate()) {
+//            return false; //If the appointments are illegitimate, do not perform any operations.
+//        }
+//        
+//        Element consultationElement = consultation.fetchXMLDocument();
+//        if (consultationElement == null) {
+//            return false; //Discards the appointment
+//        }
+//        
+//        Node parentNode = consultationElement.getParentNode();
+//        parentNode.removeChild(consultationElement);
+//        consultation.establishXML(null);
+//        if (isSelfSave()) {
+//            return writeXML();
+//        }
+//        else {
+//            return true;
+//        }
+//    }
     
     public boolean writeXML() {
         try {

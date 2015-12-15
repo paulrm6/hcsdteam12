@@ -6,7 +6,7 @@ package hcsdteam12.calendar.data;
  * @author Seng Kin (Terence), Kong
  **/
 
-public class Utilities {
+public class LeapYearFunc {
     public static final int FEBRUARY = 1;
     public static int TotalDaysInEachMonth[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 

@@ -242,10 +242,6 @@ public class Appointment {
         return numberOfReoccurences;
     }
 
-    public Element fetchXMLDocument() {
-        return xmlItem;
-    }
-
     //Outputs a simple string message to represent appointment details.
     public String toString() {
         if (!isAppointmentLegitimate()) {

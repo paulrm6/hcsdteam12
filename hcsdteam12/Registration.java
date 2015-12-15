@@ -171,7 +171,6 @@ public class Registration extends JFrame {
 
         // Updates patient information
         update.addActionListener(new ActionListener() {
-            @Override
             public void actionPerformed(ActionEvent e) {
                 confirm.setText("");
                 if (validEntry()) {
@@ -191,7 +190,7 @@ public class Registration extends JFrame {
                         confirm.setText("Updated successfully");
                     } else {
                         confirm.setForeground(Color.RED);
-                        confirm.setText("Update unsuccessful");
+                        confirm.setText("Updated unsuccessfully");
                     }
                 }
             }
