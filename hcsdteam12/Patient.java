@@ -168,8 +168,14 @@ public class Patient {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
             Connection con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team012?user=team012&password=8b4c5e49");
             Statement stmt = con.createStatement();
+            String newDBPlanName;
+            if(newPlanName!=null) {
+                newDBPlanName = "'"+newPlanName+"'";
+            } else {
+                newDBPlanName = "NULL";
+            }
             String query = "UPDATE patients SET title='" + newTitle + "', forename='" + newForename + "', surname='" +
-                    newSurname + "', dob='" + newDob + "', number='" + newPhoneNumber + "', plan_name="+newPlanName+", outstanding_bill="+
+                    newSurname + "', dob='" + newDob + "', number='" + newPhoneNumber + "', plan_name="+newDBPlanName+", outstanding_bill="+
                     newOutstandingBill+" WHERE id=" + id +";";
             stmt.executeUpdate(query);
             stmt.close();
@@ -507,11 +513,7 @@ public class Patient {
     }
 
     public void setPlanName(String planName) {
-        if(planName!=null) {
-            newPlanName = "'"+planName+"'";
-        } else {
-            newPlanName = "NULL";
-        }
+        newPlanName=planName;
     }
 
     public void setPhoneNumber(String phoneNumber) {
