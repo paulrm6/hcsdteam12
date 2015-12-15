@@ -161,7 +161,7 @@ public class AppointmentForm extends JFrame {
                         appointment.setEndTime(endH.getSelectedItem().toString()+":"+endM.getSelectedItem().toString()+":00");
                         appointment.setPatientid(currentPatient);
                         appointment.setPartnerid(currentPartner);
-                        if (appointment.update()) {
+                        if (appointment.update(false)) {
                             confirm.setForeground(Color.GREEN);
                             confirm.setText("Updated successfully");
                         } else {

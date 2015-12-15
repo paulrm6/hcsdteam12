@@ -205,7 +205,7 @@ public class CalendarFrame extends javax.swing.JFrame implements ActionListener,
         }
 
         //Ignore occurrence when an invalid date is generated
-        catch (OutOfDateHandler pass) {
+        catch (Exception pass) {
             System.out.print("Date exception: ");
             System.err.print(pass);
         }

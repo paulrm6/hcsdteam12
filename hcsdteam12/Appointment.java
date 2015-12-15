@@ -125,11 +125,11 @@ public class Appointment {
 
     /**
      * Updates an appointment based of the data that has been set (i.e. .setDate)
-     *
+     * @param seen a boolean indicating whether the appointment is updating the seen column or not, used to prevent clashes
      * @return a boolean indicating success
      */
-    public boolean update() {
-        if(checkForClash(newDate,newStartTime,newEndTime,newPartnerid)) {
+    public boolean update(boolean seen) {
+        if(checkForClash(newDate,newStartTime,newEndTime,newPartnerid) && !seen) {
             return false;
         }
         try {
