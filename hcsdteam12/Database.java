@@ -95,50 +95,31 @@ public class Database {
     }
 
     public static Appointment getAppointment() {
-        String date = getDate();
-        int partnerID = getPartnerID();
         try {
-            Class.forName("com.mysql.jdbc.Driver").newInstance();
-            Connection con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team012?user=team012&password=8b4c5e49");
-            Statement stmt = con.createStatement();
-            String query = "SELECT startTime, endTime, forename, surname FROM appointment JOIN patients ON id = patientid WHERE date='" + date + "' and partnerid=" + partnerID + ";";
-            ResultSet appointments = stmt.executeQuery(query);
-            if (appointments.next()) {
-                appointments.last();
-                String[] patientList = new String[appointments.getRow()];
-                appointments.absolute(0);
+            String date = getDate();
+            int partnerID = getPartnerID();
+            Appointment[] appointmentList = Appointment.getAppointments(date, partnerID);
+            if (appointmentList != null) {
                 int i = 0;
-                String appointment = null;
-                while (appointments.next()) {
-                    String start = appointments.getString("startTime");
-                    String end = appointments.getString("endTime");
-                    String fore = appointments.getString("forename");
-                    String sur = appointments.getString("surname");
+                String patientList[] = new String[appointmentList.length];
+                for (Appointment appointment : appointmentList) {
+                    String start = appointment.getStartTime();
+                    String end = appointment.getEndTime();
+                    String fore = appointment.getPatientForename();
+                    String sur = appointment.getPatientSurname();
                     String fullDetails = start + " to " + end + ", " + fore + " " + sur;
                     patientList[i] = fullDetails;
                     i += 1;
                 }
-                appointments.close();
-                stmt.close();
-                con.close();
-                appointment = (String) JOptionPane.showInputDialog(null, "Select the patient", "View Patient", JOptionPane.QUESTION_MESSAGE,
+                String appointment = (String) JOptionPane.showInputDialog(null, "Select the patient", "View Patient", JOptionPane.QUESTION_MESSAGE,
                         null, patientList, patientList[0]);
                 String startTime = appointment.split(" to ")[0];
-                return new Appointment(date,startTime,partnerID);
+                return new Appointment(date, startTime, partnerID);
             } else {
                 JOptionPane.showMessageDialog(null, "No appointments on that date for that parner");
                 return null;
             }
-        } catch (NullPointerException e) {
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+        } catch (NullPointerException e) {}
         return null;
     }
 
