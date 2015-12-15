@@ -23,7 +23,8 @@ public class Appointment {
 
     /**
      * Constructor. Used to get all the possible information needed about an appointment.
-     * @param date The date of the appointment yyyy-MM-dd
+     *
+     * @param date      The date of the appointment yyyy-MM-dd
      * @param startTime The start time of the appointment hh:mm:ss
      * @param partnerid The id of the partner
      */
@@ -127,9 +128,13 @@ public class Appointment {
 
     /**
      * Updates an appointment based of the data that has been set (i.e. .setDate)
+     *
      * @return a boolean indicating success
      */
     public boolean updateAppointment() {
+        if(checkForClash(newDate,newStartTime,newEndTime,newPartnerid)) {
+            return false;
+        }
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
             Connection con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team012?user=team012&password=8b4c5e49");
@@ -161,6 +166,7 @@ public class Appointment {
 
     /**
      * Deletes the appointment from the database
+     *
      * @return boolean indication of success
      */
     public boolean deleteAppointment() {
@@ -188,20 +194,21 @@ public class Appointment {
 
     /**
      * Finds if there is a clash for an appointment
-     * @param date the date (yyyy-MM-dd)
+     *
+     * @param date      the date (yyyy-MM-dd)
      * @param startTime the start time (hh:mm:ss)
-     * @param endTime the end time (hh:mm:ss)
+     * @param endTime   the end time (hh:mm:ss)
      * @param partnerid the parter id
      * @return true if there is a clash, false if there isn't
      */
     public static boolean checkForClash(String date, String startTime, String endTime, int partnerid) {
-        Appointment[] Appointments = getAppointments(date,partnerid);
+        Appointment[] Appointments = getAppointments(date, partnerid);
         boolean clash = false;
-        if(Appointments==null) {
+        if (Appointments == null) {
             return false;
         }
-        for(Appointment appointment: Appointments) {
-            if(appointment == null) {
+        for (Appointment appointment : Appointments) {
+            if (appointment == null) {
                 return false;
             }
             if (timeToMins(appointment.startTime) < timeToMins(endTime) &&
@@ -272,20 +279,73 @@ public class Appointment {
         return seen;
     }
 
-    public void setDate(String date) {
-        newDate = date;
+    /**
+     * Set the new date before calling update()
+     * @param date new date (yyyy-MM-dd)
+     * @return true if it has been set, false if there was a clash and it was not set
+     */
+    public boolean setDate(String date) {
+        if (!checkForClash(date, startTime, endTime, partnerid)) {
+            newDate = date;
+            return true;
+        }
+        return false;
     }
 
-    public void setStartTime(String startTime) {
-        newStartTime = startTime;
+    /**
+     * Set the new start time before calling update()
+     * @param startTime new start time (hh:mm:ss)
+     * @return true if it has been set, false if there was a clash and it was not set
+     */
+    public boolean setStartTime(String startTime) {
+        if (!checkForClash(date, startTime, endTime, partnerid)) {
+            newStartTime = startTime;
+            return true;
+        }
+        return false;
     }
 
-    public void setEndTime(String endTime) {
-        newEndTime = endTime;
+    /**
+     * Set the new end time before calling update()
+     * @param endTime new end time (hh:mm:ss)
+     * @return true if it has been set, false if there was a clash and it was not set
+     */
+    public boolean setEndTime(String endTime) {
+        if (!checkForClash(date, startTime, endTime, partnerid)) {
+            newEndTime = endTime;
+            return true;
+        }
+        return false;
     }
 
-    public void setPartnerid(int partnerid) {
-        newPartnerid = partnerid;
+    /**
+     * Set the new date, start time and end time before calling update()
+     * @param date new date (yyyy-MM-dd)
+     * @param startTime new start time (hh:mm:ss)
+     * @param endTime new end time (hh:mm:ss)
+     * @return true if they have been set, false if there was a clash and they were not set
+     */
+    public boolean setDateTime(String date, String startTime, String endTime) {
+        if (!checkForClash(date, startTime, endTime, partnerid)) {
+            newDate = date;
+            newStartTime = startTime;
+            newEndTime = endTime;
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Set the new partnerid before calling update()
+     * @param partnerid new partner id
+     * @return true if it has been set, false if there was a clash and it was not set
+     */
+    public boolean setPartnerid(int partnerid) {
+        if (!checkForClash(date, startTime, endTime, partnerid)) {
+            newPartnerid = partnerid;
+            return true;
+        }
+        return false;
     }
 
     public void setPatientid(int patientid) {
@@ -331,15 +391,16 @@ public class Appointment {
 
     /**
      * Creates a new appointment
-     * @param date date of the appointment (yyyy-MM-dd)
+     *
+     * @param date      date of the appointment (yyyy-MM-dd)
      * @param startTime start time of the appointment (hh:mm:ss)
-     * @param endTime end time of the appointment (hh:mm:ss)
+     * @param endTime   end time of the appointment (hh:mm:ss)
      * @param patientid the id of the patient (null if holiday)
      * @param partnerid the id of the partner
      * @return The newly created appointment as an Appointment or null if it overlaps another appointment
      */
     public static Appointment createAppointment(String date, String startTime, String endTime, int patientid, int partnerid) {
-        if(checkForClash(date,startTime,endTime,partnerid)) {
+        if (checkForClash(date, startTime, endTime, partnerid)) {
             return null;
         }
         try {
@@ -347,11 +408,11 @@ public class Appointment {
             Connection con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team012?user=team012&password=8b4c5e49");
             Statement stmt = con.createStatement();
             String query = "INSERT INTO appointment (date,startTime,endTime,patientid,partnerid)" +
-                    " VALUES ('"+date+"','"+startTime+"','"+endTime+"',"+patientid+","+partnerid+");";
+                    " VALUES ('" + date + "','" + startTime + "','" + endTime + "'," + patientid + "," + partnerid + ");";
             stmt.execute(query);
             stmt.close();
             con.close();
-            return new Appointment(date,startTime,partnerid);
+            return new Appointment(date, startTime, partnerid);
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (InstantiationException e) {
