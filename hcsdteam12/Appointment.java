@@ -11,6 +11,11 @@ public class Appointment {
     private int seen,newPatientid,newPartnerid,newSeen;
     private String patientForename, patientSurname, addressid;
     private String partnerForename, partnerSurname, role;
+
+    public boolean isExists() {
+        return exists;
+    }
+
     private boolean exists = true;
 
     /**
