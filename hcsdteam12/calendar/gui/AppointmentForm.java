@@ -22,43 +22,18 @@ public class AppointmentForm extends javax.swing.JDialog {
     protected String partner, description;
     protected int month;
     protected Appointment appointment;
-    private javax.swing.JButton toggleInsertAppointment;
-    private javax.swing.JButton toggleEmptyFields;
-    private javax.swing.JButton toggleExit;
-    private javax.swing.JPanel container1;
-    private javax.swing.JLabel textdisplay1;
-    private javax.swing.JLabel textdisplay2;
-    private javax.swing.JLabel textdisplay3;
-    private javax.swing.JLabel textdisplay4;
-    private javax.swing.JLabel textdisplay5;
-    private javax.swing.JLabel textdisplay6;
-    private javax.swing.JLabel textdisplay7;
-    private javax.swing.JLabel textdisplay8;
-    private javax.swing.JLabel textdisplay9;
-    private javax.swing.JLabel textdisplay10;
-    private javax.swing.JLabel textdisplay11;
-    private javax.swing.JTextField PatientNameText;
-    private javax.swing.JTextField HealthcarePlanText;
-    private javax.swing.JTextField PatientIDText;
-    private javax.swing.JTextField PartnerText;
-    private javax.swing.JTextField DescriptionText;
-    private javax.swing.JTextField DayText;
-    private javax.swing.JTextField YearText;
-    private javax.swing.JComboBox StartHoursDropDown;
-    private javax.swing.JComboBox StartMinutesDropDown;
-    private javax.swing.JComboBox EndHoursDropDown;
-    private javax.swing.JComboBox EndMinutesDropDown;
-    private javax.swing.JComboBox MonthsDropDown;
-    private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.ButtonGroup buttonGroup2;
-    private javax.swing.JRadioButton StartAM;
-    private javax.swing.JRadioButton StartPM;
-    private javax.swing.JRadioButton EndAM;
-    private javax.swing.JRadioButton EndPM;
-    private javax.swing.JSeparator Divider1;
-    private javax.swing.JSeparator Divider2;
-    private javax.swing.JSeparator Divider3;
-    private javax.swing.JCheckBox DurationTickBox;
+    private JButton toggleInsertAppointment, toggleEmptyFields, toggleExit;
+    private JPanel container1;
+    private JLabel textdisplay1, textdisplay2, textdisplay3, textdisplay4, textdisplay5,
+                                textdisplay6, textdisplay7, textdisplay8, textdisplay9, textdisplay10, textdisplay11;
+    private JTextField PatientNameText, HealthcarePlanText, PatientIDText, PartnerText, DescriptionText,
+                                    DayText, YearText;
+    private JComboBox StartHoursDropDown, StartMinutesDropDown, EndHoursDropDown, EndMinutesDropDown,
+                                    MonthsDropDown;
+    private ButtonGroup buttonGroup1, buttonGroup2;
+    private JRadioButton StartAM, StartPM, EndAM, EndPM;
+    private JSeparator Divider1, Divider2, Divider3;
+    private JCheckBox DurationTickBox;
     //Generates a new black appointment window after "Add New Appointment" button is clicked on.
     public AppointmentForm(CalendarFrame frame2, String title, boolean modal) {
         super(frame2, title, modal);
