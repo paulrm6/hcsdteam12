@@ -325,6 +325,7 @@ public class Patient {
                                  String houseNumber, String streetName, String districtName, String cityName,
                                  String postcode) {
         String addressid = (houseNumber+postcode).replaceAll("\\s","");
+        dob = changeDateFromForm(dob);
         if(!doesPatientExist(forename,surname,addressid)) {
             if (!doesAddressExist(addressid)) {
                 createAddress(addressid,houseNumber,streetName,districtName,cityName,postcode);
@@ -431,8 +432,18 @@ public class Patient {
         return surname;
     }
 
+    private static String changeDateFromForm(String date) {
+        String splitDate[] = date.split("/");
+        return splitDate[2] + "-" + splitDate[1] + "-" + splitDate[0];
+    }
+
+    private static String changeDateFromDatabase(String date) {
+        String splitDate[] = date.split("-");
+        return splitDate[2] + "/" + splitDate[1] + "/" + splitDate[0];
+    }
+
     public String getDob() {
-        return dob;
+        return changeDateFromDatabase(dob);
     }
 
     public String getAddressid() {
@@ -492,7 +503,7 @@ public class Patient {
     }
 
     public void setDob(String dob) {
-        newDob = dob;
+        newDob = changeDateFromForm(dob);
     }
 
     public void setPlanName(String planName) {

@@ -85,7 +85,7 @@ public class Prompt {
         while (!date.matches("([0-9]{2})/([0-9]{2})/([0-9]{4})")) {
             date = JOptionPane.showInputDialog(null, "Enter the date of the appointment (dd/mm/yyyy):");
         }
-        return changeDateFromForm(date);
+        return date;
     }
 
     public static int getPartnerID() {
@@ -132,15 +132,5 @@ public class Prompt {
         } catch (NullPointerException e) {
         }
         return -1;
-    }
-
-    static String changeDateFromForm(String date) {
-        String splitDate[] = date.split("/");
-        return splitDate[2] + "-" + splitDate[1] + "-" + splitDate[0];
-    }
-
-    static String changeDateFromDatabase(String date) {
-        String splitDate[] = date.split("-");
-        return splitDate[2] + "/" + splitDate[1] + "/" + splitDate[0];
     }
 }

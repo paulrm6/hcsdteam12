@@ -21,7 +21,7 @@ public class Appointment {
      * @param partnerid The id of the partner
      */
     public Appointment(String date, String startTime, int partnerid) {
-        this.date = date;
+        this.date = changeDateFromForm(date);
         this.startTime = startTime;
         this.partnerid = partnerid;
         getAppointmentData();
@@ -194,6 +194,7 @@ public class Appointment {
      * @return true if there is a clash, false if there isn't
      */
     public static boolean checkForClash(String date, String startTime, String endTime, int partnerid) {
+        date = changeDateFromForm(date);
         Appointment[] Appointments = getAppointments(date, partnerid);
         boolean clash = false;
         if (Appointments == null) {
@@ -212,7 +213,7 @@ public class Appointment {
     }
 
     public String getDate() {
-        return date;
+        return changeDateFromDatabase(date);
     }
 
     public String getStartTime() {
@@ -277,6 +278,7 @@ public class Appointment {
      * @return true if it has been set, false if there was a clash and it was not set
      */
     public boolean setDate(String date) {
+        date = changeDateFromForm(date);
         if (!checkForClash(date, startTime, endTime, partnerid)) {
             newDate = date;
             return true;
@@ -318,6 +320,7 @@ public class Appointment {
      * @return true if they have been set, false if there was a clash and they were not set
      */
     public boolean setDateTime(String date, String startTime, String endTime) {
+        date = changeDateFromForm(date);
         if (!checkForClash(date, startTime, endTime, partnerid)) {
             newDate = date;
             newStartTime = startTime;
@@ -348,6 +351,26 @@ public class Appointment {
         newSeen = seen;
     }
 
+    private static String changeDateFromForm(String date) {
+        String splitDate[] = new String[3];
+        try {
+            splitDate = date.split("/");
+            return splitDate[2] + "-" + splitDate[1] + "-" + splitDate[0];
+        } catch (ArrayIndexOutOfBoundsException e) {
+            return date;
+        }
+    }
+
+    private static String changeDateFromDatabase(String date) {
+        String splitDate[] = new String[3];
+        try {
+            splitDate = date.split("-");
+            return splitDate[2] + "/" + splitDate[1] + "/" + splitDate[0];
+        } catch (ArrayIndexOutOfBoundsException e) {
+            return date;
+        }
+    }
+
     /**
      * Returns all the appointments on a given day for a partner
      * @param date the date (yyyy-MM-dd)
@@ -359,7 +382,7 @@ public class Appointment {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
             Connection con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team012?user=team012&password=8b4c5e49");
             Statement stmt = con.createStatement();
-            String query = "SELECT startTime FROM appointment WHERE date='" + date + "' AND partnerid=" + partnerid + ";";
+            String query = "SELECT startTime FROM appointment WHERE date='" + changeDateFromForm(date) + "' AND partnerid=" + partnerid + ";";
             ResultSet appointments = stmt.executeQuery(query);
             if (appointments.next()) {
                 appointments.last();
@@ -398,6 +421,7 @@ public class Appointment {
      * @return The newly created appointment as an Appointment or null if it overlaps another appointment
      */
     public static Appointment create(String date, String startTime, String endTime, int patientid, int partnerid) {
+        date = changeDateFromForm(date);
         if (checkForClash(date, startTime, endTime, partnerid)) {
             return null;
         }

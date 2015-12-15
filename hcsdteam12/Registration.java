@@ -131,8 +131,7 @@ public class Registration extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 confirm.setText("");
                 if (validEntry()) {
-                    String dob = Prompt.changeDateFromForm(Registration.this.dob.getText());
-                    if(Patient.create((String) title.getSelectedItem(),forename.getText(),surname.getText(),dob,phone.getText()
+                    if(Patient.create((String) title.getSelectedItem(),forename.getText(),surname.getText(),dob.getText(),phone.getText()
                             ,house.getText(),street.getText(),district.getText(),city.getText()
                             ,postcode.getText())!=null) {
                         confirm.setForeground(Color.GREEN);
@@ -158,7 +157,7 @@ public class Registration extends JFrame {
                         title.setSelectedItem(patient.getTitle());
                         forename.setText(patient.getForename());
                         surname.setText(patient.getSurname());
-                        dob.setText(Prompt.changeDateFromDatabase(patient.getDob()));
+                        dob.setText(patient.getDob());
                         phone.setText(patient.getPhoneNumber());
                         house.setText(patient.getHouseNumber());
                         street.setText(patient.getStreetName());
@@ -176,12 +175,11 @@ public class Registration extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 confirm.setText("");
                 if (validEntry()) {
-                    String dob = Prompt.changeDateFromForm(Registration.this.dob.getText());
                     Patient patient = new Patient(currentPatient);
                     patient.setTitle((String) title.getSelectedItem());
                     patient.setForename(forename.getText());
                     patient.setSurname(surname.getText());
-                    patient.setDob(dob);
+                    patient.setDob(dob.getText());
                     patient.setPhoneNumber(phone.getText());
                     patient.setHouseNumber(house.getText());
                     patient.setStreetName(street.getText());
