@@ -6,19 +6,33 @@ import java.sql.*;
  * Created by Paul on 15/12/2015.
  */
 public class Patient {
-    private int id, outstandingBill;
-    private String title, forename, surname, dob, addressid, planName, phoneNumber;
-    private String houseNumber, streetName, districtName, cityName, postcode;
+    private int id, outstandingBill, newOutstandingBill;
+    private String title, forename, surname, dob, addressid, planName, phoneNumber,
+            newTitle, newForename, newSurname, newDob, newPlanName, newPhoneNumber;
+    private String houseNumber, streetName, districtName, cityName, postcode,
+            newHouseNumber, newStreetName, newDistrictName,newCityName,newPostcode;
     private int healthcareCheckUp = 0, healthcareHygiene = 0, healthcareRepair = 0;
     private boolean exists = true;
 
     public Patient(String forename, String surname, String addressid) {
         this.forename = forename;
         this.surname = surname;
-        this.addressid = addressid;
+        this.addressid = addressid.replaceAll("\\s","");
         getPatientData();
         if (exists = true) {
             getPlanData();
+            newOutstandingBill = outstandingBill;
+            newTitle = title;
+            newForename = forename;
+            newSurname = surname;
+            newDob = dob;
+            newPlanName = planName;
+            newPhoneNumber = phoneNumber;
+            newHouseNumber = houseNumber;
+            newStreetName = streetName;
+            newDistrictName = districtName;
+            newCityName = cityName;
+            newPostcode = postcode;
         }
     }
 
@@ -94,6 +108,10 @@ public class Patient {
             Statement stmt = con.createStatement();
             String query = "DELETE FROM patients WHERE id='" + id+"';";
             stmt.execute(query);
+            if(getPatientsAtAddress(addressid) == null) {
+                query = "DELETE FROM address WHERE id='" + addressid+"';";
+                stmt.execute(query);
+            }
             stmt.close();
             con.close();
             return true;
@@ -107,6 +125,213 @@ public class Patient {
             e.printStackTrace();
         }
         return false;
+    }
+
+    private boolean updatePatient() {
+        try {
+            Class.forName("com.mysql.jdbc.Driver").newInstance();
+            Connection con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team012?user=team012&password=8b4c5e49");
+            Statement stmt = con.createStatement();
+            String query = "UPDATE patients SET title='" + newTitle + "', forename='" + newForename + "', surname='" +
+                    newSurname + "', dob='" + newDob + "', number='" + newPhoneNumber + "', plan_name='"+newPlanName+"', outstanding_bill="+
+                    newOutstandingBill+" WHERE id=" + id +";";
+            stmt.executeUpdate(query);
+            stmt.close();
+            con.close();
+            return true;
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    private boolean updateAddress() {
+        try {
+            Class.forName("com.mysql.jdbc.Driver").newInstance();
+            Connection con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team012?user=team012&password=8b4c5e49");
+            Statement stmt = con.createStatement();
+            String query = "UPDATE address SET id='" + getNewAddressid() + "', number='" + newHouseNumber + "', streetname='" +
+                    newStreetName + "', districtname='" + newDistrictName + "', cityname='" + newCityName + "', postcode='" +
+                    newPostcode + "' WHERE id='" + addressid +"';";
+            stmt.executeUpdate(query);
+            stmt.close();
+            con.close();
+            return true;
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean update() {
+        if(updateAddress()&&updatePatient()){
+            getPatientData();
+            getPlanData();
+            forename = newForename;
+            surname = newSurname;
+            addressid = getNewAddressid();
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean doesAddressExist(String id) {
+        try {
+            Class.forName("com.mysql.jdbc.Driver").newInstance();
+            Connection con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team012?user=team012&password=8b4c5e49");
+            Statement stmt = con.createStatement();
+            String address = "SELECT * FROM address WHERE id='" + id + "';";
+            if (!stmt.executeQuery(address).next()) {
+                stmt.close();
+                return false;
+            } else {
+                stmt.close();
+                return true;
+            }
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public static boolean doesPatientExist(String forename,String surname,String addressid) {
+        try {
+            Class.forName("com.mysql.jdbc.Driver").newInstance();
+            Connection con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team012?user=team012&password=8b4c5e49");
+            Statement stmt = con.createStatement();
+            String patient = "SELECT * FROM patients WHERE forename='" + forename + "' AND surname='"
+                    + surname + "' AND addressid='" + addressid + "';";
+            if (!stmt.executeQuery(patient).next()) {
+                stmt.close();
+                return false;
+            } else {
+                stmt.close();
+                return true;
+            }
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    private static boolean createAddress(String id, String houseNumber, String streetName, String districtName, String cityName,
+                                         String postcode) {
+        try {
+            Class.forName("com.mysql.jdbc.Driver").newInstance();
+            Connection con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team012?user=team012&password=8b4c5e49");
+            Statement stmt = con.createStatement();
+            String query = "INSERT INTO address (id,number,streetname,districtname,cityname,postcode)" +
+                    " VALUES ('" + id + "','" + houseNumber + "','" + streetName + "','" + districtName + "','" + cityName + "','" + postcode + "');";
+            stmt.execute(query);
+            stmt.close();
+            con.close();
+            return true;
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    private static boolean createPatient(String title, String forename, String surname, String dob, String phoneNumber, String addressid) {
+        try {
+            Class.forName("com.mysql.jdbc.Driver").newInstance();
+            Connection con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team012?user=team012&password=8b4c5e49");
+            Statement stmt = con.createStatement();
+            String query = "INSERT INTO patients (title,forename,surname,dob,number,addressid)" +
+                    " VALUES ('" + title + "','" + forename + "','" + surname + "','" + dob + "','" + phoneNumber + "','" + addressid + "');";
+            stmt.execute(query);
+            stmt.close();
+            con.close();
+            return true;
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public static Patient create(String title, String forename, String surname, String dob, String phoneNumber,
+                                 String houseNumber, String streetName, String districtName, String cityName,
+                                 String postcode) {
+        String addressid = (houseNumber+postcode).replaceAll("\\s","");
+        if(!doesPatientExist(forename,surname,addressid)) {
+            if (!doesAddressExist(addressid)) {
+                createAddress(addressid,houseNumber,streetName,districtName,cityName,postcode);
+            }
+            createPatient(title,forename,surname,dob,phoneNumber,addressid);
+        }
+        return new Patient(forename,surname,addressid);
+    }
+
+    public static Patient[] getPatientsAtAddress(String addressid) {
+        try {
+            Class.forName("com.mysql.jdbc.Driver").newInstance();
+            Connection con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team012?user=team012&password=8b4c5e49");
+            Statement stmt = con.createStatement();
+            String query = "SELECT forename, surname FROM patients WHERE addressid='" + addressid + "';";
+            ResultSet patients = stmt.executeQuery(query);
+            if (patients.next()) {
+                patients.last();
+                Patient[] patientList = new Patient[patients.getRow()];
+                patients.absolute(0);
+                int i = 0;
+                while (patients.next()) {
+                    String forename = patients.getString("forename");
+                    String surname = patients.getString("surname");
+                    patientList[i] = new Patient(forename,surname,addressid);
+                }
+                patients.close();
+                stmt.close();
+                con.close();
+                return patientList;
+            } else {
+                return null;
+            }
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public int getId() {
@@ -177,11 +402,55 @@ public class Patient {
         return healthcareRepair;
     }
 
-    public static void main(String[] args) {
-        Patient patient = new Patient("blah", "blah", "6HP39TN");
-        System.out.println(patient.getDob());
-        System.out.println(patient.getCityName());
-        System.out.println(patient.getHealthcareCheckUp());
-        patient.delete();
+    private String getNewAddressid() {
+        return (newHouseNumber+newPostcode).replaceAll("\\s","");
+    }
+
+    public void setOutstandingBill(int outstandingBill) {
+        newOutstandingBill = outstandingBill;
+    }
+
+    public void setForename(String forename) {
+        newForename = forename;
+    }
+
+    public void setSurname(String surname) {
+        newSurname = surname;
+    }
+
+    public void setDob(String dob) {
+        newDob = dob;
+    }
+
+    public void setPlanName(String planName) {
+        newPlanName = planName;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        newPhoneNumber = phoneNumber;
+    }
+
+    public void setHouseNumber(String houseNumber) {
+        newHouseNumber = houseNumber;
+    }
+
+    public void setStreetName(String streetName) {
+        newStreetName = streetName;
+    }
+
+    public void setDistrictName(String districtName) {
+        newDistrictName = districtName;
+    }
+
+    public void setCityName(String cityName) {
+        newCityName = cityName;
+    }
+
+    public void setPostcode(String postcode) {
+        newPostcode = postcode;
+    }
+
+    public void setTitle(String title) {
+        newTitle = title;
     }
 }

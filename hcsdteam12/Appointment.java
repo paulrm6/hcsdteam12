@@ -397,7 +397,7 @@ public class Appointment {
      * @param partnerid the id of the partner
      * @return The newly created appointment as an Appointment or null if it overlaps another appointment
      */
-    public static Appointment createAppointment(String date, String startTime, String endTime, int patientid, int partnerid) {
+    public static Appointment create(String date, String startTime, String endTime, int patientid, int partnerid) {
         if (checkForClash(date, startTime, endTime, partnerid)) {
             return null;
         }
