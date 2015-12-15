@@ -8,13 +8,13 @@ import java.sql.*;
  * Created by Adam on 14/12/2015.
  * Modified by Terence Kong on 14/12/2015, to remove unused import.
  */
-public class Treatments extends JFrame {
+public class Receipts extends JFrame {
 
     private static final long serialVersionUID = 1L;
     // Creation of all variables needed for the form
     private JLabel totalCostLabel;
 
-    public Treatments() {
+    public Receipts() {
         int id = Prompt.getPatientID();
         if (id != 0) {
             JFrame frame = new JFrame();
@@ -26,17 +26,34 @@ public class Treatments extends JFrame {
                 Statement stmt = con.createStatement();
                 String query = "SELECT treatment_name, cost FROM treatments_given JOIN treatments ON treatments_given.treatment_name = treatments.name WHERE patientid=" + id + " AND paid = 0;";
                 ResultSet result = stmt.executeQuery(query);
-                result.last();
-                Object[][] resultSet = new Object[result.getRow()][2];
-                result.absolute(0);
-                int row = 0;
-                while (result.next()) {
-                    for (int i = 0; i < 2; i++) {
-                        resultSet[row][i] = result.getObject(i + 1);
+                if (result.next()) {
+                    result.last();
+                    Object[][] resultSet = new Object[result.getRow()][2];
+                    result.absolute(0);
+                    int row = 0;
+                    while (result.next()) {
+                        for (int i = 0; i < 2; i++) {
+                            resultSet[row][i] = result.getObject(i + 1);
+                        }
+                        row++;
                     }
-                    row++;
+                    rowData = resultSet;
+                    Object columnNames[] = {"Treatment", "Cost"};
+                    JTable table = new JTable(rowData, columnNames);
+                    JScrollPane scrollPane = new JScrollPane(table);
+                    double totalCost = 0;
+                    for (int j = 0; j < rowData.length; j++) {
+                        totalCost += Double.parseDouble(rowData[j][1].toString());
+                        System.out.println(totalCost);
+                    }
+                    totalCostLabel = new JLabel("Total cost: £" + totalCost);
+                    add(scrollPane, BorderLayout.CENTER);
+                    add(totalCostLabel, BorderLayout.SOUTH);
+                    setSize(300, 400);
+                    setVisible(true);
+                } else {
+                    JOptionPane.showMessageDialog(null, "This patient has no outstanding bills");
                 }
-                rowData = resultSet;
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             } catch (InstantiationException e) {
@@ -46,19 +63,6 @@ public class Treatments extends JFrame {
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
-            Object columnNames[] = {"Treatment", "Cost"};
-            JTable table = new JTable(rowData, columnNames);
-            JScrollPane scrollPane = new JScrollPane(table);
-            double totalCost = 0;
-            for (int j = 0; j < rowData.length; j++) {
-                totalCost += Double.parseDouble(rowData[j][1].toString());
-                System.out.println(totalCost);
-            }
-            totalCostLabel = new JLabel("Total cost: £" + totalCost);
-            add(scrollPane, BorderLayout.CENTER);
-            add(totalCostLabel, BorderLayout.SOUTH);
-            setSize(300, 400);
-            setVisible(true);
         }
     }
 

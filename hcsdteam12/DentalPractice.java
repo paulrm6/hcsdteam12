@@ -50,7 +50,7 @@ public class DentalPractice extends JFrame implements ActionListener {
         addComponent(addButton("Patient Info"), 1, 2, 1, 1, secretaryPanel);
         addComponent(addButton("Calendar/Appointments"), 1, 3, 1, 1, secretaryPanel);
         addComponent(addButton("Healthcare Plans"), 1, 4, 1, 1, secretaryPanel);
-        addComponent(addButton("Treatments"), 1, 5, 1, 1, secretaryPanel);
+        addComponent(addButton("Receipts"), 1, 5, 1, 1, secretaryPanel);
         addComponent(addButton("Back"), 2, 5, 1, 1, secretaryPanel);
         addComponent(addButton("Calendar"), 1, 1, 1, 1, partnerPanel);
         addComponent(addButton("Post Appointment"), 1, 2, 1, 1, partnerPanel);
@@ -122,8 +122,8 @@ public class DentalPractice extends JFrame implements ActionListener {
         if ("Healthcare Plans".equals(e.getActionCommand())) {
             new HealthcarePlans();
         }
-        if ("Treatments".equals(e.getActionCommand())) {
-            new Treatments();
+        if ("Receipts".equals(e.getActionCommand())) {
+            new Receipts();
         }
         if ("Post Appointment".equals(e.getActionCommand())) {
             new PostAppointment();
