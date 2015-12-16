@@ -20,6 +20,7 @@ public class Calendar {
     private JFrame frame = new JFrame();
     private JButton update = new JButton("Update Appointment");
     private JButton delete = new JButton("Delete Appointment");
+    private JButton add = new JButton("Add Appointment");
     private JButton day1 = new JButton(), day2 = new JButton(), day3 = new JButton(), day4 = new JButton(), day5 = new JButton();
     private JScrollPane appointments;
     private JPanel weekPanel = new JPanel();
@@ -54,6 +55,12 @@ public class Calendar {
         });
 
         delete.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+
+        add.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
 
             }
@@ -206,6 +213,7 @@ public class Calendar {
         weekPanel.add(day4);
         weekPanel.add(day5);
         add(weekPanel, 0, 0, 1, 1);
+        editButtons.add(add);
         editButtons.add(update);
         editButtons.add(delete);
         add(editButtons, 0, 2, 1, 1);
