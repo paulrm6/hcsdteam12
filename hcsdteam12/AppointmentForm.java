@@ -41,8 +41,9 @@ public class AppointmentForm extends JFrame {
     }
 
     private void updatePartner() {
-        Partner partner = new Partner(Prompt.getPartnerID());
-        if(partner != null) {
+        int tempid = Prompt.getPartnerID();
+        if(tempid != -1) {
+            Partner partner = new Partner(tempid);
             partnerName.setText(partner.getForename() + " " + partner.getSurname() + " - " + partner.getRole());
             currentPartner = partner.getId();
         }
@@ -138,6 +139,18 @@ public class AppointmentForm extends JFrame {
                         confirm.setText("Appointment Clash");
                     }
                 }
+            }
+        });
+
+        addPatient.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                updatePatient();
+            }
+        });
+
+        addPartner.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                updatePartner();
             }
         });
 
