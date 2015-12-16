@@ -131,6 +131,12 @@ public class DentalPractice extends JFrame implements ActionListener {
         if ("Post Appointment".equals(e.getActionCommand())) {
             new PostAppointment();
         }
+        if("Calendar".equals(e.getActionCommand())) {
+            int partnerID = Prompt.getPartnerID();
+            if(partnerID != 0) {
+
+            }
+        }
     }
 }
 
