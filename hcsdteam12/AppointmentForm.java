@@ -25,7 +25,7 @@ public class AppointmentForm extends JFrame {
     private JFormattedTextField date;
     private JComboBox startH, startM, endH, endM;
     private JButton addAppointment, view, update, addPatient, addPartner;
-    private int currentPatient, currentPartner;
+    private int currentPatient=-1, currentPartner=-1;
     private String currentDate, currentStartTime;
 
     public AppointmentForm() {
@@ -104,11 +104,11 @@ public class AppointmentForm extends JFrame {
         add(dateLabel, 0, 3, 1, 1);
         add(startTimeLabel, 0, 4, 1, 1);
         add(endTimeLabel, 0, 5, 1, 1);
-        add(dateError, 2, 1, 1, 1);
-        add(startTimeError, 2, 2, 1, 1);
-        add(endTimeError, 2, 3, 1, 1);
-        add(partnerNameError, 2, 4, 1, 1);
-        add(patientNameError, 2, 5, 1, 1);
+        add(dateError, 2, 3, 1, 1);
+        add(startTimeError, 3, 4, 1, 1);
+        add(endTimeError, 3, 5, 1, 1);
+        add(partnerNameError, 2, 2, 1, 1);
+        add(patientNameError, 2, 1, 1, 1);
         add(confirm, 1, 13, 1, 1);
 
         // Laying out the components with GridBagConstraint
@@ -227,6 +227,38 @@ public class AppointmentForm extends JFrame {
         } else {
             valError(dateError);
             state = false;
+        }
+        System.out.println(startH.getSelectedIndex()+" - "+startM.getSelectedIndex()+" - "+endH.getSelectedIndex()+" - "+endM.getSelectedIndex());
+        if(startH.getSelectedIndex()==endH.getSelectedIndex()) {
+            if (startM.getSelectedIndex()>=endM.getSelectedIndex()) {
+                valError(endTimeError);
+                valError(startTimeError);
+                state=false;
+            } else {
+                valSuccess(endTimeError);
+                valSuccess(startTimeError);
+            }
+        } else {
+            if(startH.getSelectedIndex()>endH.getSelectedIndex()) {
+                valError(endTimeError);
+                valError(startTimeError);
+                state=false;
+            } else {
+                valSuccess(endTimeError);
+                valSuccess(startTimeError);
+            }
+        }
+        if(currentPartner==-1) {
+            valError(partnerNameError);
+            state=false;
+        } else {
+            valSuccess(partnerNameError);
+        }
+        if(currentPatient==-1) {
+            valError(patientNameError);
+            state=false;
+        } else {
+            valSuccess(patientNameError);
         }
         return state;
     }
