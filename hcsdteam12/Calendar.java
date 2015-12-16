@@ -12,17 +12,20 @@ import java.time.LocalDate;
 /**
  * Created by Adam on 16/12/2015.
  */
-public class Calendar extends JFrame {
+public class Calendar {
 
     private static final long serialVersionUID = 1L;
     // Creation of all variables needed for the form
     private JLabel totalCostLabel;
+    private JFrame frame = new JFrame();
     private JButton update = new JButton("Update Appointment");
     private JButton delete = new JButton("Delete Appointment");
     private JButton day1 = new JButton(), day2 = new JButton(), day3 = new JButton(), day4 = new JButton(), day5 = new JButton();
     private JScrollPane appointments;
     private JPanel weekPanel = new JPanel();
     private JPanel editButtons = new JPanel();
+    private String date;
+    private int partnerId;
 
     /**
     * A class to display the calendar
@@ -30,34 +33,16 @@ public class Calendar extends JFrame {
     * @param partnerId A parameter representing whether its the partner viewing the calendar or not and their ID
     **/
     public Calendar(int partnerId) {
-
-        String date;
+        frame.setLayout(new GridBagLayout());
+        this.partnerId = partnerId;
         date = JOptionPane.showInputDialog(null, "Enter the date of the week start (dd/mm/yyyy):");
         while (!date.matches("([0-9]{2})/([0-9]{2})/([0-9]{4})")) {
             date = JOptionPane.showInputDialog(null, "Enter the date of the week start (dd/mm/yyyy):");
         }
-        System.out.println(date);
         date = Appointment.changeDateFromForm(date);
-        System.out.println(date);
         if (checkDateIsWeekStart(date)) {
-            day1.setText(Appointment.changeDateFromDatabase(date));
-            day2.setText(Appointment.changeDateFromDatabase(addDay(date, 1)));
-            day3.setText(Appointment.changeDateFromDatabase(addDay(date, 2)));
-            day4.setText(Appointment.changeDateFromDatabase(addDay(date, 3)));
-            day5.setText(Appointment.changeDateFromDatabase(addDay(date, 4)));
-            setLayout(new GridBagLayout());
-            weekPanel.add(day1);
-            weekPanel.add(day2);
-            weekPanel.add(day3);
-            weekPanel.add(day4);
-            weekPanel.add(day5);
-            add(weekPanel, 0, 0, 1, 1);
-            editButtons.add(update);
-            editButtons.add(delete);
-            add(editButtons, 0, 2, 1, 1);
-            addScrollPane(getDaysAppointments(date, partnerId), 0, 1, 1, 1);
-            setSize(600, 400);
-            setVisible(true);
+            appointments = getDaysAppointments(date);
+            updateUI();
         } else {
             JOptionPane.showMessageDialog(null, "This date is not a week beginning");
         }
@@ -76,46 +61,36 @@ public class Calendar extends JFrame {
 
         day1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                JScrollPane scrollPane = getDaysAppointments(Appointment.changeDateFromForm(day1.getText()), partnerId);
-                addScrollPane(scrollPane, 0, 1, 1, 1);
-                revalidate();
-                repaint();
+                appointments = getDaysAppointments(Appointment.changeDateFromForm(day1.getText()));
+                updateUI();
             }
         });
 
         day2.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                JScrollPane scrollPane = getDaysAppointments(Appointment.changeDateFromForm(day2.getText()), partnerId);
-                addScrollPane(scrollPane, 0, 1, 1, 1);
-                revalidate();
-                repaint();
+                appointments = getDaysAppointments(Appointment.changeDateFromForm(day2.getText()));
+                updateUI();
             }
         });
 
         day3.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                JScrollPane scrollPane = getDaysAppointments(Appointment.changeDateFromForm(day3.getText()), partnerId);
-                addScrollPane(scrollPane, 0, 1, 1, 1);
-                revalidate();
-                repaint();
+                appointments = getDaysAppointments(Appointment.changeDateFromForm(day3.getText()));
+                updateUI();
             }
         });
 
         day4.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                JScrollPane scrollPane = getDaysAppointments(Appointment.changeDateFromForm(day4.getText()), partnerId);
-                addScrollPane(scrollPane, 0, 1, 1, 1);
-                revalidate();
-                repaint();
+                appointments = getDaysAppointments(Appointment.changeDateFromForm(day4.getText()));
+                updateUI();
             }
         });
 
         day5.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                JScrollPane scrollPane = getDaysAppointments(Appointment.changeDateFromForm(day5.getText()), partnerId);
-                addScrollPane(scrollPane, 0, 1, 1, 1);
-                revalidate();
-                repaint();
+                appointments = getDaysAppointments(Appointment.changeDateFromForm(day5.getText()));
+                updateUI();
             }
         });
     }
@@ -141,7 +116,7 @@ public class Calendar extends JFrame {
         }
     }
 
-    public JScrollPane getDaysAppointments(String date, int partnerId) {
+    public JScrollPane getDaysAppointments(String date) {
         Object rowData[][] = {{}};
         JScrollPane scrollPane = new JScrollPane();
         String query;
@@ -200,7 +175,7 @@ public class Calendar extends JFrame {
         gbc.anchor = GridBagConstraints.CENTER;
         gbc.ipadx = 20;
         gbc.ipady = 5;
-        add(c, gbc);
+        frame.add(c, gbc);
     }
 
     public void addScrollPane(Component c, int x, int y, int w, int h) {
@@ -215,7 +190,29 @@ public class Calendar extends JFrame {
         gbc.fill = GridBagConstraints.BOTH;
         gbc.ipadx = 20;
         gbc.ipady = 5;
-        add(c, gbc);
+        frame.add(c, gbc);
+    }
+
+    private void updateUI() {
+        frame.remove(appointments);
+        day1.setText(Appointment.changeDateFromDatabase(date));
+        day2.setText(Appointment.changeDateFromDatabase(addDay(date, 1)));
+        day3.setText(Appointment.changeDateFromDatabase(addDay(date, 2)));
+        day4.setText(Appointment.changeDateFromDatabase(addDay(date, 3)));
+        day5.setText(Appointment.changeDateFromDatabase(addDay(date, 4)));
+        weekPanel.add(day1);
+        weekPanel.add(day2);
+        weekPanel.add(day3);
+        weekPanel.add(day4);
+        weekPanel.add(day5);
+        add(weekPanel, 0, 0, 1, 1);
+        editButtons.add(update);
+        editButtons.add(delete);
+        add(editButtons, 0, 2, 1, 1);
+        addScrollPane(appointments, 0, 1, 1, 1);
+        frame.setSize(600, 400);
+        frame.setVisible(true);
+        System.out.println("drawing UI");
     }
 
 }
