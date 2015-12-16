@@ -24,7 +24,7 @@ public class AppointmentForm extends JFrame {
             confirm, patientName, partnerName;
     private JFormattedTextField date;
     private JComboBox startH, startM, endH, endM;
-    private JButton addAppointment, view, update;
+    private JButton addAppointment, view, update, addPatient, addPartner;
     private int currentPatient, currentPartner;
     private String currentDate, currentStartTime;
 
@@ -88,6 +88,8 @@ public class AppointmentForm extends JFrame {
         addAppointment = new JButton("Add Appointment"); // button
         view = new JButton("View Different Appointment");
         update = new JButton("Update Appointment");
+        addPatient = new JButton("Add Patient");
+        addPartner = new JButton("Add Partner");
         try {
             MaskFormatter dateMask = new MaskFormatter("##/##/####");
             dateMask.install(date);
@@ -119,6 +121,8 @@ public class AppointmentForm extends JFrame {
         add(addAppointment, 1, 6, 2, 1); // button
         add(view, 0, 7, 2, 1); // button
         add(update, 0, 6, 1, 1); // button
+        add(addPatient, 0, 0, 1, 1);
+        add(addPartner, 1, 0, 1, 1);
 
         // Check for valid entry and adds details into database if valid, otherwise, returns an error
         addAppointment.addActionListener(new ActionListener() {
