@@ -48,7 +48,6 @@ public class Prompt {
         } catch (NullPointerException e) {
         }
         return null;
-
     }
 
     public static Appointment getAppointment() {

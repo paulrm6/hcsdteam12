@@ -24,26 +24,29 @@ public class AppointmentForm extends JFrame {
             confirm, patientName, partnerName;
     private JFormattedTextField date;
     private JComboBox startH, startM, endH, endM;
-    private JButton addAppointment, view, update;
+    private JButton addAppointment, view, update, addPatient, addPartner;
     private int currentPatient, currentPartner;
     private String currentDate, currentStartTime;
 
     public AppointmentForm() {
         createForm();
-        updatePatient();
-        updatePartner();
     }
 
     private void updatePatient() {
         Patient patient = Prompt.getPatient();
-        patientName.setText(patient.getForename()+" "+patient.getSurname());
-        currentPatient = patient.getId();
+        if(patient != null) {
+            patientName.setText(patient.getForename() + " " + patient.getSurname());
+            currentPatient = patient.getId();
+        }
     }
 
     private void updatePartner() {
-        Partner partner = new Partner(Prompt.getPartnerID());
-        partnerName.setText(partner.getForename()+" "+partner.getSurname()+" - "+partner.getRole());
-        currentPartner = partner.getId();
+        int tempid = Prompt.getPartnerID();
+        if(tempid != -1) {
+            Partner partner = new Partner(tempid);
+            partnerName.setText(partner.getForename() + " " + partner.getSurname() + " - " + partner.getRole());
+            currentPartner = partner.getId();
+        }
     }
 
     public AppointmentForm(Appointment appointment) {
@@ -86,6 +89,8 @@ public class AppointmentForm extends JFrame {
         addAppointment = new JButton("Add Appointment"); // button
         view = new JButton("View Different Appointment");
         update = new JButton("Update Appointment");
+        addPatient = new JButton("Add Patient");
+        addPartner = new JButton("Add Partner");
         try {
             MaskFormatter dateMask = new MaskFormatter("##/##/####");
             dateMask.install(date);
@@ -117,6 +122,8 @@ public class AppointmentForm extends JFrame {
         add(addAppointment, 1, 6, 2, 1); // button
         add(view, 0, 7, 2, 1); // button
         add(update, 0, 6, 1, 1); // button
+        add(addPatient, 0, 0, 1, 1);
+        add(addPartner, 1, 0, 1, 1);
 
         // Check for valid entry and adds details into database if valid, otherwise, returns an error
         addAppointment.addActionListener(new ActionListener() {
@@ -135,6 +142,18 @@ public class AppointmentForm extends JFrame {
             }
         });
 
+        addPatient.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                updatePatient();
+            }
+        });
+
+        addPartner.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                updatePartner();
+            }
+        });
+
         // Setting size, visibility and position
         setBounds(100, 100, 450, 450);
         setVisible(true);
@@ -144,7 +163,9 @@ public class AppointmentForm extends JFrame {
         view.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 Appointment appointment = Prompt.getAppointment();
-                update(appointment);
+                if(appointment != null) {
+                    update(appointment);
+                }
             }
         });
 

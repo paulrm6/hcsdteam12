@@ -47,10 +47,11 @@ public class DentalPractice extends JFrame implements ActionListener {
         addComponent(addButton("Secretary"), 0, 1, 1, 1, logIn);
         addComponent(addButton("Partner"), 1, 1, 1, 1, logIn);
         addComponent(addButton("Patient Info"), 1, 2, 1, 1, secretaryPanel);
-        addComponent(addButton("Calendar/Appointments"), 1, 3, 1, 1, secretaryPanel);
-        addComponent(addButton("Healthcare Plans"), 1, 4, 1, 1, secretaryPanel);
-        addComponent(addButton("Receipts"), 1, 5, 1, 1, secretaryPanel);
-        addComponent(addButton("Back"), 2, 5, 1, 1, secretaryPanel);
+        addComponent(addButton("Book Appointment"), 1, 3, 1, 1, secretaryPanel);
+        addComponent(addButton("Calendar/Appointments"), 1, 4, 1, 1, secretaryPanel);
+        addComponent(addButton("Healthcare Plans"), 1, 5, 1, 1, secretaryPanel);
+        addComponent(addButton("Receipts"), 1, 6, 1, 1, secretaryPanel);
+        addComponent(addButton("Back"), 2, 6, 1, 1, secretaryPanel);
         addComponent(addButton("Calendar"), 1, 1, 1, 1, partnerPanel);
         addComponent(addButton("Post Appointment"), 1, 2, 1, 1, partnerPanel);
         addComponent(addButton("Back"), 2, 2, 1, 1, partnerPanel);
@@ -112,6 +113,9 @@ public class DentalPractice extends JFrame implements ActionListener {
             setContentPane(logIn);
             validate();
         }
+        if ("Book Appointment".equals(e.getActionCommand())) {
+            new AppointmentForm();
+        }
         if ("Calendar/Appointments".equals(e.getActionCommand())) {
             new Calendar(0);
         }
@@ -126,6 +130,12 @@ public class DentalPractice extends JFrame implements ActionListener {
         }
         if ("Post Appointment".equals(e.getActionCommand())) {
             new PostAppointment();
+        }
+        if("Calendar".equals(e.getActionCommand())) {
+            int partnerID = Prompt.getPartnerID();
+            if(partnerID != -1) {
+
+            }
         }
     }
 }
