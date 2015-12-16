@@ -125,11 +125,10 @@ public class Appointment {
 
     /**
      * Updates an appointment based of the data that has been set (i.e. .setDate)
-     * @param seen a boolean indicating whether the appointment is updating the seen column or not, used to prevent clashes
      * @return a boolean indicating success
      */
-    public boolean update(boolean seen) {
-        if(checkForClash(newDate,newStartTime,newEndTime,newPartnerid) && !seen) {
+    public boolean update() {
+        if(checkForClash(newDate,newStartTime,newEndTime,newPartnerid, startTime)) {
             return false;
         }
         try {
@@ -139,6 +138,7 @@ public class Appointment {
             String query = "UPDATE appointment SET date='" + newDate + "', startTime='" + newStartTime + "', endTime='" +
                     newEndTime + "', seen=" + newSeen + ", patientid=" + newPatientid + ", partnerid=" + newPartnerid + " WHERE date='" + date +
                     "' AND startTime='" + startTime + "' AND partnerid=" + partnerid + ";";
+            System.out.println(query);
             stmt.executeUpdate(query);
             stmt.close();
             con.close();
@@ -201,6 +201,34 @@ public class Appointment {
     public static boolean checkForClash(String date, String startTime, String endTime, int partnerid) {
         date = changeDateFromForm(date);
         Appointment[] Appointments = getAppointments(date, partnerid);
+        boolean clash = false;
+        if (Appointments == null) {
+            return false;
+        }
+        for (Appointment appointment : Appointments) {
+            if (appointment == null) {
+                return false;
+            }
+            if (timeToMins(appointment.startTime) < timeToMins(endTime) &&
+                    timeToMins(appointment.endTime) > timeToMins(startTime)) {
+                clash = true;
+            }
+        }
+        return clash;
+    }
+
+    /**
+     * Finds if there is a clash for an appointment
+     *
+     * @param date      the date (yyyy-MM-dd)
+     * @param startTime the start time (hh:mm:ss)
+     * @param endTime   the end time (hh:mm:ss)
+     * @param partnerid the parter id
+     * @return true if there is a clash, false if there isn't
+     */
+    public static boolean checkForClash(String date, String startTime, String endTime, int partnerid, String currentStartTime) {
+        date = changeDateFromForm(date);
+        Appointment[] Appointments = getAppointments(date, partnerid, currentStartTime);
         boolean clash = false;
         if (Appointments == null) {
             return false;
@@ -288,32 +316,21 @@ public class Appointment {
         return endTime.split(":")[1];
     }
 
-    public boolean setStartHour(String hour) {
-        if(setStartTime(hour+":"+getStartMinute()+":00")) {
-            return true;
-        }
-        return false;
+    public void setStartHour(String hour) {
+        setStartTime(hour+":"+getStartMinute()+":00");
     }
 
-    public boolean setStartMinute(String minute) {
-        if(setStartTime(getStartHour()+":"+minute+":00")) {
-            return true;
-        }
-        return false;
+    public void setStartMinute(String minute) {
+        setStartTime(getStartHour()+":"+minute+":00");
     }
 
-    public boolean setEndHour(String hour) {
-        if(setEndTime(hour+":"+getEndMinute()+":00")) {
-            return true;
-        }
-        return false;
+    public void setEndHour(String hour) {
+        setEndTime(hour+":"+getEndMinute()+":00");
     }
 
-    public boolean setEndMinute(String minute) {
-        if(setEndTime(getEndHour()+":"+minute+":00")) {
-            return true;
-        }
-        return false;
+    public void setEndMinute(String minute) {
+        setEndTime(getEndHour()+":"+minute+":00");
+
     }
 
     private static int timeToMins(String time) {
@@ -343,12 +360,8 @@ public class Appointment {
      * @param startTime new start time (hh:mm:ss)
      * @return true if it has been set, false if there was a clash and it was not set
      */
-    public boolean setStartTime(String startTime) {
-        if (!checkForClash(date, startTime, endTime, partnerid)) {
+    public void setStartTime(String startTime) {
             newStartTime = startTime;
-            return true;
-        }
-        return false;
     }
 
     /**
@@ -356,12 +369,8 @@ public class Appointment {
      * @param endTime new end time (hh:mm:ss)
      * @return true if it has been set, false if there was a clash and it was not set
      */
-    public boolean setEndTime(String endTime) {
-        if (!checkForClash(date, startTime, endTime, partnerid)) {
-            newEndTime = endTime;
-            return true;
-        }
-        return false;
+    public void setEndTime(String endTime) {
+        newEndTime = endTime;
     }
 
     /**
@@ -435,6 +444,44 @@ public class Appointment {
             Connection con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team012?user=team012&password=8b4c5e49");
             Statement stmt = con.createStatement();
             String query = "SELECT startTime FROM appointment WHERE date='" + changeDateFromForm(date) + "' AND partnerid=" + partnerid + ";";
+            ResultSet appointments = stmt.executeQuery(query);
+            if (appointments.next()) {
+                appointments.last();
+                Appointment[] appointmentsList = new Appointment[appointments.getRow()];
+                appointments.absolute(0);
+                int i = 0;
+                while (appointments.next()) {
+                    String startTime = appointments.getString("startTime");
+                    appointmentsList[i] = new Appointment(date, startTime, partnerid);
+                    i += 1;
+                }
+                return appointmentsList;
+            } else {
+                return null;
+            }
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    /**
+     * Returns all the appointments on a given day for a partner
+     * @param date the date (yyyy-MM-dd)
+     * @param partnerid the partner id
+     * @return a list of appointments
+     */
+    public static Appointment[] getAppointments(String date, int partnerid, String currentStartTime) {
+        try {
+            Class.forName("com.mysql.jdbc.Driver").newInstance();
+            Connection con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team012?user=team012&password=8b4c5e49");
+            Statement stmt = con.createStatement();
+            String query = "SELECT startTime FROM appointment WHERE date='" + changeDateFromForm(date) + "' AND partnerid=" + partnerid + " AND startTime !='"+currentStartTime+"';";
             ResultSet appointments = stmt.executeQuery(query);
             if (appointments.next()) {
                 appointments.last();
