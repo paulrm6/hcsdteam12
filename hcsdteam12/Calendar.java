@@ -2,10 +2,8 @@ package hcsdteam12;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.sql.*;
-import java.text.DateFormat;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 
@@ -28,6 +26,10 @@ public class Calendar {
     private String date;
     private int partnerId;
     private JTable table;
+    private String selectedStartTime = "";
+    private String selectedFinishTime = "";
+    private String currentDate;
+    private int currentPartnerId = 0;
 
     /**
     * A class to display the calendar
@@ -43,6 +45,7 @@ public class Calendar {
                 date = JOptionPane.showInputDialog(null, "Enter the date of the week start (dd/mm/yyyy):");
             }
             date = Appointment.changeDateFromForm(date);
+            currentDate = date;
             if (checkDateIsWeekStart(date)) {
                 appointments = getDaysAppointments(date);
                 updateUI();
@@ -52,19 +55,20 @@ public class Calendar {
 
             update.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                new AppointmentForm();
+                    new AppointmentForm(new Appointment(currentDate, selectedStartTime, currentPartnerId));
                 }
             });
 
             delete.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                new AppointmentForm();
+                    new Appointment(currentDate, selectedStartTime, currentPartnerId).delete();
+                    System.out.println(currentDate+selectedStartTime+currentPartnerId);
                 }
             });
 
             add.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                new AppointmentForm();
+                    new AppointmentForm();
                 }
             });
 
@@ -78,6 +82,7 @@ public class Calendar {
             day2.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     appointments = getDaysAppointments(Appointment.changeDateFromForm(day2.getText()));
+                    currentDate = Appointment.changeDateFromForm(day2.getText());
                     updateUI();
                 }
             });
@@ -103,6 +108,19 @@ public class Calendar {
                 }
             });
         }
+
+        MouseListener tableMouseListener = new MouseAdapter() {
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                    int row = table.rowAtPoint(e.getPoint());//get mouse-selected row
+                    System.out.println(row);
+                    selectedStartTime = table.getValueAt(row, 0).toString();
+                    selectedFinishTime = table.getValueAt(row, 1).toString();
+                    currentPartnerId = Integer.parseInt(table.getValueAt(row, 3).toString());
+                }
+        };
+        appointments.addMouseListener(tableMouseListener);
     }
 
     private static String addDay(String date, int days) {
@@ -216,10 +234,12 @@ public class Calendar {
         weekPanel.add(day4);
         weekPanel.add(day5);
         add(weekPanel, 0, 0, 1, 1);
-        editButtons.add(add);
-        editButtons.add(update);
-        editButtons.add(delete);
-        add(editButtons, 0, 2, 1, 1);
+        if (partnerId == 0) {
+            editButtons.add(add);
+            editButtons.add(update);
+            editButtons.add(delete);
+            add(editButtons, 0, 2, 1, 1);
+        }
         addScrollPane(appointments, 0, 1, 1, 1);
         frame.setSize(600, 400);
         frame.setVisible(true);
