@@ -27,6 +27,7 @@ public class CalendarFrame extends javax.swing.JFrame implements ActionListener,
 	protected int presentDay, presentMonth, presentYear;
 	private int stopYear = 0, startYear = 0;
 	protected DetailsManager organiser;
+    public int partnerSelected = 0;
 
 		//When an appointment is added into the calendar.
 		public void makeAppointment(Appointment consult) {
@@ -90,8 +91,31 @@ public class CalendarFrame extends javax.swing.JFrame implements ActionListener,
 		}
 		
 		if(toggle == CalendarOptionsBar.editAppointmentButton) {
-			new AppointmentForm(this,"Edit New Appointment",true).show();
+			new AppointmentForm(this,"Edit Appointment",true).show();
 		}
+
+        if(toggle == CalendarOptionsBar.dentistCalendar) {
+			CalendarOptionsBar.bothCalendar.setForeground(Color.BLACK);
+            CalendarOptionsBar.hygienistCalendar.setForeground(Color.BLACK);
+            CalendarOptionsBar.dentistCalendar.setForeground(Color.RED);
+            partnerSelected = 0; // 0 for dentist (can be changed according to database partner ID)
+        }
+
+        if(toggle == CalendarOptionsBar.hygienistCalendar) {
+			CalendarOptionsBar.bothCalendar.setForeground(Color.BLACK);
+            CalendarOptionsBar.dentistCalendar.setForeground(Color.BLACK);
+            calendarOptionsBar.hygienistCalendar.setForeground(Color.RED);
+            partnerSelected = 1; // 1 for hygienist (can be changed according to database partner ID)
+        }
+
+		if(toggle == CalendarOptionsBar.bothCalendar) {
+			CalendarOptionsBar.dentistCalendar.setForeground(Color.BLACK);
+			CalendarOptionsBar.hygienistCalendar.setForeground(Color.BLACK);
+			calendarOptionsBar.bothCalendar.setForeground(Color.RED);
+			partnerSelected = 2; // 2 for both of them 
+
+		}
+
 		reviseCalendar(presentMonth,presentYear); //Retrieve a new set of calendar data after requesting for a specific month and year
 
 		//Repaint in order for the CalendarPresentation to present the new calendar details.
@@ -136,7 +160,7 @@ public class CalendarFrame extends javax.swing.JFrame implements ActionListener,
 		System.exit(0);
 	}
 
-	//Project the calendar onto the display. 
+	//Project the calendar onto the display.
 	public void run() {
 		show();
 	}

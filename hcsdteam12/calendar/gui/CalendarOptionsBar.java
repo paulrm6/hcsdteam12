@@ -13,8 +13,8 @@ import javax.swing.*;
 
 public class CalendarOptionsBar extends JToolBar {
 	private static final long serialVersionUID = 1L;
-	public static JButton makeAppointmentButton, cancelAppointmentButton, searchAppointmentButton, editAppointmentButton;
-	public static JButton nextMonthButton, previousMonthButton, previousYearButton, nextYearButton;
+	public static JButton makeAppointmentButton, cancelAppointmentButton, searchAppointmentButton,
+							editAppointmentButton, dentistCalendar, hygienistCalendar, bothCalendar;
 	private Vector toggles;
 
 	// Launches every JButton objects and inserts them into the calendar' options bar 
@@ -37,6 +37,18 @@ public class CalendarOptionsBar extends JToolBar {
 		editAppointmentButton = new JButton("Edit An Appointment");
 		add(editAppointmentButton);
 		toggles.addElement(editAppointmentButton);
+
+        dentistCalendar = new JButton("Dentist");
+        add(dentistCalendar);
+        toggles.addElement(dentistCalendar);
+
+        hygienistCalendar = new JButton("Hygienist");
+        add(hygienistCalendar);
+        toggles.addElement(hygienistCalendar);
+
+		bothCalendar = new JButton("Both");
+		add(bothCalendar);
+		toggles.addElement(bothCalendar);
 		
 		setListener(component);
 		}
