@@ -1,7 +1,5 @@
 package hcsdteam12;
 
-import hcsdteam12.calendar.gui.CalendarGUI;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
