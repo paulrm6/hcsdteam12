@@ -30,20 +30,22 @@ public class AppointmentForm extends JFrame {
 
     public AppointmentForm() {
         createForm();
-        updatePatient();
-        updatePartner();
     }
 
     private void updatePatient() {
         Patient patient = Prompt.getPatient();
-        patientName.setText(patient.getForename()+" "+patient.getSurname());
-        currentPatient = patient.getId();
+        if(patient != null) {
+            patientName.setText(patient.getForename() + " " + patient.getSurname());
+            currentPatient = patient.getId();
+        }
     }
 
     private void updatePartner() {
         Partner partner = new Partner(Prompt.getPartnerID());
-        partnerName.setText(partner.getForename()+" "+partner.getSurname()+" - "+partner.getRole());
-        currentPartner = partner.getId();
+        if(partner != null) {
+            partnerName.setText(partner.getForename() + " " + partner.getSurname() + " - " + partner.getRole());
+            currentPartner = partner.getId();
+        }
     }
 
     public AppointmentForm(Appointment appointment) {
@@ -144,7 +146,9 @@ public class AppointmentForm extends JFrame {
         view.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 Appointment appointment = Prompt.getAppointment();
-                update(appointment);
+                if(appointment != null) {
+                    update(appointment);
+                }
             }
         });
 
