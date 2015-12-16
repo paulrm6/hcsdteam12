@@ -33,91 +33,94 @@ public class Calendar extends JFrame {
 
         String date;
         date = JOptionPane.showInputDialog(null, "Enter the date of the week start (dd/mm/yyyy):");
-        while (!date.matches("([0-9]{2})/([0-9]{2})/([0-9]{4})")) {
-            date = JOptionPane.showInputDialog(null, "Enter the date of the week start (dd/mm/yyyy):");
+        if(date != null) {
+            while (!date.matches("([0-9]{2})/([0-9]{2})/([0-9]{4})")) {
+                date = JOptionPane.showInputDialog(null, "Enter the date of the week start (dd/mm/yyyy):");
+            }
+            System.out.println(date);
+            date = Appointment.changeDateFromForm(date);
+            System.out.println(date);
+            if (checkDateIsWeekStart(date)) {
+                day1.setText(Appointment.changeDateFromDatabase(date));
+                day2.setText(Appointment.changeDateFromDatabase(addDay(date, 1)));
+                day3.setText(Appointment.changeDateFromDatabase(addDay(date, 2)));
+                day4.setText(Appointment.changeDateFromDatabase(addDay(date, 3)));
+                day5.setText(Appointment.changeDateFromDatabase(addDay(date, 4)));
+                setLayout(new GridBagLayout());
+                weekPanel.add(day1);
+                weekPanel.add(day2);
+                weekPanel.add(day3);
+                weekPanel.add(day4);
+                weekPanel.add(day5);
+                add(weekPanel, 0, 0, 1, 1);
+                editButtons.add(update);
+                editButtons.add(delete);
+                add(editButtons, 0, 2, 1, 1);
+                addScrollPane(getDaysAppointments(date, partnerId), 0, 1, 1, 1);
+                setSize(600, 400);
+                setVisible(true);
+            } else {
+                JOptionPane.showMessageDialog(null, "This date is not a week beginning");
+            }
+
+
+            update.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+
+                }
+            });
+
+            delete.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+
+                }
+            });
+
+            day1.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    JScrollPane scrollPane = getDaysAppointments(Appointment.changeDateFromForm(day1.getText()), partnerId);
+                    addScrollPane(scrollPane, 0, 1, 1, 1);
+                    revalidate();
+                    repaint();
+                }
+            });
+
+            day2.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    JScrollPane scrollPane = getDaysAppointments(Appointment.changeDateFromForm(day2.getText()), partnerId);
+                    addScrollPane(scrollPane, 0, 1, 1, 1);
+                    revalidate();
+                    repaint();
+                }
+            });
+
+            day3.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    JScrollPane scrollPane = getDaysAppointments(Appointment.changeDateFromForm(day3.getText()), partnerId);
+                    addScrollPane(scrollPane, 0, 1, 1, 1);
+                    revalidate();
+                    repaint();
+                }
+            });
+
+            day4.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    JScrollPane scrollPane = getDaysAppointments(Appointment.changeDateFromForm(day4.getText()), partnerId);
+                    addScrollPane(scrollPane, 0, 1, 1, 1);
+                    revalidate();
+                    repaint();
+                }
+            });
+
+            day5.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    JScrollPane scrollPane = getDaysAppointments(Appointment.changeDateFromForm(day5.getText()), partnerId);
+                    addScrollPane(scrollPane, 0, 1, 1, 1);
+                    revalidate();
+                    repaint();
+                }
+            });
         }
-        System.out.println(date);
-        date = Appointment.changeDateFromForm(date);
-        System.out.println(date);
-        if (checkDateIsWeekStart(date)) {
-            day1.setText(Appointment.changeDateFromDatabase(date));
-            day2.setText(Appointment.changeDateFromDatabase(addDay(date, 1)));
-            day3.setText(Appointment.changeDateFromDatabase(addDay(date, 2)));
-            day4.setText(Appointment.changeDateFromDatabase(addDay(date, 3)));
-            day5.setText(Appointment.changeDateFromDatabase(addDay(date, 4)));
-            setLayout(new GridBagLayout());
-            weekPanel.add(day1);
-            weekPanel.add(day2);
-            weekPanel.add(day3);
-            weekPanel.add(day4);
-            weekPanel.add(day5);
-            add(weekPanel, 0, 0, 1, 1);
-            editButtons.add(update);
-            editButtons.add(delete);
-            add(editButtons, 0, 2, 1, 1);
-            addScrollPane(getDaysAppointments(date, partnerId), 0, 1, 1, 1);
-            setSize(600, 400);
-            setVisible(true);
-        } else {
-            JOptionPane.showMessageDialog(null, "This date is not a week beginning");
-        }
-
-        update.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-
-            }
-        });
-
-        delete.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-
-            }
-        });
-
-        day1.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                JScrollPane scrollPane = getDaysAppointments(Appointment.changeDateFromForm(day1.getText()), partnerId);
-                addScrollPane(scrollPane, 0, 1, 1, 1);
-                revalidate();
-                repaint();
-            }
-        });
-
-        day2.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                JScrollPane scrollPane = getDaysAppointments(Appointment.changeDateFromForm(day2.getText()), partnerId);
-                addScrollPane(scrollPane, 0, 1, 1, 1);
-                revalidate();
-                repaint();
-            }
-        });
-
-        day3.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                JScrollPane scrollPane = getDaysAppointments(Appointment.changeDateFromForm(day3.getText()), partnerId);
-                addScrollPane(scrollPane, 0, 1, 1, 1);
-                revalidate();
-                repaint();
-            }
-        });
-
-        day4.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                JScrollPane scrollPane = getDaysAppointments(Appointment.changeDateFromForm(day4.getText()), partnerId);
-                addScrollPane(scrollPane, 0, 1, 1, 1);
-                revalidate();
-                repaint();
-            }
-        });
-
-        day5.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                JScrollPane scrollPane = getDaysAppointments(Appointment.changeDateFromForm(day5.getText()), partnerId);
-                addScrollPane(scrollPane, 0, 1, 1, 1);
-                revalidate();
-                repaint();
-            }
-        });
     }
 
     private static String addDay(String date, int days) {
