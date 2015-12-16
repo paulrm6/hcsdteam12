@@ -107,8 +107,8 @@ public class AppointmentForm extends JFrame {
         add(dateError, 2, 3, 1, 1);
         add(startTimeError, 3, 4, 1, 1);
         add(endTimeError, 3, 5, 1, 1);
-        add(partnerNameError, 2, 2, 1, 1);
-        add(patientNameError, 2, 1, 1, 1);
+        add(partnerNameError, 3, 2, 1, 1);
+        add(patientNameError, 3, 1, 1, 1);
         add(confirm, 1, 13, 1, 1);
 
         // Laying out the components with GridBagConstraint
