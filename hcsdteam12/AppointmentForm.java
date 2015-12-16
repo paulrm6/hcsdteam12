@@ -228,7 +228,6 @@ public class AppointmentForm extends JFrame {
             valError(dateError);
             state = false;
         }
-        System.out.println(startH.getSelectedIndex()+" - "+startM.getSelectedIndex()+" - "+endH.getSelectedIndex()+" - "+endM.getSelectedIndex());
         if(startH.getSelectedIndex()==endH.getSelectedIndex()) {
             if (startM.getSelectedIndex()>=endM.getSelectedIndex()) {
                 valError(endTimeError);
