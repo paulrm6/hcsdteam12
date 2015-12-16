@@ -132,7 +132,7 @@ public class DentalPractice extends JFrame implements ActionListener {
         if("Calendar".equals(e.getActionCommand())) {
             int partnerID = Prompt.getPartnerID();
             if(partnerID != -1) {
-
+                new Calendar(partnerID);
             }
         }
     }
