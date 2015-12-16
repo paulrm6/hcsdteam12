@@ -113,7 +113,7 @@ public class DentalPractice extends JFrame implements ActionListener {
             validate();
         }
         if ("Calendar/Appointments".equals(e.getActionCommand())) {
-            new CalendarGUI();
+            new Calendar(0);
         }
         if ("Patient Info".equals(e.getActionCommand())) {
             new Registration();
