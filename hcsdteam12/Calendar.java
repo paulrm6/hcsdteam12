@@ -27,6 +27,7 @@ public class Calendar {
     private JPanel editButtons = new JPanel();
     private String date;
     private int partnerId;
+    private JTable table;
 
     /**
     * A class to display the calendar
@@ -50,19 +51,19 @@ public class Calendar {
 
         update.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-
+                new AppointmentForm();
             }
         });
 
         delete.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-
+                new AppointmentForm();
             }
         });
 
         add.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-
+                new AppointmentForm();
             }
         });
 
@@ -153,7 +154,7 @@ public class Calendar {
                 }
                 rowData = resultSet;
                 Object columnNames[] = {"Start Time", "End Time", "Patient Name", "Partner Name"};
-                JTable table = new JTable(rowData, columnNames);
+                table = new JTable(rowData, columnNames);
                 scrollPane = new JScrollPane(table);
                 result.close();
                 stmt.close();
