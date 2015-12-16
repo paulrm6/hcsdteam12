@@ -1,7 +1,5 @@
 package hcsdteam12;
 
-import hcsdteam12.calendar.gui.CalendarGUI;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -117,7 +115,7 @@ public class DentalPractice extends JFrame implements ActionListener {
             new AppointmentForm();
         }
         if ("Calendar/Appointments".equals(e.getActionCommand())) {
-            new CalendarGUI();
+            new Calendar(0);
         }
         if ("Patient Info".equals(e.getActionCommand())) {
             new Registration();

@@ -412,7 +412,7 @@ public class Appointment {
         newSeen = seen;
     }
 
-    private static String changeDateFromForm(String date) {
+    public static String changeDateFromForm(String date) {
         String splitDate[] = new String[3];
         try {
             splitDate = date.split("/");
@@ -422,7 +422,7 @@ public class Appointment {
         }
     }
 
-    private static String changeDateFromDatabase(String date) {
+    public static String changeDateFromDatabase(String date) {
         String splitDate[] = new String[3];
         try {
             splitDate = date.split("-");
